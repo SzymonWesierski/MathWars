@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Rgye5Ku+M5ql3IHsAIPHQGJAsHQeKuxgmHABiceC0YGT+MldPrhtn0G6mRCT7OKXbmmUFSugHGI8cD63Hrv6Ig==",
+  "dgSpecHash": "nhcq+5EQ7DglzHMhy88tYkfImZX48Ev8/s8r8YMHaHx5Q2vVferIf70f4C0mzX8ygAShqfMVAWpmRrCtL1EziQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Szymon\\source\\repos\\MathWars\\MathWars.csproj",
+  "projectFilePath": "C:\\Users\\Szymon\\source\\repos\\MathWars\\MathWarsAPI\\MathWars.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
