@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\MathWars",
+    "\\MathWarsAPI"
   ],
-  "SelectedNode": "\\MathWars.sln",
+  "SelectedNode": "\\MathWars",
   "PreviewInSolutionExplorer": false
 }
