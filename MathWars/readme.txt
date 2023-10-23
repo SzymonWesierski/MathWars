@@ -1,1 +1,0 @@
-Frotend w tym folderze
