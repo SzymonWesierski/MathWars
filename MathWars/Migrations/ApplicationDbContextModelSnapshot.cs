@@ -48,6 +48,10 @@ namespace MathWars.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TaskId");
+
+                    b.HasIndex("UserId");
+
                     b.HasIndex("UsersId");
 
                     b.ToTable("Answers");
@@ -120,9 +124,25 @@ namespace MathWars.Migrations
 
             modelBuilder.Entity("MathWars.Models.Answers", b =>
                 {
+                    b.HasOne("MathWars.Models.Tasks", "Tasks")
+                        .WithMany()
+                        .HasForeignKey("TaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MathWars.Models.Users", "Users")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("MathWars.Models.Users", null)
                         .WithMany("Answers")
                         .HasForeignKey("UsersId");
+
+                    b.Navigation("Tasks");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("MathWars.Models.Users", b =>

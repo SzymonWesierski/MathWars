@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MathWars.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231025154432_AddTasksAnswersUsersToDb")]
-    partial class AddTasksAnswersUsersToDb
+    [Migration("20231025163217_AddAnswersTasksUsers")]
+    partial class AddAnswersTasksUsers
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,6 +50,10 @@ namespace MathWars.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TaskId");
+
+                    b.HasIndex("UserId");
 
                     b.HasIndex("UsersId");
 
@@ -123,9 +127,25 @@ namespace MathWars.Migrations
 
             modelBuilder.Entity("MathWars.Models.Answers", b =>
                 {
+                    b.HasOne("MathWars.Models.Tasks", "Tasks")
+                        .WithMany()
+                        .HasForeignKey("TaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MathWars.Models.Users", "Users")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("MathWars.Models.Users", null)
                         .WithMany("Answers")
                         .HasForeignKey("UsersId");
+
+                    b.Navigation("Tasks");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("MathWars.Models.Users", b =>
