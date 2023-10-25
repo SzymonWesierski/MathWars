@@ -2,7 +2,7 @@
 
 namespace MathWars.Models;
 
-public class Answer
+public class Answers
 {
     [Key]
     public int Id { get; set; }

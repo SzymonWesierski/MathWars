@@ -2,7 +2,7 @@
 
 namespace MathWars.Models;
 
-public class User
+public class Users
 {
     [Key]
     public int Id { get; set; }
@@ -15,5 +15,5 @@ public class User
     public DateTime RegistrationDate { get; set; }
     public int ExperiencePoints { get; set; }
     public int Rank { get; set; }
-    public List<Answer> Answers { get; set; }
+    public List<Answers> Answers { get; set; }
 }
