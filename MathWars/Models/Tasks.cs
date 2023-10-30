@@ -14,4 +14,6 @@ public class Tasks
     public string category { get; set; }
     [Required]
     public int difficultyLevel { get; set; }
+
+    public ICollection<Answers> Answers { get; set; }
 }

@@ -16,16 +16,16 @@ namespace MathWars.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Answers>()
-                .HasOne(a => a.Users)
-                .WithMany()
-                .HasForeignKey(a => a.UserId);
+            .HasOne(a => a.User)
+            .WithMany(u => u.Answers)
+            .HasForeignKey(a => a.UserId);
 
             modelBuilder.Entity<Answers>()
-                .HasOne(a => a.Tasks)
-                .WithMany()
+                .HasOne(a => a.Task)
+                .WithMany(t => t.Answers)
                 .HasForeignKey(a => a.TaskId);
 
-            // Dodatkowe konfiguracje, takie jak usuwanie kaskadowe lub inne zależności.
+
         }
     }
 }

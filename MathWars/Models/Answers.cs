@@ -7,16 +7,16 @@ public class Answers
 {
     [Key]
     public int Id { get; set; }
-    [Required]
+    // Klucz obcy do użytkownika
     public int UserId { get; set; }
-    [Required]
+    public Users User { get; set; }
+
+    // Klucz obcy do zadania
     public int TaskId { get; set; }
+    public Tasks Task { get; set; }
+
+
     [Required]
     public string Content { get; set; }
     public DateTime SubmissionDate { get; set; }
-
-    [ForeignKey("TaskId")]
-    public Tasks Tasks { get; set; }
-    [ForeignKey("UserId")]
-    public Users Users { get; set; }
 }

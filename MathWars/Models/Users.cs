@@ -15,5 +15,5 @@ public class Users
     public DateTime RegistrationDate { get; set; }
     public int ExperiencePoints { get; set; }
     public int Rank { get; set; }
-    public List<Answers> Answers { get; set; }
+    public ICollection<Answers> Answers { get; set; }
 }
