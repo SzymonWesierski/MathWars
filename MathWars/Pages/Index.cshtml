@@ -8,3 +8,37 @@
     <h1 class="display-4">Welcome!!!</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+
+<div class="container p-3">
+	<div class="row pt-4">
+		<div class="col-6">
+			<h2 class="text-primary">Task List</h2>
+		</div>
+	</div>
+
+	<br /><br />
+
+	<table class="table table-bordered table-striped" style="width:100%">
+		<thead>
+			<tr>
+				<th>
+					Title
+				</th>
+				<th>
+					Difficulty Level
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach(var obj in Model.Tasks)
+			{
+				<tr>
+					<td width="50%">@obj.Title</td>
+					<td width="30%">@obj.difficultyLevel</td>
+				</tr>
+			}	
+		</tbody>
+	</table>
+
+</div>

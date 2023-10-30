@@ -2,25 +2,20 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MathWars.Data;
 using MathWars.Models;
+using Microsoft.Extensions.Logging;
 
 namespace MathWars.Pages
 {
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-
-        public IndexModel(ILogger<IndexModel> logger)
-        {
-            _logger = logger;
-        }
-
         private readonly ApplicationDbContext _db;
-
         public IEnumerable<Tasks> Tasks { get; set; }
 
-        public IndexModel(ApplicationDbContext db)
+        public IndexModel(ApplicationDbContext db, ILogger<IndexModel> logger)
         {
             _db = db;
+            _logger = logger;
         }
 
         public void OnGet()
