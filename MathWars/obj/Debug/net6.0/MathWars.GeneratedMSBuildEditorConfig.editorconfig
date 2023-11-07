@@ -32,8 +32,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Szymon/source/repos/MathWars/MathWars/Pages/TaskPages/addTasks.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGFza1BhZ2VzXGFkZFRhc2tzLmNzaHRtbA==
+[C:/Users/Szymon/source/repos/MathWars/MathWars/Pages/TaskPages/CreateTask.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGFza1BhZ2VzXENyZWF0ZVRhc2suY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Szymon/source/repos/MathWars/MathWars/Pages/TaskPages/ViewTasks.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGFza1BhZ2VzXFZpZXdUYXNrcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Szymon/source/repos/MathWars/MathWars/Pages/_ViewImports.cshtml]
