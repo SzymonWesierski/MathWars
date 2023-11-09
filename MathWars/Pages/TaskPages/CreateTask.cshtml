@@ -9,21 +9,26 @@
             <h2 class="text-primary pl-3">Create Task</h2>
             <hr />
         </div>
+        <div asp-validation-summary="All"></div>
         <div class="mb-3">
             Title:
             <input asp-for="@Model.Task.Title" class="form-cointrol" />
+            <span asp-validation-for="@Model.Task.Title" class="text-danger"></span>
         </div>
         <div class="mb-3">
             Content:
             <input asp-for="@Model.Task.Content" class="form-cointrol" />
+            <span asp-validation-for="@Model.Task.Title" class="text-danger"></span>
         </div>
         <div class="mb-3">
             Category:
             <input asp-for="@Model.Task.category" class="form-cointrol" />
+            <span asp-validation-for="@Model.Task.Title" class="text-danger"></span>
         </div>
         <div class="mb-3">
             Difficulty level:
             <input asp-for="@Model.Task.difficultyLevel" class="form-cointrol" />
+            <span asp-validation-for="@Model.Task.Title" class="text-danger"></span>
         </div>
         <button type="submit" class="btn btn-primary" style="width:150px;">Create</button>
     </div>

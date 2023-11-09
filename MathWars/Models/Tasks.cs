@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MathWars.Models;
 
@@ -14,6 +15,6 @@ public class Tasks
     public string category { get; set; }
     [Required]
     public int difficultyLevel { get; set; }
-
+    [AllowNull]
     public ICollection<Answers> Answers { get; set; }
 }
