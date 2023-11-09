@@ -1,0 +1,36 @@
+﻿@page
+@model MathWars.Pages.TaskPages.DeleteTaskModel
+@{
+}
+
+<form method="post">
+    <input hidden asp-for="Task.Id" />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary pl-3">Delete Task</h2>
+            <hr />
+        </div>
+        <div class="mb-3">
+            Title:
+            <input asp-for="@Model.Task.Title" class="form-cointrol" />
+            <span asp-validation-for="@Model.Task.Title" disabled class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            Content:
+            <input asp-for="@Model.Task.Content" class="form-cointrol" />
+            <span asp-validation-for="@Model.Task.Title" disabled class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            Category:
+            <input asp-for="@Model.Task.category" class="form-cointrol" />
+            <span asp-validation-for="@Model.Task.Title" disabled class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            Difficulty level:
+            <input asp-for="@Model.Task.difficultyLevel" class="form-cointrol" />
+            <span asp-validation-for="@Model.Task.Title" disabled class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:150px;">Delete</button>
+        <a asp-page="ViewTasks" class="btn btn-secondary" style="width:150px;">Back to list</a>
+    </div>
+</form>
