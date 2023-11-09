@@ -1,12 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "foU0Q1hTtR7tw3RC2lyKf5reNVFRQb4UTV6V6XqA2w2MvGmf+4bgv0sVUkYEFLZzlIl/+P1dfuTAeLqvtmn2xQ==",
+  "dgSpecHash": "K2xYnkuWMwq5bNJ0BSIkJfjr9Uy0mnEEcpLlSvchi7Eh8v5Wn9LLBBjDVyRZhJClE1HSp8IfJeedtgcgiIr5aA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Szymon\\source\\repos\\MathWars\\MathWars\\MathWars.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Szymon\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\Szymon\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
+    "C:\\Users\\Szymon\\.nuget\\packages\\bootstrapicons.aspnetcore\\1.9.2\\bootstrapicons.aspnetcore.1.9.2.nupkg.sha512",
     "C:\\Users\\Szymon\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
+    "C:\\Users\\Szymon\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
+    "C:\\Users\\Szymon\\.nuget\\packages\\microsoft.aspnetcore.razor\\2.2.0\\microsoft.aspnetcore.razor.2.2.0.nupkg.sha512",
+    "C:\\Users\\Szymon\\.nuget\\packages\\microsoft.aspnetcore.razor.runtime\\2.2.0\\microsoft.aspnetcore.razor.runtime.2.2.0.nupkg.sha512",
     "C:\\Users\\Szymon\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\Szymon\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\Szymon\\.nuget\\packages\\microsoft.data.sqlclient\\5.1.1\\microsoft.data.sqlclient.5.1.1.nupkg.sha512",

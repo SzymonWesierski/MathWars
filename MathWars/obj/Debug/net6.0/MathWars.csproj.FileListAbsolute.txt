@@ -85,3 +85,4 @@ C:\Users\Szymon\source\repos\MathWars\MathWars\bin\Debug\net6.0\runtimes\browser
 C:\Users\Szymon\source\repos\MathWars\MathWars\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 C:\Users\Szymon\source\repos\MathWars\MathWars\obj\Debug\net6.0\MathWars.csproj.AssemblyReference.cache
 C:\Users\Szymon\source\repos\MathWars\MathWars\obj\Debug\net6.0\MathWars.csproj.CopyComplete
+C:\Users\Szymon\source\repos\MathWars\MathWars\bin\Debug\net6.0\BootstrapIcons.AspNetCore.dll
