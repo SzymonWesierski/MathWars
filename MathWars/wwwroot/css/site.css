@@ -1,18 +1,131 @@
-html {
-  font-size: 14px;
+
+
+.sidebar-logo {
+    font-size: 20px;
+    background-color: #fff;
+
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
+
+.full-logo {
+    display: none; /* Ukryj domyœlnie */
+    justify-content: center; /* Wyœrodkowanie poziome */
+    align-items: center; /* Wyœrodkowanie wertykalne */
+    height: 60px; /* Dostosuj wysokoœæ */
+    width: 100%; /* Pe³na szerokoœæ */
+    /* Mo¿esz dodaæ dodatkowe style, takie jak czcionka, kolor itp. */
+}
+
+.sidebar-container:hover .full-logo {
+    display: flex; /* Poka¿, gdy menu jest rozwiniête */
+}
+
+/* Styl dla skróconego logo (MW) */
+.short-logo {
+    display: flex; /* Poka¿ domyœlnie */
+    justify-content: center; /* Wyœrodkowanie poziome */
+    align-items: center; /* Wyœrodkowanie wertykalne */
+    height: 60px; /* Dostosuj wysokoœæ */
+    width: 100%; /* Pe³na szerokoœæ */
+    /* Mo¿esz dodaæ dodatkowe style, takie jak czcionka, kolor itp. */
+}
+
+.sidebar-container:hover .short-logo {
+    display: none; /* Ukryj, gdy menu jest rozwiniête */
+}
+
+
+
+.sidebar-container {
+    width: 50px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    transition: width 0.8s;
+    background-color: #fff;
+    border-right: 1px solid #fff;
+    box-shadow: 5px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.sidebar-container:hover {
+        width: 250px;
+        
+    }
+
+
+.sidebar-navigation {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-navigation li a {
+        display: flex;
+        align-items: center; /* Wyœrodkowanie wertykalne */
+        justify-content: center; /* Wyœrodkowanie horyzontalne */
+        height: 50px; /* Ustaw wysokoœæ, aby zapewniæ równ¹ przestrzeñ dla ka¿dej pozycji */
+        position: relative; /* Ustaw pozycjonowanie wzglêdne dla linków */
+        text-decoration:none;
   }
+
+.sidebar-navigation li a:hover {
+        background-color: #f2f2f2; /* Jasnoszary kolor podœwietlenia */
+    }
+
+.sidebar-navigation li i {
+        font-size: 24px;
+        position: absolute; /* Pozycjonowanie absolutne dla ikon */
+        left: 12px; /* Dostosuj odleg³oœæ od lewej krawêdzi menu */
+    }
+
+.sidebar-navigation li span {
+    display: none; /* Ukryj tekst pocz¹tkowo */
+    white-space: nowrap;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+.sidebar-container:hover .sidebar-navigation li span {
+    display: inline; /* Poka¿ tekst po najechaniu */
 }
+
+
 
 body {
-  margin-bottom: 60px;
+    padding-left: 50px; /* Zaktualizuj margines dla zwiniêtego menu */
+    background-color:#fff;
+}
+
+
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* Zapobiegaj globalnemu przewijaniu */
+    display: flex; /* Nowe: Ustawienie body jako flex container */
+    flex-direction: column; /* Nowe: Ustawienie kierunku flexboxa */
+}
+
+.main-container {
+    margin: 0;
+    padding: 0;
+    height:100vh;
+}
+
+footer {
+    background-color: #fff; /* Dobierz kolor pasuj¹cy do schematu kolorów Twojej strony */
+    color: black; /* Kolor tekstu */
+    text-align: center; /* Wyœrodkowanie tekstu */
+    padding: 20px 0; /* Dodanie paddingu góra-dó³ */
+    font-size: 16px; /* Ustawienie odpowiedniej wielkoœci czcionki */
+}
+
+footer a {
+        color: black; /* Mo¿esz zmieniæ kolor, aby pasowa³ do ogólnego designu */
+        text-decoration: none; /* Usuniêcie podkreœlenia linków */
+        padding: 0 10px; /* Dodanie odstêpu miêdzy linkami */
+}
+
+footer a:hover {
+            text-decoration: underline; /* Dodanie efektu przy najechaniu */
 }
