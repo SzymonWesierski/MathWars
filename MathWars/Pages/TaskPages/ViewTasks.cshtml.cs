@@ -2,9 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MathWars.Data;
 using MathWars.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MathWars.Pages.TaskPages;
-
+[Authorize]
 public class addTasksModel : PageModel
 {
     private readonly ILogger<IndexModel> _logger;

@@ -1,10 +1,12 @@
 using MathWars.Data;
 using MathWars.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 
 namespace MathWars.Pages.TaskPages;
+[Authorize]
 [BindProperties]
 public class CreateTaskModel : PageModel
 {

@@ -1,36 +1,36 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Majkel\\source\\repos\\MathWars\\MathWars\\MathWars.csproj": {}
+    "C:\\Users\\Szymon\\source\\repos\\MathWars\\MathWars\\MathWars.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Majkel\\source\\repos\\MathWars\\MathWars\\MathWars.csproj": {
+    "C:\\Users\\Szymon\\source\\repos\\MathWars\\MathWars\\MathWars.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Majkel\\source\\repos\\MathWars\\MathWars\\MathWars.csproj",
+        "projectUniqueName": "C:\\Users\\Szymon\\source\\repos\\MathWars\\MathWars\\MathWars.csproj",
         "projectName": "MathWars",
-        "projectPath": "C:\\Users\\Majkel\\source\\repos\\MathWars\\MathWars\\MathWars.csproj",
-        "packagesPath": "C:\\Users\\Majkel\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Majkel\\source\\repos\\MathWars\\MathWars\\obj\\",
+        "projectPath": "C:\\Users\\Szymon\\source\\repos\\MathWars\\MathWars\\MathWars.csproj",
+        "packagesPath": "C:\\Users\\Szymon\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Szymon\\source\\repos\\MathWars\\MathWars\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Majkel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Szymon\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net6.0"
+          "net7.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net6.0": {
-            "targetAlias": "net6.0",
+          "net7.0": {
+            "targetAlias": "net7.0",
             "projectReferences": {}
           }
         },
@@ -41,12 +41,16 @@
         }
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net7.0": {
+          "targetAlias": "net7.0",
           "dependencies": {
             "BootstrapIcons.AspNetCore": {
               "target": "Package",
               "version": "[1.9.2, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.13, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
@@ -82,7 +86,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
         }
       }
     }

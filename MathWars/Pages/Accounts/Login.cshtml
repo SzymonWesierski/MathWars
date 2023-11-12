@@ -1,0 +1,33 @@
+﻿@page
+@model MathWars.Pages.Accounts.LoginModel
+@{
+}
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-sm-12 colcol-md-12 col-lg-4">
+            <h1 class="mb-3">Login</h1>
+            <form method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="mb-3">
+                    <label class="form-label" asp-for="loginModel.UserName">User name</label>
+                    <input type="text" asp-for="loginModel.UserName" class="form-control" />
+                    <span asp-validation-for="loginModel.UserName" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" asp-for="loginModel.Password">Password</label>
+                    <input type="password" asp-for="loginModel.Password" class="form-control" />
+                    <span asp-validation-for="loginModel.Password" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <input type="checkbox" asp-for="loginModel.RememberMe" class="form-check-input"/>
+                    <label class="form-check-label" asp-for="loginModel.RememberMe">Remember me ?</label>
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
