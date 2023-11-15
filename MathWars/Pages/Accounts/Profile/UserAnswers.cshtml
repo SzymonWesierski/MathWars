@@ -33,17 +33,10 @@
 			@foreach(var obj in Model.answers)
 			{
 				<tr>
-					<td width="40%">@obj.Task.Title</td>
-					<td width="40%">@obj.Task.Content</td>
+					<td width="25%">@obj.Task.Title</td>
+					<td width="35%">@obj.Task.Content</td>
 					<td width="20%">@obj.Task.difficultyLevel</td>
 					<td width="20%">@obj.Task.Answer</td>
-					<td>
-						<div class="w-75 btn-group" role="group">
-							<a asp-page="TaskPages/SolvingTask" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
-								<i class="bi bi-pencil-square"></i> Solve
-							</a>
-						</div>
-					</td>
 				</tr>
 			}	
 		</tbody>
