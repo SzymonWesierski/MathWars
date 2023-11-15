@@ -38,23 +38,23 @@ public class SolvingTaskModel : PageModel
 
     public async Task<IActionResult> OnPost()
     {
-        if (Answer.Answer == Task.Answer)
-        {
-            // Odczytanie danych z sesji
-            var taskTitle = HttpContext.Session.GetString("TaskTitle");
-            var taskContent = HttpContext.Session.GetString("TaskContent");
-            var taskCategory = HttpContext.Session.GetString("TaskCategory");
-            var taskDifficultyLevel = HttpContext.Session.GetInt32("TaskDifficultyLevel") ?? 0;
+        // Odczytanie danych z sesji
+        var taskTitle = HttpContext.Session.GetString("TaskTitle");
+        var taskContent = HttpContext.Session.GetString("TaskContent");
+        var taskCategory = HttpContext.Session.GetString("TaskCategory");
+        var taskDifficultyLevel = HttpContext.Session.GetInt32("TaskDifficultyLevel") ?? 0;
 
+        Task.Title = taskTitle;
+        Task.Content = taskContent;
+        Task.Created = Task.Created;
+        Task.category = taskCategory;
+        Task.difficultyLevel = taskDifficultyLevel;
+
+        ModelState.Clear();
+		if (Answer.Answer == Task.Answer)
+        {
             // Get the currently logged-in user
             var user = await _userManager.GetUserAsync(User);
-
-            Task.Title = taskTitle;
-            Task.Content = taskContent;
-            Task.Answer = Task.Answer;
-            Task.Created = Task.Created;
-            Task.category = taskCategory;
-            Task.difficultyLevel = taskDifficultyLevel;
 
             var answ = new Answers()
             {
@@ -71,17 +71,14 @@ public class SolvingTaskModel : PageModel
             _db.Tasks.Update(Task);
             await _db.SaveChangesAsync();
 
-            // Wyczyszczenie danych z sesji po u¿yciu
-            HttpContext.Session.Remove("TaskTitle");
-            HttpContext.Session.Remove("TaskContent");
-            HttpContext.Session.Remove("TaskCategory");
-            HttpContext.Session.Remove("TaskDifficultyLevel");
 
-            return RedirectToPage("/Index");
-        }
+            ModelState.AddModelError(string.Empty, "Correct answer : )");
+
+			return Page();
+		}
         else
         {
-            ModelState.AddModelError(string.Empty, "Wrong answer :( ");
+			ModelState.AddModelError(string.Empty, "Wrong answer :( ");
             return Page();
         }
     }

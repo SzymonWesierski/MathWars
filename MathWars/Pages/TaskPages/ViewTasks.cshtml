@@ -24,7 +24,16 @@
 					Title
 				</th>
 				<th>
+					Content
+				</th>
+				<th>
+					Category
+				</th>
+				<th>
 					Difficulty Level
+				</th>
+				<th>
+					Answer
 				</th>
 				<th></th>
 			</tr>
@@ -33,8 +42,11 @@
 			@foreach(var obj in Model.Tasks)
 			{
 				<tr>
-					<td width="50%">@obj.Title</td>
-					<td width="30%">@obj.difficultyLevel</td>
+					<td width="20%">@obj.Title</td>
+					<td width="20%">@obj.Content</td>
+					<td width="20%">@obj.category</td>
+					<td width="20%">@obj.difficultyLevel</td>
+					<td width="20%">@obj.Answer</td>
 					<td>
 						<div class="w-75 btn-group" role="group">
 						<a asp-page="EditTask" asp-route-id="@obj.Id" class="btn btn-primary mx-2">

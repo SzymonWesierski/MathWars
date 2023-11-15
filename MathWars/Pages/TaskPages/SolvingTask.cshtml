@@ -22,6 +22,8 @@
             <div class="mb-3">
                 Answer:
                 <input asp-for="@Model.Answer.Answer" class="form-cointrol" />
+                <input type="hidden" asp-for="@Model.Task.Answer" />
+                <input type="hidden" asp-for="Task.Id" />
             </div>
 
             <button type="submit" class="btn btn-primary" style="width:150px;">Check</button>

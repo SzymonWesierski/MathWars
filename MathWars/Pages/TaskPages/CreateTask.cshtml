@@ -30,6 +30,11 @@
             <input asp-for="@Model.Task.difficultyLevel" class="form-cointrol" />
             <span asp-validation-for="@Model.Task.Title" class="text-danger"></span>
         </div>
+        <div class="mb-3">
+            Correct Answer:
+            <input asp-for="@Model.Task.Answer" class="form-cointrol" />
+            <span asp-validation-for="@Model.Task.Answer" class="text-danger"></span>
+        </div>
         <button type="submit" class="btn btn-primary" style="width:150px;">Create</button>
         <a asp-page="ViewTasks" class="btn btn-secondary" style="width:150px;">Back to list</a>
     </div>
