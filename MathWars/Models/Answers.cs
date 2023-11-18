@@ -18,6 +18,7 @@ public class Answers
     public Tasks Task { get; set; }
 
     [Required]
-    public string Content { get; set; }
-    public DateTime SubmissionDate { get; set; }
+    [Range(double.MinValue, double.MaxValue, ErrorMessage = "Please enter a valid number.")]
+    public double Answer { get; set; }
+    public DateTime SubmissionDate { get; set; } = DateTime.Now;
 }

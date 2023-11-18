@@ -7,7 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\images\math.jpg" />
+    <Content Remove="wwwroot\js\Drawing.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\Drawing.js" />
   </ItemGroup>
 
   <ItemGroup>

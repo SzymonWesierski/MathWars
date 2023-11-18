@@ -1,0 +1,40 @@
+﻿@page
+@model MathWars.Pages.TaskPages.SolvingTaskModel
+@{
+}
+
+<div class="border p-3 mt-4">
+    <div class="row pb-2">
+        <h2 class="text-primary pl-3">Solve Task</h2>
+        <hr />
+    </div>
+    <div class="mb-3">
+        <strong>Title:</strong>
+        <p class="mb-0"> @Model.Task.Title</p>
+    </div>
+    <div class="mb-3">
+        <strong>Content:</strong>
+        <p class="mb-0"> @Model.Task.Content</p>
+    </div>
+
+    <!-- Drawing area -->
+    <canvas id="drawingCanvas" width="900px" height="400px" style="border:1px solid #000;"></canvas>
+    <div>
+        <button id="brushBtn" class="btn btn-info" style="width:100px;">Brush</button>
+        <button id="eraserBtn" class="btn btn-warning" style="width:100px;">Eraser</button>
+        <button id="clearCanvasBtn" class="btn btn-danger" style="width:150px;">Clear Area</button>
+    </div>
+    
+    <form method="post">
+        <div asp-validation-summary="All"></div>
+        <div class="mb-3">
+            Answer:
+            <input asp-for="@Model.Answer.Answer" class="form-control" />
+            <input type="hidden" asp-for="@Model.Task.Answer" />
+            <input type="hidden" asp-for="Task.Id" />
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:150px;">Check</button>
+        <a asp-page="/Index" class="btn btn-secondary" style="width:150px;">Back to home page</a>
+    </form>
+</div>
