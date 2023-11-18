@@ -9,53 +9,65 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = MathWars
 build_property.RootNamespace = MathWars
-build_property.ProjectDir = C:\Users\Szymon\Source\Repos\MathWars\MathWars\
+build_property.ProjectDir = C:\Users\Majkel\source\repos\MathWars\MathWars\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\Szymon\Source\Repos\MathWars\MathWars
+build_property.MSBuildProjectDirectory = C:\Users\Majkel\source\repos\MathWars\MathWars
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/Szymon/Source/Repos/MathWars/MathWars/Pages/Error.cshtml]
+[C:/Users/Majkel/source/repos/MathWars/MathWars/Pages/Accounts/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWNjb3VudHNcTG9naW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Majkel/source/repos/MathWars/MathWars/Pages/Accounts/Logout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWNjb3VudHNcTG9nb3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Majkel/source/repos/MathWars/MathWars/Pages/Accounts/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWNjb3VudHNcUmVnaXN0ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Majkel/source/repos/MathWars/MathWars/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Szymon/Source/Repos/MathWars/MathWars/Pages/Index.cshtml]
+[C:/Users/Majkel/source/repos/MathWars/MathWars/Pages/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Szymon/Source/Repos/MathWars/MathWars/Pages/Privacy.cshtml]
+[C:/Users/Majkel/source/repos/MathWars/MathWars/Pages/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Szymon/Source/Repos/MathWars/MathWars/Pages/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/Majkel/source/repos/MathWars/MathWars/Pages/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Szymon/Source/Repos/MathWars/MathWars/Pages/TaskPages/CreateTask.cshtml]
+[C:/Users/Majkel/source/repos/MathWars/MathWars/Pages/TaskPages/CreateTask.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGFza1BhZ2VzXENyZWF0ZVRhc2suY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Szymon/Source/Repos/MathWars/MathWars/Pages/TaskPages/DeleteTask.cshtml]
+[C:/Users/Majkel/source/repos/MathWars/MathWars/Pages/TaskPages/DeleteTask.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGFza1BhZ2VzXERlbGV0ZVRhc2suY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Szymon/Source/Repos/MathWars/MathWars/Pages/TaskPages/EditTask.cshtml]
+[C:/Users/Majkel/source/repos/MathWars/MathWars/Pages/TaskPages/EditTask.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGFza1BhZ2VzXEVkaXRUYXNrLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Szymon/Source/Repos/MathWars/MathWars/Pages/TaskPages/ViewTasks.cshtml]
+[C:/Users/Majkel/source/repos/MathWars/MathWars/Pages/TaskPages/ViewTasks.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGFza1BhZ2VzXFZpZXdUYXNrcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Szymon/Source/Repos/MathWars/MathWars/Pages/_ViewImports.cshtml]
+[C:/Users/Majkel/source/repos/MathWars/MathWars/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Szymon/Source/Repos/MathWars/MathWars/Pages/_ViewStart.cshtml]
+[C:/Users/Majkel/source/repos/MathWars/MathWars/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Szymon/Source/Repos/MathWars/MathWars/Pages/Shared/_Layout.cshtml]
+[C:/Users/Majkel/source/repos/MathWars/MathWars/Pages/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-9qphnxrkaw

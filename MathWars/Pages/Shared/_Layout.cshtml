@@ -4,66 +4,88 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - MathWars</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/_Layout.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-    
 </head>
+
 <body>
-
-    <!-- Menu Boczne -->
-
-    <div class="sidebar-container">
-
-        <div class="sidebar-logo">
-            <div class="full-logo"> MathWars </div>
-            <div class="short-logo"> MW </div>
-        </div>
-
         @{
             if (SignInManager.IsSignedIn(User))
             {
+                <div class="sidebar-container">
+
+                    <div class="sidebar-logo">
+                        <div class="full-logo"> MathWars </div>
+                        <div class="short-logo"> MW </div>
+                    </div>
+
+
                 <ul class="sidebar-navigation">
                     <li><a href="/Index"><i class="bi bi-house"></i><span> Home</span></a></li>
                     <li><a href="/TaskPages/ViewTasks"><i class="bi bi-journal-text"></i><span> Tasks</span></a></li>
-                    <!-- Dodaj więcej ikon i linków według potrzeb -->
                     <li><a class="btn btn-primary" asp-area="" asp-page="/Accounts/Logout">Logout</a></li>
                 </ul>
+                </div>
+
             }
             else
             {
-                <ul class ="sidebar-navigation">
-                    <li><a asp-page="/Accounts/Login" class="btn btn-primary">Login</a></li>
-                    <li><a asp-page="/Accounts/Register" class="btn btn-primary">Register</a></li>
-                </ul>
+                <header>
+                        <div class="navbar-top">
+
+                            <a class="navbar-brand" asp-area="" asp-page="/Index">MathWars</a>
+
+                            <div class="navbar-top-content">
+                                <ul>
+                                         <li> <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a> </li>
+                                         <li> <a class="nav-link text-dark" asp-area="" asp-page="/TaskPages/ViewTasks">TASKS</a> </li>
+                                </ul>
+
+                                <div class="navbar-top-buttons">
+                                        <button><a asp-page="/Accounts/Login"> Login </a></button>
+                                        <button><a asp-page="/Accounts/Register"> Register </a></button>
+                                </div>
+
+                            </div>
+
+                            <div class="hamburger-menu" onclick="toggleMenu()">
+                                &#9776;
+                            </div>
+
+                            <div class="dropdown-menu" id="myDropdown"> 
+                                <a href="/Index">Home</a>
+                                <a href="/TaskPages/ViewTasks">Tasks</a>
+                            </div>
+
+                        </div>
+                </header>
             }
         }
 
-    </div>
+        
 
-        <!--główna sekcja -->
-            <div class="main-container">
-                <div class="container">
-                    <main role="main" class="pb-3">
-                        @RenderBody()
-                    </main>
-                </div>
+            <div>
+
+                <main role="main">
+                    @RenderBody()
+                </main>
+
+                <footer>
+
+                        <div> &copy; 2023 - MathWars - <a asp-area="" asp-page="/Privacy">Privacy</a> </div>
+
+                </footer>
+
             </div>
-    
+        
+            
+<script src="~/js/HamburgerMenu.js"></script>
 
-    <!-- stopa -->
-
-    <footer>
-        <div>
-            &copy; 2023 - MathWars - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>
-
- 
-    
 </body>
 </html>

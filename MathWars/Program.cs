@@ -15,7 +15,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFramework
 
 builder.Services.ConfigureApplicationCookie(config =>
 {
-    config.LoginPath = "/Accounts/Login";
+    config.LoginPath = "/IndexGuest";
 });
 
 var app = builder.Build();

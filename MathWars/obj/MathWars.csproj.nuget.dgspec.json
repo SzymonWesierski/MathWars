@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Szymon\\source\\repos\\MathWars\\MathWars\\MathWars.csproj": {}
+    "C:\\Users\\Majkel\\source\\repos\\MathWars\\MathWars\\MathWars.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Szymon\\source\\repos\\MathWars\\MathWars\\MathWars.csproj": {
+    "C:\\Users\\Majkel\\source\\repos\\MathWars\\MathWars\\MathWars.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Szymon\\source\\repos\\MathWars\\MathWars\\MathWars.csproj",
+        "projectUniqueName": "C:\\Users\\Majkel\\source\\repos\\MathWars\\MathWars\\MathWars.csproj",
         "projectName": "MathWars",
-        "projectPath": "C:\\Users\\Szymon\\source\\repos\\MathWars\\MathWars\\MathWars.csproj",
-        "packagesPath": "C:\\Users\\Szymon\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Szymon\\source\\repos\\MathWars\\MathWars\\obj\\",
+        "projectPath": "C:\\Users\\Majkel\\source\\repos\\MathWars\\MathWars\\MathWars.csproj",
+        "packagesPath": "C:\\Users\\Majkel\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Majkel\\source\\repos\\MathWars\\MathWars\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Szymon\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Majkel\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -86,7 +86,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     }
