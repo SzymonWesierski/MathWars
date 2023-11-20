@@ -68,24 +68,21 @@
             }
         }
 
-        
+        <div>
 
-            <div>
+            <main role="main">
+                @RenderBody()
+            </main>
 
-                <main role="main">
-                    @RenderBody()
-                </main>
-
-                <footer>
+            <footer>
 
                         <div> &copy; 2023 - MathWars -<a asp-area="" asp-page="/Privacy">Privacy</a> </div>
 
-                </footer>
+            </footer>
 
-            </div>
-        
+        </div>
             
 <script src="~/js/HamburgerMenu.js"></script>
-
+<script src="~/js/Drawing.js"></script>
 </body>
 </html>

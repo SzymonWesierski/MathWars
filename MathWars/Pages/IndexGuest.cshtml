@@ -1,4 +1,5 @@
 ﻿@page
+@using MathWars.Pages;
 @model IndexGuestModel
 @{
     ViewData["Title"] = "Home page";
@@ -20,7 +21,7 @@
 	
 	<div class="button-under-start">
 
-		<button> Get started </button>
+	<button><a asp-page="/Accounts/Register"> Get started </a></button>
 
 	</div>
 
