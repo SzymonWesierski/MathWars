@@ -3,3 +3,5 @@
 ################################################################################
 
 /MathWars/bin/Debug/net6.0/runtimes/browser/lib/net6.0/System.Text.Encodings.Web.dll
+/MathWars/bin/Debug/net7.0
+/MathWars/obj/Debug/net7.0

@@ -15,8 +15,8 @@ namespace MathWars.Pages
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly ApplicationDbContext _db;
-        public string category = "duuupa";
-        public string difficultyLevel = "2";
+        public string category = "duuupa"; //zmienić na pierwszą kategorię z listy
+        public string difficultyLevel = "2"; //zmienić na aktualny level użytkownika
         public IEnumerable<Tasks> tasks { get; set; }  
 
         public IndexModel(ApplicationDbContext db, ILogger<IndexModel> logger)
