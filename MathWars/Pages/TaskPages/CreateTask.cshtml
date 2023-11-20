@@ -14,11 +14,12 @@
         <div asp-validation-summary="All"></div>
         <div class="mb-3">
             Title:
-            <input asp-for="@Model.Task.Title" class="form-cointrol" />
+            <input asp-for="@Model.Task.Title" class="form-control" />
             <span asp-validation-for="@Model.Task.Title" class="text-danger"></span>
         </div>
         <div class="mb-3">
             Content:
+<<<<<<< HEAD
             <input asp-for="@Model.Task.Content" class="form-cointrol" />
                 <span asp-validation-for="@Model.Task.Content" class="text-danger"></span>
         </div>
@@ -31,10 +32,24 @@
             Difficulty level:
             <input asp-for="@Model.Task.difficultyLevel" class="form-cointrol" />
                 <span asp-validation-for="@Model.Task.difficultyLevel" class="text-danger"></span>
+=======
+            <input asp-for="@Model.Task.Content" class="form-control" />
+            <span asp-validation-for="@Model.Task.Title" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            Category:
+            <input asp-for="@Model.Task.category" class="form-control" />
+            <span asp-validation-for="@Model.Task.Title" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            Difficulty level:
+            <input asp-for="@Model.Task.difficultyLevel" class="form-control" />
+            <span asp-validation-for="@Model.Task.Title" class="text-danger"></span>
+>>>>>>> 7b873ea6b71fff35cf8d8814ed9e7599d4cf6a9d
         </div>
         <div class="mb-3">
             Correct Answer:
-            <input asp-for="@Model.Task.Answer" class="form-cointrol" />
+            <input asp-for="@Model.Task.Answer" class="form-control" />
             <span asp-validation-for="@Model.Task.Answer" class="text-danger"></span>
         </div>
         <button type="submit" class="btn btn-primary" style="width:150px;">Create</button>
