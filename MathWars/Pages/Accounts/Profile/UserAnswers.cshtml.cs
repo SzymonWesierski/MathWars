@@ -18,8 +18,10 @@ namespace MathWars.Pages
         private readonly ILogger<IndexModel> _logger;
         private readonly ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
-        private ApplicationUser currentUser;
-        public IEnumerable<Answers> answers { get; set; }
+		[BindProperty]
+		public ApplicationUser currentUser { get; set; }
+		[BindProperty]
+		public IEnumerable<Answers> answers { get; set; }
 
         public UserAnswersModel(ApplicationDbContext db, ILogger<IndexModel> logger, UserManager<ApplicationUser> userManager)
         {

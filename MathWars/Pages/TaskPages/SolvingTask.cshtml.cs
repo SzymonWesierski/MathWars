@@ -1,14 +1,14 @@
 using MathWars.Data;
 using MathWars.Models;
-using MathWars.Pages.Accounts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
-using System.Globalization;
+using System;
+using System.IO;
+using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace MathWars.Pages.TaskPages;
 [Authorize]
@@ -19,17 +19,18 @@ public class SolvingTaskModel : PageModel
     public Tasks Task { get; set; }
     public Answers Answer { get; set; }
     private readonly UserManager<ApplicationUser> _userManager;
+	private readonly IConfiguration _configuration;
 
-    public SolvingTaskModel(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
+	public SolvingTaskModel(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IConfiguration configuration)
     {
         _db = db;
         _userManager = userManager;
-        
-    }
+		_configuration = configuration;
+	}
     public void OnGet(int id)
     {
         Task = _db.Tasks.Find(id);
-        // Ustawienie danych w sesji
+        // Setup data in session
         HttpContext.Session.SetString("TaskTitle", Task.Title);
         HttpContext.Session.SetString("TaskContent", Task.Content);
         HttpContext.Session.SetString("TaskCategory", Task.category);
@@ -38,7 +39,7 @@ public class SolvingTaskModel : PageModel
 
     public async Task<IActionResult> OnPost()
     {
-        // Odczytanie danych z sesji
+        // Read data from session
         var taskTitle = HttpContext.Session.GetString("TaskTitle");
         var taskContent = HttpContext.Session.GetString("TaskContent");
         var taskCategory = HttpContext.Session.GetString("TaskCategory");
@@ -51,6 +52,7 @@ public class SolvingTaskModel : PageModel
         Task.difficultyLevel = taskDifficultyLevel;
 
         ModelState.Clear();
+
 		if (Answer.Answer == Task.Answer)
         {
             // Get the currently logged-in user
@@ -66,9 +68,14 @@ public class SolvingTaskModel : PageModel
             };
 
             Task.Answers.Add(answ);
-           
+            
+            //User LVL and EXP
+            user = GetHowManyExperienceReached(user);   
+			user = GetHowManyLevelsReached(user);
+
             await _db.Answers.AddAsync(answ);
             _db.Tasks.Update(Task);
+            _db.Users.Update(user);
             await _db.SaveChangesAsync();
 
 
@@ -82,4 +89,52 @@ public class SolvingTaskModel : PageModel
             return Page();
         }
     }
+
+    private ApplicationUser GetHowManyLevelsReached(ApplicationUser user)
+    {        
+		while (user.Experience >= user.ExpToReachNewLvl)
+		{
+			user.Experience -= user.ExpToReachNewLvl;
+			user.Level += 1;
+			user.ExpToReachNewLvl = user.Level * GetLevelMultiplier();//Exp to reach new level pattern
+		}
+        return user;
+	}
+
+	private ApplicationUser GetHowManyExperienceReached(ApplicationUser user)
+	{
+		user.Experience += Task.difficultyLevel * GetExperienceMultiplier();// exp points pattern
+
+		return user;
+	}
+
+	private int GetExperienceMultiplier()
+	{
+		if (_configuration != null)
+		{
+			var expMultiplierSection = _configuration.GetSection("Experience&Level");
+			if (expMultiplierSection.Exists())
+			{
+                return expMultiplierSection.GetValue<int>("experienceMultiplier");
+			}
+		}
+
+		ModelState.AddModelError(string.Empty, "Couldn't find the configuration for 'experienceMultiplier' !!!");
+		return 0;
+	}
+
+	private int GetLevelMultiplier()
+	{
+		if (_configuration != null)
+		{
+			var lvlMultiplierSection = _configuration.GetSection("Experience&Level");
+			if (lvlMultiplierSection.Exists())
+			{
+				return lvlMultiplierSection.GetValue<int>("lvlMultiplier");
+			}
+		}
+
+		ModelState.AddModelError(string.Empty, "Couldn't find the configuration for 'lvlMultiplier' !!!");
+		return 0;
+	}
 }
