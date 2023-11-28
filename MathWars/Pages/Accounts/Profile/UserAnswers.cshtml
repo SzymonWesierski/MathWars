@@ -5,53 +5,60 @@
 
 <div class="container p-3">
 
-	<div class="row pt-4">
-		<div class="col-6">
-			<h2 class="text-primary">Your Level</h2>
-			<h3 class="text-primary">@Model.currentUser.Level</h3>
-			<h2 class="text-primary">Your Experience</h2>
-			<h3 class="text-primary">@Model.currentUser.Experience / @Model.currentUser.ExpToReachNewLvl</h3>
-		</div>
-	</div>
+    <!-- Section for Level and Experience -->
+    <div class="row pt-4">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-primary">Your Level</h2>
+                    <h3 class="card-text text-primary">@Model.currentUser.Level</h3>
+                </div>
+            </div>
+        </div>
 
-	<div class="row pt-4">
-		<div class="col-6">
-			<h2 class="text-primary">Your Answers</h2>
-		</div>
-	</div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-primary">Your Experience</h2>
+                    <h3 class="card-text text-primary">@Model.currentUser.Experience / @Model.currentUser.ExpToReachNewLvl</h3>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: @(Model.currentUser.Experience * 100 / Model.currentUser.ExpToReachNewLvl)%;" aria-valuenow="@Model.currentUser.Experience" aria-valuemin="0" aria-valuemax="@Model.currentUser.ExpToReachNewLvl"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<br /><br />
-
-	<table class="table table-bordered table-striped" style="width:100%">
-		<thead>
-			<tr>
-				<th>
-					Title
-				</th>
-				<th>
-					Content
-				</th>
-				<th>
-					Difficulty Level
-				</th>
-				<th>
-					Answer
-				</th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach(var obj in Model.answers)
-			{
-				<tr>
-					<td width="25%">@obj.Task.Title</td>
-					<td width="35%">@obj.Task.Content</td>
-					<td width="20%">@obj.Task.difficultyLevel</td>
-					<td width="20%">@obj.Task.Answer</td>
-				</tr>
-			}	
-		</tbody>
-	</table>
+    <!-- Section for Answers -->
+    <div class="row pt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-primary">Your Answers</h2>
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Content</th>
+                                <th>Difficulty Level</th>
+                                <th>Answer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var obj in Model.answers)
+                            {
+                                <tr>
+                                    <td width="25%">@obj.Task.Title</td>
+                                    <td width="35%">@obj.Task.Content</td>
+                                    <td width="20%">@obj.Task.difficultyLevel</td>
+                                    <td width="20%">@obj.Task.Answer</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
-
-
