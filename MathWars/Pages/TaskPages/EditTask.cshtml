@@ -1,5 +1,5 @@
 ﻿@page
-@model MathWars.Pages.TaskPages.EditTaskModel
+@model EditTaskModel
 @{
 }
 
@@ -27,7 +27,9 @@
         </div>
         <div class="mb-3">
             Category:
-            <input asp-for="@Model.Task.category" class="form-control" />
+                <select asp-for="@Model.Task.Category.Id" asp-items="@(new SelectList(Model.categorys, "Id", "CategoryName"))" class="form-control">
+                    <option value="">-- Select Category --</option>
+                </select>
             <span asp-validation-for="@Model.Task.Title" class="text-danger"></span>
         </div>
         <div class="mb-3">

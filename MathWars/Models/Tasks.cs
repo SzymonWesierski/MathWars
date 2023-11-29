@@ -14,8 +14,11 @@ public class Tasks
     [Required]
     public double Answer { get; set; }
     public DateTime Created { get; set; } = DateTime.Now;
-    [Required]
-    public string category { get; set; }
+
+    // Foreign Key to TasksCategory
+    public int CategoryId { get; set; }
+    public TasksCategory Category { get; set; } = null!;
+
     [Required]
     public int difficultyLevel { get; set; }
     [AllowNull]

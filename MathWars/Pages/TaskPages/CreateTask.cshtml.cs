@@ -12,6 +12,7 @@ public class CreateTaskModel : PageModel
 {
     private readonly ApplicationDbContext _db;
     public Tasks Task { get; set; }
+    public IEnumerable<TasksCategory> categorys { get; set; }
 
     public CreateTaskModel(ApplicationDbContext db)
     {
@@ -19,12 +20,14 @@ public class CreateTaskModel : PageModel
     }
     public void OnGet()
     {
+        categorys = _db.TasksCategory;
     }
 
     public async Task<IActionResult> OnPost()
     {
         if (TaskValidation())
         {
+            Task.Category = _db.TasksCategory.FirstOrDefault(c => c.Id == Task.CategoryId);
             await _db.Tasks.AddAsync(Task);
             await _db.SaveChangesAsync();
             return RedirectToPage("ViewTasks");
@@ -50,7 +53,7 @@ public class CreateTaskModel : PageModel
             ModelState.AddModelError(string.Empty, "Content field cannot be empty");
             result = false;
         }
-        if (string.IsNullOrEmpty(Task.category))
+        if (Task.CategoryId == 0)
         {
             ModelState.AddModelError(string.Empty, "Category field cannot be empty");
             result = false;

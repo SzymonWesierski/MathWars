@@ -9,11 +9,11 @@ public class Answers
     [Key]
     public int Id { get; set; }
 
-    // Klucz obcy do użytkownika
+    // Foreign Key to Users
     public string UserId { get; set; }
     public ApplicationUser User { get; set; }
 
-    // Klucz obcy do zadania
+    // Foreign Key to Tasks
     public int TaskId { get; set; }
     public Tasks Task { get; set; }
 

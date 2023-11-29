@@ -1,5 +1,5 @@
 ﻿@page
-@model MathWars.Pages.TaskPages.addTasksModel
+@model addTasksModel
 @{
 }
 
@@ -44,7 +44,7 @@
 				<tr>
 					<td width="20%">@obj.Title</td>
 					<td width="20%">@obj.Content</td>
-					<td width="20%">@obj.category</td>
+					<td width="20%">@obj.Category.CategoryName</td>
 					<td width="20%">@obj.difficultyLevel</td>
 					<td width="20%">@obj.Answer</td>
 					<td>

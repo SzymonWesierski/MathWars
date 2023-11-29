@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Reflection.Metadata;
 
 namespace MathWars.Data
 {
@@ -14,6 +16,7 @@ namespace MathWars.Data
 
         public DbSet<Tasks> Tasks { get; set; }
         public DbSet<Answers> Answers { get; set; }
+        public DbSet<TasksCategory> TasksCategory { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,6 +31,12 @@ namespace MathWars.Data
                 .HasOne(a => a.Task)
                 .WithMany(t => t.Answers)
                 .HasForeignKey(a => a.TaskId);
-        }
+
+            modelBuilder.Entity<Tasks>()
+                .HasOne(e => e.Category)
+                .WithMany(e => e.Tasks)
+                .HasForeignKey(e => e.CategoryId)
+                .IsRequired();
+        }   
     }
 }

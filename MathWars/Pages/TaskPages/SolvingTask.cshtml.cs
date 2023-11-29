@@ -30,10 +30,10 @@ public class SolvingTaskModel : PageModel
     public void OnGet(int id)
     {
         Task = _db.Tasks.Find(id);
-        // Setup data in session
-        HttpContext.Session.SetString("TaskTitle", Task.Title);
+		// Setup data in session
+		HttpContext.Session.SetString("TaskTitle", Task.Title);
         HttpContext.Session.SetString("TaskContent", Task.Content);
-        HttpContext.Session.SetString("TaskCategory", Task.category);
+		HttpContext.Session.SetString("TaskCategoryId", Convert.ToString(Task.CategoryId));
         HttpContext.Session.SetInt32("TaskDifficultyLevel", Task.difficultyLevel);
     }
 
@@ -42,13 +42,14 @@ public class SolvingTaskModel : PageModel
         // Read data from session
         var taskTitle = HttpContext.Session.GetString("TaskTitle");
         var taskContent = HttpContext.Session.GetString("TaskContent");
-        var taskCategory = HttpContext.Session.GetString("TaskCategory");
+        var taskCategoryId = int.Parse(HttpContext.Session.GetString("TaskCategoryId"));
         var taskDifficultyLevel = HttpContext.Session.GetInt32("TaskDifficultyLevel") ?? 0;
 
         Task.Title = taskTitle;
         Task.Content = taskContent;
         Task.Created = Task.Created;
-        Task.category = taskCategory;
+        Task.CategoryId = taskCategoryId;
+        Task.Category = _db.TasksCategory.Find(taskCategoryId);
         Task.difficultyLevel = taskDifficultyLevel;
 
         ModelState.Clear();

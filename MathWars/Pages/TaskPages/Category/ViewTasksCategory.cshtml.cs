@@ -3,17 +3,16 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using MathWars.Data;
 using MathWars.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
 
 namespace MathWars.Pages.TaskPages;
 [Authorize]
-public class addTasksModel : PageModel
+public class addTasksCategoryModel : PageModel
 {
     private readonly ILogger<IndexModel> _logger;
     private readonly ApplicationDbContext _db;
-    public IEnumerable<Tasks> Tasks { get; set; }
+    public IEnumerable<TasksCategory> categorys { get; set; }
 
-    public addTasksModel(ApplicationDbContext db, ILogger<IndexModel> logger)
+    public addTasksCategoryModel(ApplicationDbContext db, ILogger<IndexModel> logger)
     {
         _db = db;
         _logger = logger;
@@ -21,6 +20,6 @@ public class addTasksModel : PageModel
 
     public void OnGet()
     {
-        Tasks = _db.Tasks.Include(t => t.Category);
+        categorys = _db.TasksCategory;
     }
 }
