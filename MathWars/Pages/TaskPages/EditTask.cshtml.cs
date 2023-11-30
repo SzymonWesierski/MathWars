@@ -21,6 +21,7 @@ public class EditTaskModel : PageModel
     public void OnGet(int id)
     {
         Task = _db.Tasks.Find(id);
+        Task.Category = _db.TasksCategory.Find(Task.CategoryId);
         categorys = _db.TasksCategory;
     }
 
@@ -28,14 +29,23 @@ public class EditTaskModel : PageModel
     {
         var id = Task.CategoryId;
         var category = _db.TasksCategory.Find(id);
-        Task.Category = category;
 
-        if (TaskValidation())
+        if (category == null)
         {
-            _db.Tasks.Update(Task);
-            await _db.SaveChangesAsync();
-            return RedirectToPage("ViewTasks");
+            categorys = _db.TasksCategory;
         }
+        else
+        {
+            Task.Category = category;
+
+            if (TaskValidation())
+            {
+                _db.Tasks.Update(Task);
+                await _db.SaveChangesAsync();
+                return RedirectToPage("ViewTasks");
+            }
+        }
+
         return Page();
     }
 

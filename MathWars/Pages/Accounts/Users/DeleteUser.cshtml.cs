@@ -8,31 +8,30 @@ using System.Threading.Tasks;
 namespace MathWars.Pages.TaskPages;
 [Authorize]
 [BindProperties]
-public class DeleteTaskModel : PageModel
+public class DeleteUserModel : PageModel
 {
     private readonly ApplicationDbContext _db;
-    public Tasks Task { get; set; }
+    public ApplicationUser user;
 
-    public DeleteTaskModel(ApplicationDbContext db)
+    public DeleteUserModel(ApplicationDbContext db)
     {
         _db = db;
     }
-    public void OnGet(int id)
+    public void OnGet(string id)
     {
-        Task = _db.Tasks.Find(id);
-        Task.Category = _db.TasksCategory.Find(Task.CategoryId);
+        user = _db.Users.Find(id);
     }
 
     public async Task<IActionResult> OnPost()
     {
-        var taskFromDb = _db.Tasks.Find(Task.Id);
-        if (taskFromDb != null)
+        var userFromDb = _db.Users.Find(user.Id);
+        if (userFromDb != null)
         {
-            _db.Tasks.Remove(taskFromDb);
+            _db.Users.Remove(userFromDb);
             await _db.SaveChangesAsync();
-            return RedirectToPage("ViewTasks");
+            return RedirectToPage("ViewTasksCategory");
         }
         return Page();
-       
+
     }
 }

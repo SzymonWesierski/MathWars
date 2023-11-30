@@ -13,11 +13,11 @@
         </div>
         <div class="mb-3">
             Name:
-                <input asp-for="@Model.category.CategoryName" class="form-control" />
+                <input asp-for="@Model.category.CategoryName" class="form-control" readonly />
                 <span asp-validation-for="@Model.category.CategoryName" disabled class="text-danger"></span>
         </div>
         <button type="submit" class="btn btn-primary" style="width:150px;">Delete</button>
-        <a asp-page="ViewTasks" class="btn btn-secondary" style="width:150px;">Back to list</a>
+        <a asp-page="ViewTasksCategory" class="btn btn-secondary" style="width:150px;">Back to list</a>
     </div>
 </form>
 </div>

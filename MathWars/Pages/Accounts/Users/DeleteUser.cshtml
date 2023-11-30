@@ -1,0 +1,29 @@
+﻿@page
+@using MathWars.Pages.TaskPages;
+@model DeleteUserModel
+@{
+}
+
+<div class="container">
+<form method="post">
+        <input hidden asp-for="user.Id" />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary pl-3">Delete Task Category</h2>
+            <hr />
+        </div>
+            <div class="mb-3">
+                UserName:
+                <input asp-for="@Model.user.UserName" class="form-control" readonly />
+                <span asp-validation-for="@Model.user.UserName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                Email:
+                <input type="email" asp-for="@Model.user.Email" class="form-control" readonly />
+                <span asp-validation-for="@Model.user.Email" class="text-danger"></span>
+            </div>
+        <button type="submit" class="btn btn-primary" style="width:150px;">Delete</button>
+        <a asp-page="ViewUser" class="btn btn-secondary" style="width:150px;">Back to list</a>
+    </div>
+</form>
+</div>
