@@ -65,6 +65,7 @@ namespace MathWars.Pages
 		}
         private int RandomCategoryId()
         {
+            //TODO random not static
             var Id = 1;
             return Id;
         }

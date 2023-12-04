@@ -35,6 +35,14 @@
             Experience:
                 <input asp-for="@Model.user.Experience" class="form-control" />
                 <span asp-validation-for="@Model.user.Experience" class="text-danger"></span>
+        </div>
+            <div class="mb-3">
+                Role:
+                <select asp-for="@Model.NewRole.Id" asp-items="@(new SelectList(Model.Roles, "Id", "Name"))" class="form-control">
+                    <option value="">@Model.CurrentRole</option>
+                </select>
+                <span asp-validation-for="@Model.NewRole.Id" class="text-danger"></span>
+            </div>
         <button type="submit" class="btn btn-primary" style="width:150px;">Update</button>
         <a asp-page="ViewUser" class="btn btn-secondary" style="width:150px;">Back to list</a>
     </div>

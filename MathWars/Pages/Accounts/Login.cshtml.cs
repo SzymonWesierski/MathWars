@@ -25,7 +25,9 @@ namespace MathWars.Pages.Accounts
         {
             if (ModelState.IsValid)
             {
-                var identityResult = await signInManager.PasswordSignInAsync(loginModel.UserName, loginModel.Password, loginModel.RememberMe, false);
+                var identityResult = await signInManager
+                    .PasswordSignInAsync(loginModel.UserName, loginModel.Password, loginModel.RememberMe, false);
+
                 if (identityResult.Succeeded)
                 {
                     if(returnUrl == null || returnUrl == "/")

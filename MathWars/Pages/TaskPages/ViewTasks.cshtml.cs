@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace MathWars.Pages.TaskPages;
-[Authorize]
+[Authorize(Roles = "taskManager, admin")]
 public class addTasksModel : PageModel
 {
     private readonly ILogger<IndexModel> _logger;

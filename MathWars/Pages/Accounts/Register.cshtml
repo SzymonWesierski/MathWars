@@ -1,9 +1,6 @@
 ﻿@page
 @model MathWars.Pages.Accounts.RegisterModel
 @{
-    @using Microsoft.AspNetCore.Identity
-    @using MathWars.Models;
-    @inject SignInManager<ApplicationUser> SignInManager
 }
 
 <div class="container mt-5">
@@ -36,12 +33,6 @@
                 <div class="mb-3">
                     <button type="submit" class="btn btn-primary">Register</button>
                 </div>
-                @{
-                    if (SignInManager.IsSignedIn(User))
-                    {
-                        <a asp-page="/Accounts/Users/ViewUser" class="btn btn-secondary" style="width:150px;">Back to list</a>
-                    }
-                }
             </form>
         </div>
     </div>

@@ -1,0 +1,27 @@
+﻿@page
+@using MathWars.Pages.TaskPages;
+@model EditRoleModel
+@{
+}
+
+
+<div class="container">
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+
+            <h2 class="text-primary pl-3">Edit Role</h2>
+            <hr />
+        </div>
+        <div asp-validation-summary="All"></div>
+                <input asp-for="role.Id" hidden>
+        <div class="mb-3">
+            Role Name:
+            <input asp-for="@Model.role.Name" class="form-control" />
+                <span asp-validation-for="@Model.role.Name" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:150px;">Update</button>
+        
+    </div>
+</form>
+</div>

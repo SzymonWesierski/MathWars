@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 
 namespace MathWars.Pages.TaskPages;
-[Authorize]
+[Authorize(Roles = "taskManager, admin")]
 [BindProperties]
 public class CreateTaskModel : PageModel
 {
