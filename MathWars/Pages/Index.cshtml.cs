@@ -58,11 +58,19 @@ namespace MathWars.Pages
         {
             if (category != null)
             {
-				int.TryParse(difficultyLevel, out int difficulty);
-				return _db.Tasks.Where(t => t.Category.CategoryName == category.CategoryName && t.difficultyLevel == difficulty).ToList();
-			}
-			return null;
-		}
+                int.TryParse(difficultyLevel, out int difficulty);
+
+                var filteredTasks = _db.Tasks
+                    .Where(t =>
+                        t.TasksAndCategories.Any(tc => tc.TaskCategory.CategoryName == category.CategoryName) &&
+                        t.difficultyLevel == difficulty)
+                    .ToList();
+
+                return filteredTasks;
+            }
+
+            return null;
+        }
         private int RandomCategoryId()
         {
             //TODO random not static

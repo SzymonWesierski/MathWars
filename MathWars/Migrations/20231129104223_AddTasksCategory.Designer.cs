@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MathWars.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231129104223_TasksCategory")]
-    partial class TasksCategory
+    [Migration("20231129104223_AddTasksCategory")]
+    partial class AddTasksCategory
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

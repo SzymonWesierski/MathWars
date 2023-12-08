@@ -5,31 +5,31 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 
-namespace MathWars.Pages.TaskPages.Category;
+namespace MathWars.Pages.TaskPages.TypeOfAnswer;
 [Authorize]
 [BindProperties]
-public class DeleteTaskCategoryModel : PageModel
+public class DeleteAnswerTypeModel : PageModel
 {
     private readonly ApplicationDbContext _db;
-    public TasksCategory category { get; set; }
+    public AnswerTypes AnswerType { get; set; }
 
-    public DeleteTaskCategoryModel(ApplicationDbContext db)
+    public DeleteAnswerTypeModel(ApplicationDbContext db)
     {
         _db = db;
     }
     public void OnGet(int id)
     {
-        category = _db.TasksCategory.Find(id);
+        AnswerType = _db.AnswerTypes.Find(id);
     }
 
     public async Task<IActionResult> OnPost()
     {
-        var categoryFromDb = _db.TasksCategory.Find(category.Id);
-        if (categoryFromDb != null)
+        var answerTypeFromDb = _db.AnswerTypes.Find(AnswerType.Id);
+        if (answerTypeFromDb != null)
         {
-            _db.TasksCategory.Remove(categoryFromDb);
+            _db.AnswerTypes.Remove(answerTypeFromDb);
             await _db.SaveChangesAsync();
-            return RedirectToPage("ViewTasksCategory");
+            return RedirectToPage("ViewAnswerType");
         }
         return Page();
 

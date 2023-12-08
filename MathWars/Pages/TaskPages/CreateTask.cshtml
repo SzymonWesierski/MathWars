@@ -5,42 +5,59 @@
 
 
 <div class="container">
-<form method="post">
-    <div class="border p-3 mt-4">
-        <div class="row pb-2">
-            <h2 class="text-primary pl-3">Create Task</h2>
-            <hr />
-        </div>
-        <div asp-validation-summary="All"></div>
-        <div class="mb-3">
-            Title:
-            <input asp-for="@Model.Task.Title" class="form-control" />
-            <span asp-validation-for="@Model.Task.Title" class="text-danger"></span>
-        </div>
-        <div class="mb-3">
-            Content:
-                <input asp-for="@Model.Task.Content" class="form-control" />
-            <span asp-validation-for="@Model.Task.Content" class="text-danger"></span>
-        </div>
-            <div class="mb-3">
-                Category:
-                <select asp-for="@Model.Task.CategoryId" asp-items="@(new SelectList(Model.categorys, "Id", "CategoryName"))" class="form-control">
-                    <option value="">-- Select Category --</option>
-                </select>
-                <span asp-validation-for="@Model.Task.CategoryId" class="text-danger"></span>
+    <form method="post" enctype="multipart/form-data">
+        <div class="border p-3 mt-4">
+            <div class="row pb-2">
+                <h2 class="text-primary pl-3">Create Task</h2>
+                <hr />
             </div>
-        <div class="mb-3">
-            Difficulty level:
-                <input asp-for="@Model.Task.difficultyLevel" class="form-control" />
-            <span asp-validation-for="@Model.Task.difficultyLevel" class="text-danger"></span>
+            <div asp-validation-summary="All"></div>
+            <div class="mb-3">
+                Title:
+                <input asp-for="@Model.Task.Title" class="form-control" />
+                <span asp-validation-for="@Model.Task.Title" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                Content:
+                    <input asp-for="@Model.Task.Content" class="form-control" />
+                <span asp-validation-for="@Model.Task.Content" class="text-danger"></span>
+            </div>
+                <div class="mb-3">
+                    Choose an image, if necessary:
+                    <input type="file" accept="image/*" asp-for="@Model.ImageFile" class="form-control" />
+               
+                </div>
+                <div class="mb-3">
+                    Category:
+                    <div class="form-control">
+                        @foreach (var category in Model.categorys)
+                        {
+                            <div class="form-check">
+                                <input type="checkbox" id="category_@category.Id" name="SelectedCategoryIds" value="@category.Id" class="form-check-input" />
+                                <label for="category_@category.Id" class="form-check-label">@category.CategoryName</label>
+                            </div>
+                        }
+                    </div>
+                    <span asp-validation-for="SelectedCategoryIds" class="text-danger"></span>
+                </div>
+            <div class="mb-3">
+                Difficulty level:
+                    <input asp-for="@Model.Task.difficultyLevel" class="form-control" />
+                <span asp-validation-for="@Model.Task.difficultyLevel" class="text-danger"></span>
+            </div>
+                <div class="mb-3">
+                    Answer Type:
+                    <select asp-for="@Model.Task.AnswerTypeId" asp-items="@(new SelectList(Model.AnswersTypesList, "Id", "Name"))" class="form-control">
+                    </select>
+                    <span asp-validation-for="@Model.Task.AnswerTypeId" class="text-danger"></span>
+                </div>
+            <div class="mb-3">
+                Correct Answer:
+                <input asp-for="@Model.Task.Answer" class="form-control" />
+                <span asp-validation-for="@Model.Task.Answer" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:150px;">Create</button>
+            <a asp-page="ViewTasks" class="btn btn-secondary" style="width:150px;">Back to list</a>
         </div>
-        <div class="mb-3">
-            Correct Answer:
-            <input asp-for="@Model.Task.Answer" class="form-control" />
-            <span asp-validation-for="@Model.Task.Answer" class="text-danger"></span>
-        </div>
-        <button type="submit" class="btn btn-primary" style="width:150px;">Create</button>
-        <a asp-page="ViewTasks" class="btn btn-secondary" style="width:150px;">Back to list</a>
-    </div>
-</form>
+    </form>
 </div>

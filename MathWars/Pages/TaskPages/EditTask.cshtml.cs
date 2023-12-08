@@ -1,8 +1,12 @@
 using MathWars.Data;
 using MathWars.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Web.Virtualization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 
 namespace MathWars.Pages.TaskPages;
@@ -11,67 +15,127 @@ namespace MathWars.Pages.TaskPages;
 public class EditTaskModel : PageModel
 {
     private readonly ApplicationDbContext _db;
-    public Tasks Task { get; set; }
-    public IEnumerable<TasksCategory> categorys { get; set; }
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IConfiguration _configuration;
+    public Tasks? Task { get; set; }
+    public IFormFile? ImageFile { get; set; }
+    public IEnumerable<TasksCategory> Categories { get; set; }
+    public IEnumerable<AnswerTypes> AnswerTypesList { get; set; }
+    public List<int> SelectedCategoryIds { get; set; }
+    public AnswerTypes TaskAnswerTypes { get; set; }
 
-    public EditTaskModel(ApplicationDbContext db)
+    public EditTaskModel(ApplicationDbContext db, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
     {
         _db = db;
+        _webHostEnvironment = webHostEnvironment;
+        _configuration = configuration;
     }
-    public void OnGet(int id)
+    public async Task<IActionResult> OnGetAsync(int? id)
     {
-        Task = _db.Tasks.Find(id);
-        Task.Category = _db.TasksCategory.Find(Task.CategoryId);
-        categorys = _db.TasksCategory;
-    }
-
-    public async Task<IActionResult> OnPost()
-    {
-        var id = Task.CategoryId;
-        var category = _db.TasksCategory.Find(id);
-
-        if (category == null)
+        if (id == null)
         {
-            categorys = _db.TasksCategory;
+            return NotFound();
         }
-        else
-        {
-            Task.Category = category;
 
-            if (TaskValidation())
-            {
-                _db.Tasks.Update(Task);
-                await _db.SaveChangesAsync();
-                return RedirectToPage("ViewTasks");
-            }
+        Task = await _db.Tasks
+            .Include(t => t.AnswerType)
+            .Include(t => t.TasksAndCategories)
+            .ThenInclude(tc => tc.TaskCategory)
+            .FirstOrDefaultAsync(m => m.Id == id);
+
+        Categories = await _db.TasksCategory.ToListAsync();
+        AnswerTypesList = await _db.AnswerTypes.ToListAsync();
+
+        if (Task == null)
+        {
+            return NotFound();
         }
 
         return Page();
     }
 
-    private bool TaskValidation()
+    public async Task<IActionResult> OnPost()
     {
-        bool result = true;
-        if (Task.difficultyLevel == 0)
+        //TODO delete \/
+        ModelState.Clear();
+        if (!ModelState.IsValid)
         {
-            ModelState.AddModelError(string.Empty, "Difficulty level field cannot be empty");
-            result = false;
+            // If the model state is not valid, return the page with validation errors.
+            Categories = await _db.TasksCategory.ToListAsync();
+            AnswerTypesList = await _db.AnswerTypes.ToListAsync();
+            return Page();
         }
-        if (string.IsNullOrEmpty(Task.Title))
+
+        // Load the existing task with its current relationships
+        var existingTask = await _db.Tasks
+            .Include(t => t.TasksAndCategories)
+            .FirstOrDefaultAsync(t => t.Id == Task.Id);
+
+        // Update the task
+        var pathToExistingTaskOldImage = existingTask.ImagePath;
+        _db.Entry(existingTask).CurrentValues.SetValues(Task);
+
+        // Get the existing category ids
+        var existingCategoryIds = existingTask.TasksAndCategories.Select(tc => tc.TaskCategoryId).ToList();
+
+        // Find the category ids to be removed
+        var categoriesToRemove = existingCategoryIds.Except(SelectedCategoryIds).ToList();
+
+        // Remove relationships that are no longer selected
+        foreach (var categoryId in categoriesToRemove)
         {
-            ModelState.AddModelError(string.Empty, "Title field cannot be empty");
-            result = false;
+            var relationshipToRemove = existingTask.TasksAndCategories.FirstOrDefault(tc => tc.TaskCategoryId == categoryId);
+            if (relationshipToRemove != null)
+            {
+                existingTask.TasksAndCategories.Remove(relationshipToRemove);
+            }
         }
-        if (Task.Content == null)
+
+        // Add new relationships
+        var categoriesToAdd = SelectedCategoryIds.Except(existingCategoryIds).ToList();
+        foreach (var categoryId in categoriesToAdd)
         {
-            ModelState.AddModelError(string.Empty, "Content field cannot be empty");
-            result = false;
+            existingTask.TasksAndCategories.Add(new TasksAndCategories { TaskId = Task.Id, TaskCategoryId = categoryId });
         }
-        if (Task.Category == null)
+
+        // Handle image upload
+        if (ImageFile != null && ImageFile.Length > 0)
         {
-            ModelState.AddModelError(string.Empty, "Category field cannot be empty");
-            result = false;
+            // generating new uniqe file name 
+            var uniqueFileName = Guid.NewGuid().ToString() + "_" + ImageFile.FileName;
+
+            var appDirectory = _webHostEnvironment.WebRootPath;
+
+            var imageDirectory = _configuration.GetSection("ImagesDirectorys").GetValue<string>("forTasks");
+
+            // Save image on server
+            var filePath = Path.Combine(imageDirectory, uniqueFileName);
+
+            var physicalFilePath = appDirectory + filePath;
+
+            using (var fileStream = new FileStream(physicalFilePath, FileMode.Create))
+            {
+                ImageFile.CopyTo(fileStream);
+            }
+            existingTask.ImagePath = filePath;
         }
-        return result;
+
+        //Remove old Image related to Task
+        if (!string.IsNullOrEmpty(pathToExistingTaskOldImage))
+        {
+            var pathToDeleteImage = _webHostEnvironment.WebRootPath + pathToExistingTaskOldImage;
+            if (System.IO.File.Exists(pathToDeleteImage))
+            {
+                System.IO.File.Delete(pathToDeleteImage);
+            }
+        }
+        
+
+        // Save changes to the database
+        await _db.SaveChangesAsync();
+
+        return RedirectToPage("ViewTasks");
+
     }
+
 }

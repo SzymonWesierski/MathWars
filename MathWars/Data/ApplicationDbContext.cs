@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using System.Linq;
 using System.Reflection.Metadata;
 
@@ -17,6 +18,8 @@ namespace MathWars.Data
         public DbSet<Tasks> Tasks { get; set; }
         public DbSet<Answers> Answers { get; set; }
         public DbSet<TasksCategory> TasksCategory { get; set; }
+        public DbSet<AnswerTypes> AnswerTypes { get; set; }
+        public DbSet<TasksAndCategories> TasksAndCategories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,10 +35,15 @@ namespace MathWars.Data
                 .WithMany(t => t.Answers)
                 .HasForeignKey(a => a.TaskId);
 
-            modelBuilder.Entity<Tasks>()
-                .HasOne(e => e.Category)
+			modelBuilder.Entity<Tasks>()
+		        .HasMany(e => e.Category)
+		        .WithMany(e => e.Tasks)
+		        .UsingEntity<TasksAndCategories>();
+
+			modelBuilder.Entity<Tasks>()
+                .HasOne(e => e.AnswerType)
                 .WithMany(e => e.Tasks)
-                .HasForeignKey(e => e.CategoryId)
+                .HasForeignKey(e => e.AnswerTypeId)
                 .IsRequired();
         }   
     }

@@ -9,5 +9,9 @@ public class TasksCategory
     public int Id { get; set; }
     [Required]
     public string CategoryName { get; set; }
-    public ICollection<Tasks> Tasks { get; set; } = new List<Tasks>();
+    public DateTime Created { get; set; } = DateTime.Now;
+
+	// Foreign Key to Tasks
+	public List<TasksAndCategories> TasksAndCategories { get; set; } = new();
+	public List<Tasks> Tasks { get; set; } = new();
 }

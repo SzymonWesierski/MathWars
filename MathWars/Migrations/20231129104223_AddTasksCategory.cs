@@ -5,7 +5,7 @@
 namespace MathWars.Migrations
 {
     /// <inheritdoc />
-    public partial class TasksCategory : Migration
+    public partial class AddTasksCategory : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 
-namespace MathWars.Pages.TaskPages;
+namespace MathWars.Pages.TaskPages.Category;
 [Authorize]
 [BindProperties]
 public class EditTaskCategoryModel : PageModel

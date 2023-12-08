@@ -1,5 +1,5 @@
 ﻿@page
-@model UserAnswersModel
+@model IndexProfileModel
 @{
 }
 
@@ -37,6 +37,7 @@
                             <th>Content</th>
                             <th>Difficulty Level</th>
                             <th>Answer</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,8 +46,15 @@
                             <tr>
                                 <td width="25%">@obj.Task.Title</td>
                                 <td width="35%">@obj.Task.Content</td>
-                                <td width="20%">@obj.Task.difficultyLevel</td>
+                                <td width="10%">@obj.Task.difficultyLevel</td>
                                 <td width="20%">@obj.Task.Answer</td>
+                                <td width="10%">
+                                    <div>
+                                        <a asp-page="AnswerView" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
+                                            <i class="bi bi-three-dots"></i>
+                                        </a>
+                                    </div>
+                                </td>
                             </tr>
                         }
                     </tbody>

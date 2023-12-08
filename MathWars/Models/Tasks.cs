@@ -11,15 +11,25 @@ public class Tasks
     public string Title { get; set; }
     [Required]
     public string Content { get; set; }
+
+    [AllowNull]
+    public string? ImagePath { get; set; } = string.Empty;
     [Required]
-    public double Answer { get; set; }
+    public string Answer { get; set; }
+
+	// Foreign Key to AnswerTypes
+	[Required]
+    public int AnswerTypeId { get; set; }
+    public AnswerTypes AnswerType { get; set; }
+
     public DateTime Created { get; set; } = DateTime.Now;
 
     // Foreign Key to TasksCategory
-    public int CategoryId { get; set; }
-    public TasksCategory Category { get; set; } = null!;
+    public List<TasksAndCategories> TasksAndCategories { get; set; } = new();
+    public List<TasksCategory> Category { get; set; } =  new();
 
     [Required]
+    [Range(1, 6, ErrorMessage = "Please enter a valid number (1-6).")]
     public int difficultyLevel { get; set; }
     [AllowNull]
     public ICollection<Answers> Answers { get; set; } = new List<Answers>();

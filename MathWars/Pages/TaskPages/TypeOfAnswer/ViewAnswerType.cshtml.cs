@@ -4,15 +4,15 @@ using MathWars.Data;
 using MathWars.Models;
 using Microsoft.AspNetCore.Authorization;
 
-namespace MathWars.Pages.TaskPages.Category;
+namespace MathWars.Pages.TaskPages.TypeOfAnswer;
 [Authorize]
-public class ViewTasksCategoryModel : PageModel
+public class ViewAnswerTypeModel : PageModel
 {
     private readonly ILogger<IndexModel> _logger;
     private readonly ApplicationDbContext _db;
-    public IEnumerable<TasksCategory> categorys { get; set; }
+    public IEnumerable<AnswerTypes> AnswerType { get; set; }
 
-    public ViewTasksCategoryModel(ApplicationDbContext db, ILogger<IndexModel> logger)
+    public ViewAnswerTypeModel(ApplicationDbContext db, ILogger<IndexModel> logger)
     {
         _db = db;
         _logger = logger;
@@ -20,6 +20,6 @@ public class ViewTasksCategoryModel : PageModel
 
     public void OnGet()
     {
-        categorys = _db.TasksCategory;
+        AnswerType = _db.AnswerTypes;
     }
 }

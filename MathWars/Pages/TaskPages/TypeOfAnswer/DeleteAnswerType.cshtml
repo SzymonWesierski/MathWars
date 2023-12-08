@@ -1,0 +1,33 @@
+﻿@page
+@model DeleteAnswerTypeModel
+@{
+}
+
+<div class="container">
+<form method="post">
+        <input hidden asp-for="AnswerType.Id" />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary pl-3">Delete Task Category</h2>
+            <hr />
+        </div>
+            <div class="mb-3">
+                Name:
+                <input asp-for="@Model.AnswerType.Name" class="form-control" disabled/>
+                <span asp-validation-for="@Model.AnswerType.Name" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                FormatExplanation:
+                <input asp-for="@Model.AnswerType.FormatExplanation" class="form-control" disabled />
+                <span asp-validation-for="@Model.AnswerType.FormatExplanation" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                HowManyCorrectAnswers:
+                <input asp-for="@Model.AnswerType.HowManyCorrectAnswers" class="form-control" type="number" disabled />
+                <span asp-validation-for="@Model.AnswerType.HowManyCorrectAnswers" class="text-danger"></span>
+            </div>
+        <button type="submit" class="btn btn-primary" style="width:150px;">Delete</button>
+            <a asp-page="ViewAnswerType" class="btn btn-secondary" style="width:150px;">Back to list</a>
+    </div>
+</form>
+</div>

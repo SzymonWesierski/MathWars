@@ -1,5 +1,5 @@
 ﻿@page
-@model addTasksModel
+@model ViewTasksModel
 @{
 }
 
@@ -33,6 +33,9 @@
 					Difficulty Level
 				</th>
 				<th>
+					AnswerType
+				</th>
+				<th>
 					Answer
 				</th>
 				<th></th>
@@ -44,16 +47,26 @@
 				<tr>
 					<td width="20%">@obj.Title</td>
 					<td width="20%">@obj.Content</td>
-					<td width="20%">@obj.Category.CategoryName</td>
-					<td width="20%">@obj.difficultyLevel</td>
+					<td width="20%">
+						@foreach (var category in obj.TasksAndCategories.Select(tc => tc.TaskCategory))
+						{
+							@category.CategoryName
+							@if (category != obj.TasksAndCategories.Last().TaskCategory)
+							{
+								<span>, </span>
+							}
+						}
+					</td>
+					<td width="10%">@obj.difficultyLevel</td>
+					<td width="10%">@obj.AnswerType.Name</td>
 					<td width="20%">@obj.Answer</td>
 					<td>
 						<div class="w-75 btn-group" role="group">
 						<a asp-page="EditTask" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
-							<i class="bi bi-pencil-square"></i> Edit
+							<i class="bi bi-pencil-square"></i>
 						</a>
 						<a asp-page="DeleteTask" asp-route-id="@obj.Id"  class="btn btn-danger mx-2">
-							<i class="bi bi-trash-fill"></i> Delete
+							<i class="bi bi-trash-fill"></i>
 						</a>
 						</div>
 					</td>

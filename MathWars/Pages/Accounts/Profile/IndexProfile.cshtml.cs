@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace MathWars.Pages
 {
     [Authorize]
-    public class UserAnswersModel : PageModel
+    public class IndexProfileModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly ApplicationDbContext _db;
@@ -23,7 +23,7 @@ namespace MathWars.Pages
 		[BindProperty]
 		public IEnumerable<Answers> answers { get; set; }
 
-        public UserAnswersModel(ApplicationDbContext db, ILogger<IndexModel> logger, UserManager<ApplicationUser> userManager)
+        public IndexProfileModel(ApplicationDbContext db, ILogger<IndexModel> logger, UserManager<ApplicationUser> userManager)
         {
             _db = db;
             _logger = logger;

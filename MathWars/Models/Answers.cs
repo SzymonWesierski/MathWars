@@ -8,7 +8,7 @@ public class Answers
 {
     [Key]
     public int Id { get; set; }
-
+    public DateTime Created { get; set; } = DateTime.Now;
     // Foreign Key to Users
     public string UserId { get; set; }
     public ApplicationUser User { get; set; }
@@ -19,6 +19,6 @@ public class Answers
 
     [Required]
     [Range(double.MinValue, double.MaxValue, ErrorMessage = "Please enter a valid number.")]
-    public double Answer { get; set; }
+    public string Answer { get; set; }
     public DateTime SubmissionDate { get; set; } = DateTime.Now;
 }

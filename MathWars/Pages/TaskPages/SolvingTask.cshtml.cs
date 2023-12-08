@@ -9,6 +9,7 @@ using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace MathWars.Pages.TaskPages;
 [Authorize]
@@ -16,45 +17,42 @@ namespace MathWars.Pages.TaskPages;
 public class SolvingTaskModel : PageModel
 {
     private readonly ApplicationDbContext _db;
-    public Tasks Task { get; set; }
+    public Tasks? Task { get; set; }
     public Answers Answer { get; set; }
     private readonly UserManager<ApplicationUser> _userManager;
 	private readonly IConfiguration _configuration;
 
-	public SolvingTaskModel(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IConfiguration configuration)
+
+    public SolvingTaskModel(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IConfiguration configuration)
     {
         _db = db;
         _userManager = userManager;
 		_configuration = configuration;
 	}
-    public void OnGet(int id)
+    public async Task<IActionResult> OnGetAsync(int? id)
     {
-        Task = _db.Tasks.Find(id);
-		// Setup data in session
-		HttpContext.Session.SetString("TaskTitle", Task.Title);
-        HttpContext.Session.SetString("TaskContent", Task.Content);
-		HttpContext.Session.SetString("TaskCategoryId", Convert.ToString(Task.CategoryId));
-        HttpContext.Session.SetInt32("TaskDifficultyLevel", Task.difficultyLevel);
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        Task = await _db.Tasks
+            .Include(t => t.AnswerType)
+            .FirstOrDefaultAsync(m => m.Id == id);
+
+        if (Task == null)
+        {
+            return NotFound();
+        }
+
+        return Page();
     }
 
     public async Task<IActionResult> OnPost()
     {
-        // Read data from session
-        var taskTitle = HttpContext.Session.GetString("TaskTitle");
-        var taskContent = HttpContext.Session.GetString("TaskContent");
-        var taskCategoryId = int.Parse(HttpContext.Session.GetString("TaskCategoryId"));
-        var taskDifficultyLevel = HttpContext.Session.GetInt32("TaskDifficultyLevel") ?? 0;
+        var task = _db.Tasks.Find(Task.Id);
 
-        Task.Title = taskTitle;
-        Task.Content = taskContent;
-        Task.Created = Task.Created;
-        Task.CategoryId = taskCategoryId;
-        Task.Category = _db.TasksCategory.Find(taskCategoryId);
-        Task.difficultyLevel = taskDifficultyLevel;
-
-        ModelState.Clear();
-
-		if (Answer.Answer == Task.Answer)
+        if (Answer.Answer == task.Answer)
         {
             // Get the currently logged-in user
             var user = await _userManager.GetUserAsync(User);
@@ -63,12 +61,12 @@ public class SolvingTaskModel : PageModel
             {
                 UserId = user.Id,
                 User = user,
-                Task = Task,
-                TaskId = Task.Id,
+                Task = task,
+                TaskId = task.Id,
                 Answer = Answer.Answer,
             };
 
-            Task.Answers.Add(answ);
+            task.Answers.Add(answ);
             
             //User LVL and EXP
             user = GetHowManyExperienceReached(user);   

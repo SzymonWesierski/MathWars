@@ -5,15 +5,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 
-namespace MathWars.Pages.TaskPages.Category;
+namespace MathWars.Pages.TaskPages.TypeOfAnswer;
 [Authorize]
 [BindProperties]
-public class CreateTaskCategoryModel : PageModel
+public class CreateAnswerTypeModel : PageModel
 {
     private readonly ApplicationDbContext _db;
-    public TasksCategory category { get; set; }
+    public AnswerTypes AnswerType { get; set; }
 
-    public CreateTaskCategoryModel(ApplicationDbContext db)
+    public CreateAnswerTypeModel(ApplicationDbContext db)
     {
         _db = db;
     }
@@ -25,9 +25,9 @@ public class CreateTaskCategoryModel : PageModel
     {
         if (TaskCategoryValidation())
         {
-            await _db.TasksCategory.AddAsync(category);
+            await _db.AnswerTypes.AddAsync(AnswerType);
             await _db.SaveChangesAsync();
-            return RedirectToPage("ViewTasksCategory");
+            return RedirectToPage("ViewAnswerType");
         }
         return Page();
     }
