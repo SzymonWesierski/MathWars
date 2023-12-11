@@ -13,9 +13,9 @@
 			</div>
 			<div class="mb-3">
                 Category:
-				<select asp-for="@Model.category.Id" asp-items="@(new SelectList(Model.categorys, "Id", "CategoryName"))" class="form-control">
+				<select asp-for="@Model.Category.Id" asp-items="@(new SelectList(Model.Categories, "Id", "CategoryName"))" class="form-control">
                 </select>
-				<span asp-validation-for="@Model.category.Id" class="text-danger"></span>
+				<span asp-validation-for="@Model.Category.Id" class="text-danger"></span>
             </div>
 			<div class="mb-3">
 				Difficulty level:
@@ -24,7 +24,7 @@
 			<button type="submit" class="btn btn-primary" style="width:150px;">Filtr</button>
 		</div>
 	</form>
-<div>
+</div>
 
 
 <div class="container p-3">
@@ -51,9 +51,9 @@
 			</tr>
 		</thead>
 		<tbody>
-			@if (Model.tasks != null)
+			@if (Model.TasksList != null)
 			{
-				@foreach (var obj in Model.tasks)
+				@foreach (var obj in Model.TasksList)
 				{
 					<tr>
 						<td width="40%">@obj.Title</td>

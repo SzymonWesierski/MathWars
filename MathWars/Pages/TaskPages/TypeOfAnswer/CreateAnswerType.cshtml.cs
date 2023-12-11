@@ -16,6 +16,7 @@ public class CreateAnswerTypeModel : PageModel
     public CreateAnswerTypeModel(ApplicationDbContext db)
     {
         _db = db;
+        AnswerType = new AnswerTypes();
     }
     public void OnGet()
     {
@@ -23,7 +24,12 @@ public class CreateAnswerTypeModel : PageModel
 
     public async Task<IActionResult> OnPost()
     {
-        if (TaskCategoryValidation())
+        if (AnswerType == null) 
+        {
+            return NotFound();
+        }
+
+        if (ModelState.IsValid && TaskCategoryValidation(AnswerType))
         {
             await _db.AnswerTypes.AddAsync(AnswerType);
             await _db.SaveChangesAsync();
@@ -32,10 +38,26 @@ public class CreateAnswerTypeModel : PageModel
         return Page();
     }
 
-    private bool TaskCategoryValidation()
+    private bool TaskCategoryValidation(AnswerTypes AnswerType)
     {
         bool result = true;
-        // Add validation
+
+        if (AnswerType.Name == null)
+        {
+            ModelState.AddModelError("AnswerType.Name", "Pole nazwy jest wymagane");
+            result = false;
+        }
+        if (AnswerType.FormatExplanation == null)
+        {
+            ModelState.AddModelError("AnswerType.FormatExplanation", "Pole wyjaœnienia typu odpowiedzi jest wymagane");
+            result = false;
+        }
+        if (AnswerType.HowManyCorrectAnswers == 0)
+        {
+            ModelState.AddModelError("AnswerType.HowManyCorrectAnswers", "Pole iloœci prawid³owych odpowiedzi musi wynosiæ wiêcej ni¿ 0");
+            result = false;
+        }
+
         return result;
     }
 }

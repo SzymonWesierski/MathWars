@@ -11,11 +11,12 @@ namespace MathWars.Pages.TaskPages.Category;
 public class CreateTaskCategoryModel : PageModel
 {
     private readonly ApplicationDbContext _db;
-    public TasksCategory category { get; set; }
+    public TasksCategory Category { get; set; }
 
     public CreateTaskCategoryModel(ApplicationDbContext db)
     {
         _db = db;
+        Category = new TasksCategory();
     }
     public void OnGet()
     {
@@ -23,19 +24,12 @@ public class CreateTaskCategoryModel : PageModel
 
     public async Task<IActionResult> OnPost()
     {
-        if (TaskCategoryValidation())
+        if (ModelState.IsValid)
         {
-            await _db.TasksCategory.AddAsync(category);
+            await _db.TasksCategory.AddAsync(Category);
             await _db.SaveChangesAsync();
             return RedirectToPage("ViewTasksCategory");
         }
         return Page();
-    }
-
-    private bool TaskCategoryValidation()
-    {
-        bool result = true;
-        // Add validation
-        return result;
     }
 }

@@ -30,10 +30,20 @@ namespace MathWars.Pages
             _userManager = userManager;
         }
 
-        public async Task OnGet()
+        public async Task<IActionResult> OnGet()
         {
-            currentUser = await _userManager.GetUserAsync(User);
-			answers = _db.Answers.Include(a => a.Task).Where(a => a.UserId == currentUser.Id).ToList();
+            currentUser = await _userManager.GetUserAsync(User) ?? new ApplicationUser();
+
+            if(currentUser == null)
+            {
+                return NotFound();
+            }
+
+			answers = _db.Answers
+                .Include(a => a.Task).Where(a => a.UserId == currentUser.Id)
+                .ToList();
+
+            return Page();
 		}
     }
 }

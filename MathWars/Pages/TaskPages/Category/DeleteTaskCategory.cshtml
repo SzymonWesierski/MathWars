@@ -5,7 +5,7 @@
 
 <div class="container">
 <form method="post">
-        <input hidden asp-for="category.Id" />
+        <input hidden asp-for="Category.Id" />
     <div class="border p-3 mt-4">
         <div class="row pb-2">
             <h2 class="text-primary pl-3">Delete Task Category</h2>
@@ -13,8 +13,8 @@
         </div>
         <div class="mb-3">
             Name:
-                <input asp-for="@Model.category.CategoryName" class="form-control" readonly />
-                <span asp-validation-for="@Model.category.CategoryName" disabled class="text-danger"></span>
+                <input asp-for="@Model.Category.CategoryName" class="form-control" readonly />
+                <span asp-validation-for="@Model.Category.CategoryName" disabled class="text-danger"></span>
         </div>
         <button type="submit" class="btn btn-primary" style="width:150px;">Delete</button>
         <a asp-page="ViewTasksCategory" class="btn btn-secondary" style="width:150px;">Back to list</a>

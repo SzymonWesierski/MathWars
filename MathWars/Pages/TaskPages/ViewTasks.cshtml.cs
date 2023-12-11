@@ -9,14 +9,12 @@ namespace MathWars.Pages.TaskPages;
 [Authorize(Roles = "taskManager, admin")]
 public class ViewTasksModel : PageModel
 {
-    private readonly ILogger<IndexModel> _logger;
     private readonly ApplicationDbContext _db;
-    public IEnumerable<Tasks> Tasks { get; set; }
+    public IEnumerable<Tasks> Tasks { get; set; } = Enumerable.Empty<Tasks>();
 
-    public ViewTasksModel(ApplicationDbContext db, ILogger<IndexModel> logger)
+    public ViewTasksModel(ApplicationDbContext db)
     {
         _db = db;
-        _logger = logger;
     }
 
     public void OnGet()
@@ -25,6 +23,6 @@ public class ViewTasksModel : PageModel
             .Include(t => t.TasksAndCategories)
                 .ThenInclude(tc => tc.TaskCategory)
             .Include(a => a.AnswerType)
-            .ToList();
+            .ToList() ?? Enumerable.Empty<Tasks>();
     }
 }

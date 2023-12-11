@@ -17,8 +17,8 @@ namespace MathWars.Pages.TaskPages;
 public class SolvingTaskModel : PageModel
 {
     private readonly ApplicationDbContext _db;
-    public Tasks? Task { get; set; }
-    public Answers Answer { get; set; }
+    public Tasks Task { get; set; } = new Tasks();
+    public Answers Answer { get; set; } = new Answers();
     private readonly UserManager<ApplicationUser> _userManager;
 	private readonly IConfiguration _configuration;
 
@@ -38,7 +38,7 @@ public class SolvingTaskModel : PageModel
 
         Task = await _db.Tasks
             .Include(t => t.AnswerType)
-            .FirstOrDefaultAsync(m => m.Id == id);
+            .FirstOrDefaultAsync(m => m.Id == id) ?? new Tasks();
 
         if (Task == null)
         {
@@ -50,41 +50,66 @@ public class SolvingTaskModel : PageModel
 
     public async Task<IActionResult> OnPost()
     {
-        var task = _db.Tasks.Find(Task.Id);
-
-        if (Answer.Answer == task.Answer)
+        try
         {
-            // Get the currently logged-in user
-            var user = await _userManager.GetUserAsync(User);
-
-            var answ = new Answers()
+            if (Task == null)
             {
-                UserId = user.Id,
-                User = user,
-                Task = task,
-                TaskId = task.Id,
-                Answer = Answer.Answer,
-            };
+                return NotFound();
+            }
 
-            task.Answers.Add(answ);
-            
-            //User LVL and EXP
-            user = GetHowManyExperienceReached(user);   
-			user = GetHowManyLevelsReached(user);
+            int Id = Task.Id;
 
-            await _db.Answers.AddAsync(answ);
-            _db.Tasks.Update(Task);
-            _db.Users.Update(user);
-            await _db.SaveChangesAsync();
+            if (Id == 0)
+            {
+                return NotFound();
+            }
 
+            Task = await _db.Tasks
+                .Include(t => t.AnswerType)
+                .FirstOrDefaultAsync(m => m.Id == Id) ?? new Tasks();
 
-            ModelState.AddModelError(string.Empty, "Correct answer : )");
+            if (Task == null)
+            {
+                return NotFound();
+            }
 
-			return Page();
-		}
-        else
+            if (Answer.Answer == Task.Answer)
+            {
+                // Get the currently logged-in user
+                var user = await _userManager.GetUserAsync(User) ?? new ApplicationUser();
+
+                var answ = new Answers()
+                {
+                    UserId = user.Id,
+                    User = user,
+                    Task = Task,
+                    TaskId = Task.Id,
+                    Answer = Answer.Answer,
+                };
+
+                Task.Answers.Add(answ);
+
+                // User LVL and EXP
+                user = GetHowManyExperienceReached(user);
+                user = GetHowManyLevelsReached(user);
+
+                await _db.Answers.AddAsync(answ);
+                await _db.SaveChangesAsync();
+
+                ModelState.AddModelError("Answer.Answer", "Correct answer : )");
+                
+                return Page();
+            }
+            else
+            {
+                ModelState.AddModelError("Answer.Answer", "Wrong answer :( ");
+                return Page();
+            }
+        }
+        catch (Exception ex)
         {
-			ModelState.AddModelError(string.Empty, "Wrong answer :( ");
+            // Handle the exception or log it
+            ModelState.AddModelError(string.Empty, $"An error occurred: {ex.Message}");
             return Page();
         }
     }

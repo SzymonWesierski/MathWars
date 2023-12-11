@@ -13,63 +13,63 @@ namespace MathWars.Pages
     [BindProperties]
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
         private readonly ApplicationDbContext _db;
-        public TasksCategory? category { get; set; }
-		public IEnumerable<TasksCategory>? categorys { get; set; }
-		public string? difficultyLevel;
+        public TasksCategory Category { get; set; } = new TasksCategory();
+		public IEnumerable<TasksCategory>? Categories { get; set; }
+		public string difficultyLevel = String.Empty;
         private readonly IConfiguration _configuration;
-        public IEnumerable<Tasks>? tasks { get; set; } = Enumerable.Empty<Tasks>();
+        public IEnumerable<Tasks> TasksList { get; set; } = Enumerable.Empty<Tasks>();
         
 
-        public IndexModel(ApplicationDbContext db, ILogger<IndexModel> logger, IConfiguration configuration)
+        public IndexModel(ApplicationDbContext db, IConfiguration configuration)
         {
             _db = db;
-            _logger = logger;
             _configuration = configuration;
         }
 
         public void OnGet()
         {
-            categorys = GetCategorys();
+            Categories = GetCategorys();
 
-			category = _db.TasksCategory.Find(RandomCategoryId());
+			Category = _db.TasksCategory
+                .Find(RandomCategoryId()) ?? new TasksCategory();
 
             difficultyLevel = _configuration.GetSection("FiltrTaskIndexPage")
-                .GetValue<string>("DefaultDifficultyLevel");
+                .GetValue<string>("DefaultDifficultyLevel") ?? String.Empty;
 
-            tasks = taskQueryResult();
+            TasksList = taskQueryResult();
         }
 
         public IActionResult OnPost()
         {
-            categorys = GetCategorys();
+            Categories = GetCategorys();
 
-			category = _db.TasksCategory.Find(category.Id);
+			Category = _db.TasksCategory
+                .Find(Category.Id) ?? new TasksCategory();
 
 			difficultyLevel = Request.Form["difficultyLevel"].ToString();
 
-            tasks = taskQueryResult();
+            TasksList = taskQueryResult();
 
             return Page();
         }
 
         private IEnumerable<Tasks> taskQueryResult()
         {
-            if (category != null)
+            if (Category != null)
             {
                 int.TryParse(difficultyLevel, out int difficulty);
 
                 var filteredTasks = _db.Tasks
                     .Where(t =>
-                        t.TasksAndCategories.Any(tc => tc.TaskCategory.CategoryName == category.CategoryName) &&
+                        t.TasksAndCategories.Any(tc => tc.TaskCategory.CategoryName == Category.CategoryName) &&
                         t.difficultyLevel == difficulty)
                     .ToList();
 
                 return filteredTasks;
             }
 
-            return null;
+            return Enumerable.Empty<Tasks>();
         }
         private int RandomCategoryId()
         {

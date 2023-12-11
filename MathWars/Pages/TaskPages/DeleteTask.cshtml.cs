@@ -16,7 +16,7 @@ public class DeleteTaskModel : PageModel
 {
     private readonly ApplicationDbContext _db;
     private readonly IWebHostEnvironment _webHostEnvironment;
-    public Tasks? Task { get; set; }
+    public Tasks Task { get; set; } = new Tasks();
 
     public DeleteTaskModel(ApplicationDbContext db, IWebHostEnvironment webHostEnvironment)
     {
@@ -24,17 +24,29 @@ public class DeleteTaskModel : PageModel
         _webHostEnvironment = webHostEnvironment;
     }
 
-    public void OnGet(int id)
+    public async Task<IActionResult> OnGet(int id)
     {
-        Task = _db.Tasks
+        Task = await _db.Tasks
             .Include(t => t.TasksAndCategories)
             .ThenInclude(tc => tc.TaskCategory)
             .Include(at => at.AnswerType)
-            .FirstOrDefault(t => t.Id == id);
+            .FirstOrDefaultAsync(t => t.Id == id) ?? new Tasks();
+
+        if (Task == null)
+        {
+            return NotFound();
+        }
+
+        return Page();
     }
 
     public async Task<IActionResult> OnPost()
     {
+        if (Task == null)
+        {
+            return NotFound();
+        }
+
         var taskFromDb = await _db.Tasks
             .Include(t => t.TasksAndCategories)
             .FirstOrDefaultAsync(t => t.Id == Task.Id);

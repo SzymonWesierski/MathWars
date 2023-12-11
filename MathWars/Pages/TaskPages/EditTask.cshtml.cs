@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -17,12 +18,12 @@ public class EditTaskModel : PageModel
     private readonly ApplicationDbContext _db;
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly IConfiguration _configuration;
-    public Tasks? Task { get; set; }
+    public Tasks Task { get; set; } = new Tasks();
     public IFormFile? ImageFile { get; set; }
-    public IEnumerable<TasksCategory> Categories { get; set; }
-    public IEnumerable<AnswerTypes> AnswerTypesList { get; set; }
-    public List<int> SelectedCategoryIds { get; set; }
-    public AnswerTypes TaskAnswerTypes { get; set; }
+    public IEnumerable<TasksCategory> Categories { get; set; } = Enumerable.Empty<TasksCategory>();
+    public IEnumerable<AnswerTypes> AnswerTypesList { get; set; } = Enumerable.Empty<AnswerTypes>();
+    public List<int> SelectedCategoryIds { get; set; } = new List<int>();
+    public AnswerTypes TaskAnswerTypes { get; set; } = new AnswerTypes();
 
     public EditTaskModel(ApplicationDbContext db, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
     {
@@ -41,35 +42,55 @@ public class EditTaskModel : PageModel
             .Include(t => t.AnswerType)
             .Include(t => t.TasksAndCategories)
             .ThenInclude(tc => tc.TaskCategory)
-            .FirstOrDefaultAsync(m => m.Id == id);
-
-        Categories = await _db.TasksCategory.ToListAsync();
-        AnswerTypesList = await _db.AnswerTypes.ToListAsync();
+            .FirstOrDefaultAsync(m => m.Id == id) ?? new Tasks();
 
         if (Task == null)
         {
             return NotFound();
         }
 
+        Categories = await _db.TasksCategory.ToListAsync();
+        AnswerTypesList = await _db.AnswerTypes.ToListAsync();
+
+        
+
         return Page();
     }
 
     public async Task<IActionResult> OnPost()
     {
-        //TODO delete \/
-        ModelState.Clear();
+
         if (!ModelState.IsValid)
         {
-            // If the model state is not valid, return the page with validation errors.
             Categories = await _db.TasksCategory.ToListAsync();
             AnswerTypesList = await _db.AnswerTypes.ToListAsync();
+
+            var taskFromDb = await _db.Tasks
+            .Include(t => t.AnswerType)
+            .Include(t => t.TasksAndCategories)
+            .ThenInclude(tc => tc.TaskCategory)
+            .FirstOrDefaultAsync(m => m.Id == Task.Id);
+
+            if (taskFromDb == null)
+            {
+                return NotFound();
+            }
+
+            Task = taskFromDb;
+
             return Page();
         }
 
         // Load the existing task with its current relationships
         var existingTask = await _db.Tasks
+            .Include(t => t.AnswerType)
             .Include(t => t.TasksAndCategories)
             .FirstOrDefaultAsync(t => t.Id == Task.Id);
+
+        if (existingTask == null)
+        {
+            return NotFound();
+        }
 
         // Update the task
         var pathToExistingTaskOldImage = existingTask.ImagePath;
@@ -108,16 +129,25 @@ public class EditTaskModel : PageModel
 
             var imageDirectory = _configuration.GetSection("ImagesDirectorys").GetValue<string>("forTasks");
 
-            // Save image on server
-            var filePath = Path.Combine(imageDirectory, uniqueFileName);
-
-            var physicalFilePath = appDirectory + filePath;
-
-            using (var fileStream = new FileStream(physicalFilePath, FileMode.Create))
+            if (imageDirectory == null || uniqueFileName == null)
             {
-                ImageFile.CopyTo(fileStream);
+                // TODO logger should handle that error
+                ModelState.AddModelError("ImageFile", "B³¹d œcie¿ki");
+                return Page();
             }
-            existingTask.ImagePath = filePath;
+            else
+            {
+                // Save image on server
+                var filePath = Path.Combine(imageDirectory, uniqueFileName);
+
+                var physicalFilePath = appDirectory + filePath;
+
+                using (var fileStream = new FileStream(physicalFilePath, FileMode.Create))
+                {
+                    ImageFile.CopyTo(fileStream);
+                }
+                existingTask.ImagePath = filePath;
+            }
         }
 
         //Remove old Image related to Task
@@ -130,7 +160,6 @@ public class EditTaskModel : PageModel
             }
         }
         
-
         // Save changes to the database
         await _db.SaveChangesAsync();
 

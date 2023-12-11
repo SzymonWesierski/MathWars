@@ -3,6 +3,7 @@ using MathWars.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace MathWars.Pages.TaskPages.Category;
@@ -11,20 +12,34 @@ namespace MathWars.Pages.TaskPages.Category;
 public class DeleteTaskCategoryModel : PageModel
 {
     private readonly ApplicationDbContext _db;
-    public TasksCategory category { get; set; }
+    public TasksCategory Category { get; set; }
 
     public DeleteTaskCategoryModel(ApplicationDbContext db)
     {
         _db = db;
+        Category = new TasksCategory();
     }
-    public void OnGet(int id)
+    public async Task<IActionResult> OnGet(int id)
     {
-        category = _db.TasksCategory.Find(id);
+        Category = await _db.TasksCategory
+            .FirstOrDefaultAsync(c => c.Id == id) ?? new TasksCategory();
+
+        if(Category == null)
+        {
+            return NotFound();
+        }
+
+        return Page();
     }
 
     public async Task<IActionResult> OnPost()
     {
-        var categoryFromDb = _db.TasksCategory.Find(category.Id);
+        if (Category == null)
+        {
+            return NotFound();
+        }
+
+        var categoryFromDb = _db.TasksCategory.Find(Category.Id);
         if (categoryFromDb != null)
         {
             _db.TasksCategory.Remove(categoryFromDb);

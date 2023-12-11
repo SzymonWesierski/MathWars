@@ -11,7 +11,7 @@ namespace MathWars.Pages.Accounts
         private readonly SignInManager<ApplicationUser> signInManager;
 
         [BindProperty]
-        public Login loginModel { get; set; }
+        public Login loginModel { get; set; } = new Login();
 
         public LoginModel(SignInManager<ApplicationUser> signInManager) 
         { 

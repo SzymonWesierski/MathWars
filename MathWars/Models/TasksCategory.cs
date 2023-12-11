@@ -7,8 +7,8 @@ public class TasksCategory
 {
     [Key]
     public int Id { get; set; }
-    [Required]
-    public string CategoryName { get; set; }
+    [Required(ErrorMessage = "Musisz podać nazwę kategorii")]
+    public string CategoryName { get; set; } = string.Empty;
     public DateTime Created { get; set; } = DateTime.Now;
 
 	// Foreign Key to Tasks

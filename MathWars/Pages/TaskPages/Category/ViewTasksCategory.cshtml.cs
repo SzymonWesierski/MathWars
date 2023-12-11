@@ -8,18 +8,18 @@ namespace MathWars.Pages.TaskPages.Category;
 [Authorize]
 public class ViewTasksCategoryModel : PageModel
 {
-    private readonly ILogger<IndexModel> _logger;
     private readonly ApplicationDbContext _db;
-    public IEnumerable<TasksCategory> categorys { get; set; }
+    public IEnumerable<TasksCategory> Categories { get; set; }
 
-    public ViewTasksCategoryModel(ApplicationDbContext db, ILogger<IndexModel> logger)
+    public ViewTasksCategoryModel(ApplicationDbContext db)
     {
         _db = db;
-        _logger = logger;
+        Categories = new List<TasksCategory>();
     }
 
     public void OnGet()
     {
-        categorys = _db.TasksCategory;
+        Categories = _db.TasksCategory;
     }
+
 }

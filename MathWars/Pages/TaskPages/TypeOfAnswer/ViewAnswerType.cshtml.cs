@@ -8,14 +8,13 @@ namespace MathWars.Pages.TaskPages.TypeOfAnswer;
 [Authorize]
 public class ViewAnswerTypeModel : PageModel
 {
-    private readonly ILogger<IndexModel> _logger;
     private readonly ApplicationDbContext _db;
     public IEnumerable<AnswerTypes> AnswerType { get; set; }
 
-    public ViewAnswerTypeModel(ApplicationDbContext db, ILogger<IndexModel> logger)
+    public ViewAnswerTypeModel(ApplicationDbContext db)
     {
         _db = db;
-        _logger = logger;
+        AnswerType = new List<AnswerTypes>();
     }
 
     public void OnGet()

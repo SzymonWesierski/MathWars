@@ -20,7 +20,7 @@
         if (Model.Task.ImagePath != null)
         {
             <div class="mb-3">
-                <img src="@Url.Content(Model.Task.ImagePath)" alt="Optional Image for Task ">
+                <img src="@Url.Content(Model.Task.ImagePath)" alt="Optional Image for Task "/>
             </div>
         }
     }
@@ -32,23 +32,22 @@
         <button id="eraserBtn" class="btn btn-warning" style="width:100px;">Eraser</button>
         <button id="clearCanvasBtn" class="btn btn-danger" style="width:150px;">Clear Area</button>
     </div>
-    
-    
+        
+    <div class="mb-3">
     <form method="post">
-        <div asp-validation-summary="All"></div>
-
-        <div class="mb-3">
-            Answer (@Model.Task.AnswerType.FormatExplanation):
-            <input asp-for="@Model.Answer.Answer" class="form-control" />
-        </div>
+        <!--<div asp-validation-summary="All"></div>-->
+        Answer (@Model.Task.AnswerType.FormatExplanation):
+        <input asp-for="@Model.Answer.Answer" class="form-control" />
+        <span asp-validation-for="@Model.Answer.Answer" class="text-danger"></span>
 
         <input type="hidden" asp-for="@Model.Task.Id" />
 
+        <br/>
         <button type="submit" class="btn btn-primary" style="width:150px;">Check</button>
         <a asp-page="/Index" class="btn btn-secondary" style="width:150px;">Back to home page</a>
+        
     </form>
-
-
+    </div>
 
 </div>
 
