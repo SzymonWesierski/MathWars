@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Pages\TaskPages\TypeOfAnswer\CreateAnswerType.cshtml" />
+    <None Include="Pages\TaskPages\TypeOfAnswer\DeleteAnswerType.cshtml" />
+    <None Include="Pages\TaskPages\TypeOfAnswer\EditAnswerType.cshtml" />
+    <None Include="Pages\TaskPages\TypeOfAnswer\ViewAnswerType.cshtml" />
     <None Include="wwwroot\js\Drawing.js" />
   </ItemGroup>
 
@@ -30,6 +34,10 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\forTasks\" />
   </ItemGroup>
 
 </Project>

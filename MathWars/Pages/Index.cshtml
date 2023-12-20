@@ -11,9 +11,11 @@
 				<h2 class="text-primary pl-3">Filtr task</h2>
 			</div>
 			<div class="mb-3">
-				Category:
-				<input class="form-cointrol" name="category" value=@Model.category />
-			</div>
+                Category:
+				<select asp-for="@Model.Category.Id" asp-items="@(new SelectList(Model.Categories, "Id", "CategoryName"))" class="form-control">
+                </select>
+				<span asp-validation-for="@Model.Category.Id" class="text-danger"></span>
+            </div>
 			<div class="mb-3">
 				Difficulty level:
 				<input type="number" class="form-cointrol" name="difficultyLevel" value=@Model.difficultyLevel />
@@ -21,7 +23,7 @@
 			<button type="submit" class="btn btn-primary" style="width:150px;">Filtr</button>
 		</div>
 	</form>
-<div>
+</div>
 
 
 <div class="container p-3">
@@ -48,20 +50,23 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach(var obj in Model.tasks)
+			@if (Model.TasksList != null)
 			{
-				<tr>
-					<td width="40%">@obj.Title</td>
-					<td width="40%">@obj.Content</td>
-					<td width="20%">@obj.difficultyLevel</td>
-					<td>
-						<div class="w-75 btn-group" role="group">
-							<a asp-page="TaskPages/SolvingTask" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
-								<i class="bi bi-pencil-square"></i> Solve
-							</a>
-						</div>
-					</td>
-				</tr>
+				@foreach (var obj in Model.TasksList)
+				{
+					<tr>
+						<td width="40%">@obj.Title</td>
+						<td width="40%">@obj.Content</td>
+						<td width="20%">@obj.difficultyLevel</td>
+						<td>
+							<div class="w-75 btn-group" role="group">
+								<a asp-page="TaskPages/SolvingTask" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
+									<i class="bi bi-pencil-square"></i> Solve
+								</a>
+							</div>
+						</td>
+					</tr>
+				}
 			}	
 		</tbody>
 	</table>

@@ -1,5 +1,5 @@
 ﻿@page
-@model MathWars.Pages.TaskPages.DeleteTaskModel
+@model DeleteTaskModel
 @{
 }
 
@@ -12,24 +12,54 @@
         </div>
         <div class="mb-3">
             Title:
-            <input asp-for="@Model.Task.Title" class="form-control" />
-            <span asp-validation-for="@Model.Task.Title" disabled class="text-danger"></span>
+                <input asp-for="@Model.Task.Title" class="form-control" readonly />
+ 
         </div>
         <div class="mb-3">
             Content:
-            <input asp-for="@Model.Task.Content" class="form-control" />
-            <span asp-validation-for="@Model.Task.Title" disabled class="text-danger"></span>
+                <input asp-for="@Model.Task.Content" class="form-control" readonly />
+ 
         </div>
+            <div class="mb-3">
+                Additional Image (might be empty):
+                <div class="form-control">
+                    @{
+                        if (Model.Task.ImagePath != null)
+                        {
+                            <img src="@Url.Content(Model.Task.ImagePath)" alt="Optional Image for Task ">
+                        }
+                    }
+                </div>
+            </div>
         <div class="mb-3">
             Category:
-            <input asp-for="@Model.Task.category" class="form-control" />
-            <span asp-validation-for="@Model.Task.Title" disabled class="text-danger"></span>
+                <div class = "form-control" readonly >
+                @foreach (var category in Model.Task.TasksAndCategories.Select(tc => tc.TaskCategory))
+                {
+                    @category.CategoryName
+                    @if (category != Model.Task.TasksAndCategories.Last().TaskCategory)
+                    {
+                        <span>, </span>
+                    }
+                }
+                </div>
         </div>
         <div class="mb-3">
             Difficulty level:
-            <input asp-for="@Model.Task.difficultyLevel" class="form-control" />
-            <span asp-validation-for="@Model.Task.Title" disabled class="text-danger"></span>
+                <input asp-for="@Model.Task.difficultyLevel" class="form-control" readonly />
+               
         </div>
+            <div class="mb-3">
+                Answer Type:
+                <input asp-for="@Model.Task.AnswerType.Name" class="form-control" readonly />
+
+            </div>
+            <div class="mb-3">
+                Correct answer:
+                <input asp-for="@Model.Task.Answer" class="form-control" readonly />
+
+            </div>
+
         <button type="submit" class="btn btn-primary" style="width:150px;">Delete</button>
         <a asp-page="ViewTasks" class="btn btn-secondary" style="width:150px;">Back to list</a>
     </div>

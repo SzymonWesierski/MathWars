@@ -15,27 +15,38 @@
         <strong>Content:</strong>
         <p class="mb-0"> @Model.Task.Content</p>
     </div>
+    @{
+        if (Model.Task.ImagePath != null)
+        {
+            <div class="mb-3">
+                <img src="@Url.Content(Model.Task.ImagePath)" alt="Optional Image for Task "/>
+            </div>
+        }
+    }
 
     <!-- Drawing area -->
-    <canvas id="drawingCanvas" width="900px" height="400px" style="border:1px solid #000;"></canvas>
+    <canvas id="drawingCanvas" width="900" height="400" style="border:1px solid #000; background-color: white;"></canvas>
     <div>
         <button id="brushBtn" class="btn btn-info" style="width:100px;">Brush</button>
         <button id="eraserBtn" class="btn btn-warning" style="width:100px;">Eraser</button>
         <button id="clearCanvasBtn" class="btn btn-danger" style="width:150px;">Clear Area</button>
     </div>
-    
-    <form method="post">
         
-        <div class="mb-3">
-            Answer:
-            <input asp-for="@Model.Answer.Answer" class="form-control" />
-            @Model.AnswerResult
-            <input type="hidden" asp-for="@Model.Task.Answer" />
-            <input type="hidden" asp-for="Task.Id" />
-        </div>
+    <div class="mb-3">
+    <form method="post">
+        <!--<div asp-validation-summary="All"></div>-->
+        Answer (@Model.Task.AnswerType.FormatExplanation):
+        <input asp-for="@Model.Answer.Answer" class="form-control" />
+         @Model.AnswerResult
 
+        <input type="hidden" asp-for="@Model.Task.Id" />
+
+        <br/>
         <button type="submit" class="btn btn-primary" style="width:150px;">Check</button>
         <a asp-page="/Index" class="btn btn-secondary" style="width:150px;">Back to home page</a>
+        
     </form>
+    </div>
+
 </div>
 

@@ -11,7 +11,7 @@ namespace MathWars.Pages.Accounts
         private readonly SignInManager<ApplicationUser> signInManager;
 
         [BindProperty]
-        public Login loginModel { get; set; }
+        public Login loginModel { get; set; } = new Login();
 
         public LoginModel(SignInManager<ApplicationUser> signInManager) 
         { 
@@ -25,7 +25,9 @@ namespace MathWars.Pages.Accounts
         {
             if (ModelState.IsValid)
             {
-                var identityResult = await signInManager.PasswordSignInAsync(loginModel.UserName, loginModel.Password, loginModel.RememberMe, false);
+                var identityResult = await signInManager
+                    .PasswordSignInAsync(loginModel.UserName, loginModel.Password, loginModel.RememberMe, false);
+
                 if (identityResult.Succeeded)
                 {
                     if(returnUrl == null || returnUrl == "/")

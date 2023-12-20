@@ -21,7 +21,7 @@ namespace MathWars.Pages.Accounts
         public async Task<IActionResult> OnPostLogoutAsync()
         {
             await signInManager.SignOutAsync();
-            return RedirectToPage("/Accounts/Login");
+            return RedirectToPage("/IndexGuest");
         }
 
         public IActionResult OnPostDontLogoutAsync()

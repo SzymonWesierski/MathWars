@@ -30,9 +30,21 @@
 
 
                 <ul class="sidebar-navigation">
-                    <li><a asp-area="" asp-page="/Index"><i class="bi bi-house"></i><span>Home</span></a></li>
-                    <li><a asp-area="" asp-page="/TaskPages/ViewTasks"><i class="bi bi-journal-text"></i><span>Tasks</span></a></li>
-                    <li><a asp-area="" asp-page="/Profile/UserAnswers"><i class="bi bi-journal-text"></i><span>Answers</span></a></li>
+                    <li><a asp-area="" asp-page="/Index"><i class="bi bi-house"></i><span> Home</span></a></li>
+                    @if (User.IsInRole("taskManager") || User.IsInRole("admin"))
+                    {
+                        <li><a asp-area="" asp-page="/TaskPages/ViewTasks"><i class="bi bi-journal-text"></i><span>Tasks</span></a></li>
+                        <li><a asp-area="" asp-page="/TaskPages/Category/ViewTasksCategory"><i class="bi bi-journal-text"></i><span>Tasks Category</span></a></li>
+                        <li><a asp-area="" asp-page="/TaskPages/TypeOfAnswer/ViewAnswerType"><i class="bi bi-journal-text"></i><span>Answer Types</span></a></li>
+                    }
+                    @if (User.IsInRole("admin"))
+                    {
+                        <li><a asp-area="" asp-page="/Accounts/Users/ViewUser"><i class="bi bi-people"></i><span>Users</span></a></li>
+                        <li><a asp-area="" asp-page="/Accounts/Roles/ViewRole"><i class="bi bi-journal-text"></i><span>Roles</span></a></li>
+                    }
+                    
+                    <li><a asp-area="" asp-page="/Accounts/Profile/Leaderboard"><i class="bi bi-bar-chart-line"></i><span>Leaderboard</span></a></li>
+                    <li><a asp-area="" asp-page="/Accounts/Profile/IndexProfile"><i class="bi bi-person-circle"></i><span>@User.Identity.Name</span></a></li>
                     <li><a asp-area="" asp-page="/Accounts/Logout"><i class="bi bi-power"></i><span>Logout</span></a></li>
                 </ul>
                 </div>

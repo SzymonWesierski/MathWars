@@ -8,17 +8,17 @@ public class Answers
 {
     [Key]
     public int Id { get; set; }
+    public DateTime Created { get; set; } = DateTime.Now;
+    // Foreign Key to Users
+    public string UserId { get; set; } = string.Empty;
+    public ApplicationUser User { get; set; } = new ApplicationUser();
 
-    // Klucz obcy do użytkownika
-    public string UserId { get; set; }
-    public ApplicationUser User { get; set; }
-
-    // Klucz obcy do zadania
+    // Foreign Key to Tasks
     public int TaskId { get; set; }
-    public Tasks Task { get; set; }
+    public Tasks Task { get; set; } = new Tasks();
 
-    [Required]
+    [Required(ErrorMessage = "Musisz podać odpowiedź")]
     [Range(double.MinValue, double.MaxValue, ErrorMessage = "Please enter a valid number.")]
-    public double Answer { get; set; }
+    public string Answer { get; set; } = String.Empty;
     public DateTime SubmissionDate { get; set; } = DateTime.Now;
 }

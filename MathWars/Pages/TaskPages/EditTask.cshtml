@@ -1,46 +1,77 @@
 ﻿@page
-@model MathWars.Pages.TaskPages.EditTaskModel
+@model EditTaskModel
 @{
 }
 
 
 <div class="container">
-<form method="post">
-    <input hidden asp-for="Task.Id" />
+    <form method="post" enctype="multipart/form-data">
+        <input hidden asp-for="Task.Id" />
 
-    <div class="border p-3 mt-4">
-        <div class="row pb-2">
+        <div class="border p-3 mt-4">
+            <div class="row pb-2">
 
-            <h2 class="text-primary pl-3">Edit Task</h2>
+                <h2 class="text-primary pl-3">Edit Task</h2>
+                <hr />
+            </div>
+            <div class="mb-3">
+                Title:
+                <input asp-for="@Model.Task.Title" class="form-control" />
+                <span asp-validation-for="@Model.Task.Title" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                Content:
+                <input asp-for="@Model.Task.Content" class="form-control" />
+                    <span asp-validation-for="@Model.Task.Content" class="text-danger"></span>
+            </div>
+                <div class="mb-3">
+                    Current Task Image (might be empty):
+                    <div class="form-control">
+                        @{
+                            if (Model.Task.ImagePath != String.Empty)
+                            {
+                                <img src="@Url.Content(Model.Task.ImagePath)" alt="Optional Image for Task ">
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="mb-3">
+                    Choose an image, if you want to change current:
+                    <input type="file" accept="image/*" asp-for="@Model.ImageFile" class="form-control" />
+                </div>
+            <div class="mb-3">
+                Category:
+                    <div class="mb-3">
+                        @foreach (var category in Model.Categories)
+                        {
+                            var isChecked = Model.Task.TasksAndCategories.Any(tc => tc.TaskCategory.Id == category.Id);
+
+                            <div class="form-check">
+                                <input type="checkbox" id="category_@category.Id" name="SelectedCategoryIds" value="@category.Id" class="form-check-input" @(isChecked ? "checked" : "") />
+                                <label for="category_@category.Id" class="form-check-label">@category.CategoryName</label>
+                            </div>
+                        }
+                        <span asp-validation-for="SelectedCategoryIds" class="text-danger"></span>
+                    </div>
+            </div>
+            <div class="mb-3">
+                Difficulty level:
+                <input asp-for="@Model.Task.difficultyLevel" class="form-control" />
+                    <span asp-validation-for="@Model.Task.difficultyLevel" class="text-danger"></span>
+            </div>
+                <div class="mb-3">
+                    Answer Type:
+                    <select asp-for="@Model.Task.AnswerTypeId" asp-items="@(new SelectList(Model.AnswerTypesList, "Id", "Name"))" class="form-control">
+                    </select>
+                    <span asp-validation-for="@Model.Task.AnswerTypeId" class="text-danger"></span>
+                </div>
+            <div class="mb-3">
+                Correct Answer:
+                <input asp-for="@Model.Task.Answer" class="form-control" />
+                <span asp-validation-for="@Model.Task.Answer" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:150px;">Update</button>
+            <a asp-page="ViewTasks" class="btn btn-secondary" style="width:150px;">Back to list</a>
         </div>
-        <div asp-validation-summary="All"></div>
-        <div class="mb-3">
-            Title:
-            <input asp-for="@Model.Task.Title" class="form-control" />
-            <span asp-validation-for="@Model.Task.Title" class="text-danger"></span>
-        </div>
-        <div class="mb-3">
-            Content:
-            <input asp-for="@Model.Task.Content" class="form-control" />
-            <span asp-validation-for="@Model.Task.Title" class="text-danger"></span>
-        </div>
-        <div class="mb-3">
-            Category:
-            <input asp-for="@Model.Task.category" class="form-control" />
-            <span asp-validation-for="@Model.Task.Title" class="text-danger"></span>
-        </div>
-        <div class="mb-3">
-            Difficulty level:
-            <input asp-for="@Model.Task.difficultyLevel" class="form-control" />
-            <span asp-validation-for="@Model.Task.Title" class="text-danger"></span>
-        </div>
-        <div class="mb-3">
-            Correct Answer:
-            <input asp-for="@Model.Task.Answer" class="form-control" />
-            <span asp-validation-for="@Model.Task.Answer" class="text-danger"></span>
-        </div>
-        <button type="submit" class="btn btn-primary" style="width:150px;">Update</button>
-        <a asp-page="ViewTasks" class="btn btn-secondary" style="width:150px;">Back to list</a>
-    </div>
-</form>
+    </form>
 </div>
