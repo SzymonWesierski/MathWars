@@ -5,11 +5,11 @@
 
 
 <div class="container">
+
 <form method="post">
     <div class="border p-3 mt-4">
         <div class="row pb-2">
             <h2 class="text-primary pl-3">Create Task</h2>
-            <hr />
         </div>
         <div asp-validation-summary="All"></div>
         <div class="mb-3">
@@ -19,33 +19,18 @@
         </div>
         <div class="mb-3">
             Content:
-<<<<<<< HEAD
-            <input asp-for="@Model.Task.Content" class="form-cointrol" />
+            <input asp-for="@Model.Task.Content" class="form-control" />
                 <span asp-validation-for="@Model.Task.Content" class="text-danger"></span>
         </div>
         <div class="mb-3">
             Category:
-            <input asp-for="@Model.Task.category" class="form-cointrol" />
+            <input asp-for="@Model.Task.category" class="form-control" />
                 <span asp-validation-for="@Model.Task.category" class="text-danger"></span>
         </div>
         <div class="mb-3">
             Difficulty level:
-            <input asp-for="@Model.Task.difficultyLevel" class="form-cointrol" />
-                <span asp-validation-for="@Model.Task.difficultyLevel" class="text-danger"></span>
-=======
-            <input asp-for="@Model.Task.Content" class="form-control" />
-            <span asp-validation-for="@Model.Task.Title" class="text-danger"></span>
-        </div>
-        <div class="mb-3">
-            Category:
-            <input asp-for="@Model.Task.category" class="form-control" />
-            <span asp-validation-for="@Model.Task.Title" class="text-danger"></span>
-        </div>
-        <div class="mb-3">
-            Difficulty level:
             <input asp-for="@Model.Task.difficultyLevel" class="form-control" />
-            <span asp-validation-for="@Model.Task.Title" class="text-danger"></span>
->>>>>>> 7b873ea6b71fff35cf8d8814ed9e7599d4cf6a9d
+                <span asp-validation-for="@Model.Task.difficultyLevel" class="text-danger"></span>
         </div>
         <div class="mb-3">
             Correct Answer:
@@ -56,4 +41,5 @@
         <a asp-page="ViewTasks" class="btn btn-secondary" style="width:150px;">Back to list</a>
     </div>
 </form>
-<div>
+
+</div>

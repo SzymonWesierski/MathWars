@@ -26,7 +26,7 @@ namespace MathWars.Pages.Accounts
 
         public IActionResult OnPostDontLogoutAsync()
         {
-            return RedirectToPage("Index");
+            return RedirectToPage("/Index");
         }
     }
 }

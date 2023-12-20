@@ -2,7 +2,7 @@
 
 .sidebar-logo {
     font-size: 20px;
-    background-color: #fff;
+    color: #fff;
     display: flex;
     align-items: center; 
     justify-content: center; 
@@ -50,13 +50,22 @@
     left: 0;
     top: 0;
     transition: width 0.8s;
-    background-color: #fff;
+    background-color: #4e73df;
+    background-image: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
+    background-size: cover;
     border-right: 1px solid #fff;
     box-shadow: 5px 0 5px rgba(0, 0, 0, 0.1);
 }
 
+
+.bg-gradient-primary {
+    background-color: #4e73df;
+    
+}
+
 .sidebar-container:hover {
         width: 250px;
+        
 }
 
 .sidebar-navigation {
@@ -72,14 +81,14 @@
         height: 50px;
         position: relative;
         text-decoration: none;
-        color: #0d6efd;
-        background-color: white;
+        color: #fff;
+       
         border-style: none;
     }
 
 .sidebar-navigation li a:hover {
-        background-color: #f2f2f2;
-        color: #405fdd;
+        opacity: 0.8;
+        color: #fff;
 }
 
 .sidebar-navigation li i {
@@ -107,19 +116,26 @@
     opacity: 1; 
 }
 
+.gradient-navbar {
+    background: linear-gradient(120deg, #7f70f5, #0ea0ff);
+    color: #fff;
+}
+
 .navbar-top {
+
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5rem 1rem;
+    padding: 1em;
     background-color: #fff;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+    gap:30px;
+    font-size:20px;
 }
 
-.navbar-top-buttons a {
-        color:white;
-        text-decoration:none;
- }
+
+
+
 
 .navbar-top-content {
     display: flex;
@@ -128,22 +144,31 @@
     width: 100%;
 }
 
- .navbar-top-content ul {
+.navbar-top-content ul {
         list-style: none;
         display: flex;
         margin: 0;
         padding: 0;
+        gap: 30px;
+        
+    }
+
+
+
+button {
+    margin-left: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 3px solid #5980f8;
+    cursor: pointer;
+    border-radius: 30px;
+    font-size: 1rem;
+    background-color: #5980f8;
 }
 
-.navbar-top-content ul li a {
-            text-decoration: none; 
-            color: #333; 
-            font-size: 1rem; 
+button:hover {
+    opacity:0.7;
 }
 
-.navbar-top-content > div {
-        margin-left: auto;
-}
 
 .hamburger-menu {
     display: none; 
@@ -161,15 +186,7 @@
     }
 }
 
-.navbar-brand {
-    margin-right: auto;
-    color: #407fff;
-}
 
-.navbar-brand:hover {
-        margin-right: auto;
-        color: #405dcf;
-    }
 .dropdown-menu {
     display: none;
     position: fixed;
@@ -192,24 +209,9 @@
     background-color: #f1f1f1;
  }
 
-.navbar-top-buttons button{
-    margin-left: 0.5rem;
-    padding: 0.5rem 1rem;
-    background-color: #5271ff;
-    color: white; 
-    border: none;
-    cursor: pointer;
-    border-radius: 15px;
-    font-size: 1rem; 
-}
-
- button:hover {
-    background-color: #405dcf;
-}
-
 body {
-    background-color: lightblue !important;
-    background-image: url("../images/bg.png");
+    background-color: #fff !important;
+    /*background-image: url("../images/bg.png");*/
    
     color: var(--white);
     background-position: 0 0;
@@ -237,9 +239,13 @@ html, body {
     flex-direction: column;
 }
 
+
+
 main {
     min-height: 100vh;
+ 
 }
+
 
 footer {
     width: 100%;
@@ -253,18 +259,154 @@ footer {
    
 }
 
-a {
+a, a:hover {
+
 color:white;
 text-decoration:none;
+
+}
+
+.navbar-left a:hover{
+
+    opacity: 0.75;
+
 }
 
 footer a {
-    color: black; 
+    color: white; 
     text-decoration: none; 
     padding: 0 10px; 
 }
 
 footer a:hover {
   text-decoration: none; 
+  opacity:0.75;
 }
+
+.login-box {
+    width: 400px;
+    padding: 20px;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
+    border-radius: 2%;
+}
+
+.login-box form div {
+    margin-bottom: 10px;
+ }
+
+.login-box label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 15px;
+}
+.login-box input[type="text"],
+.login-box input[type="password"],
+.login-box input[type="submit"] {
+
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+
+.login-box input[type="submit"] {
+        background-color: #5980f8;
+        color: white;
+    }
+
+.login-box input[type="submit"]:hover {
+            background-color: #5980f8;
+            color: white;
+            opacity: 0.75;
+        }
+
+.login-box label {
+        display: inline-block;
+        margin-right: 5px;
+}
+
+.login-box input[type="checkbox"] {
+        vertical-align: middle;
+}
+
+
+.login-box a {
+    display: block; 
+    text-align:center;
+    margin-top: 10px;
+    color: grey;
+    font-size: 12px;
+}
+
+.login-box a.fyp {
+        text-align: right;
+}
+
+
+
+
+
+.register-box {
+    width: 400px;
+    padding: 20px;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
+    border-radius: 2%;
+}
+
+.register-box form div {
+    margin-bottom: 10px;
+}
+
+.register-box label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 15px;
+}
+
+.register-box input[type="text"],
+.register-box input[type="password"],
+.register-box input[type="submit"] {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+
+.register-box input[type="submit"] {
+    background-color: #5980f8;
+    color: white;
+}
+
+.register-box input[type="submit"]:hover {
+     background-color: #5980f8;
+     color: white;
+     opacity: 0.75;
+}
+
+.register-box label {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+
+
+.register-box a {
+
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    color: grey;
+    font-size: 12px;
+}
+
 

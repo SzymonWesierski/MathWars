@@ -1,10 +1,11 @@
 h1 {
     font-weight: 500;
-    padding-top: 2em;
+    
     text-align: center;
     font-size: 6rem;
     line-height: 1.1;
     font-family: Calibri;
+    padding-top: 1em;
 }
 
 .gradient {
@@ -36,24 +37,21 @@ h2 {
 
 .button-under-start {
    
+    margin-top:30px;
     display: flex;
     justify-content: center; 
     align-items: center; 
     
 }
-
 .button-under-start button {
-        padding: 0.5rem 1rem;
-        background-color: #5271ff;
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 15px;
-        font-size: 25px;
-    }
+   width:20vw;
+   height:10vh;
+   font-size:24px;
+}
+
 
 .boxes {
-    width: 80%;
+    width: 70%;
     margin: 0 auto 0 auto;
     display: flex;
     flex-direction: column;
@@ -111,7 +109,6 @@ h2 {
         height: auto;
         border-radius: 10px;
         min-width: 30vw;
-        
 }
 
 .box-container {
@@ -128,5 +125,78 @@ h2 {
         flex-direction: column;
     }
 
-    
+    .button-under-start button {
+        width: 25vw;
+        height: 13vh;
+        font-size: 24px;
+    }
+}
+
+
+.symbols {
+    position: absolute;
+    top: 100px;
+    font-size: 72px;
+    opacity: 0.8;
+    z-index: -1;
+    color: lightgray;
+    width: 80%;
+    left: 10%;
+    min-height: 100vh;
+}
+
+#symbol1 {
+    position: absolute;
+    left: 10%;
+}
+
+#symbol2 {
+    position: absolute;
+    left: 35%;
+}
+
+#symbol3 {
+    position: absolute;
+    left: 60%;
+}
+
+#symbol4 {
+    position: absolute;
+    left: 85%;
+}
+
+#symbol5 {
+    position: absolute;
+    left: 22.5%;
+    top: 300px;
+}
+
+#symbol6 {
+    position: absolute;
+    left: 47.5%;
+    top: 300px;
+}
+
+#symbol7 {
+    position: absolute;
+    left: 72.5%;
+    top: 300px;
+}
+
+#symbol8 {
+    position: absolute;
+    left: 800px;
+    top: 600px;
+}
+
+#symbol9 {
+    position: absolute;
+    left: 1200px;
+    top: 600px;
+}
+
+#symbol10 {
+    position: absolute;
+    left: 800px;
+    top: 300px;
 }

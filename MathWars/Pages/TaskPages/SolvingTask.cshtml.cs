@@ -20,6 +20,8 @@ public class SolvingTaskModel : PageModel
     public Answers Answer { get; set; }
     private readonly UserManager<ApplicationUser> _userManager;
 
+    public string AnswerResult;
+
     public SolvingTaskModel(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
     {
         _db = db;
@@ -72,14 +74,17 @@ public class SolvingTaskModel : PageModel
             await _db.SaveChangesAsync();
 
 
-            ModelState.AddModelError(string.Empty, "Correct answer : )");
+            AnswerResult = "Correct answer : )";
 
 			return Page();
 		}
         else
         {
-			ModelState.AddModelError(string.Empty, "Wrong answer :( ");
+            AnswerResult = "Wrong answer :( ";
             return Page();
         }
     }
+
+
+
 }

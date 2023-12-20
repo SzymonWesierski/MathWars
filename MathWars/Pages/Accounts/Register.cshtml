@@ -3,37 +3,40 @@
 @{
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center align-items-center">
-        <div class="col-sm-12 col-mid-12 col-lg-4">
-            <h1 class="mb-3">Register</h1>
+
+
+<div class="register-box">
+    <div>
+        <div>
+            <h1>Register</h1>
 
             <form method="post">
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="mb-3">
-                    <label class="form-label" asp-for="registerModel.UserName">User name</label>
-                    <input type="text" asp-for="registerModel.UserName" class="form-control" />
-                    <span asp-validation-for="registerModel.UserName" class="text-danger"></span>
+                <div>
+                    <label>User name</label>
+                    <input type="text" name="registerModel.UserName" />
+                    <span></span> <!-- Replace with server-side validation message for UserName -->
                 </div>
-                <div class="mb-3">
-                    <label class="form-label" asp-for="registerModel.Email">Email Adress</label>
-                    <input type="text" asp-for = "registerModel.Email" class="form-control"/>
-                    <span asp-validation-for="registerModel.Email" class="text-danger"></span>
+                <div>
+                    <label>Email Address</label>
+                    <input type="text" name="registerModel.Email" />
+                    <span></span> <!-- Replace with server-side validation message for Email -->
                 </div>
-                <div class="mb-3">
-                    <label class="form-label" asp-for="registerModel.Password">Password</label>
-                    <input type="password" asp-for="registerModel.Password" class="form-control" />
-                    <span asp-validation-for="registerModel.Password" class="text-danger"></span>
+                <div>
+                    <label>Password</label>
+                    <input type="password" name="registerModel.Password" />
+                    <span></span> <!-- Replace with server-side validation message for Password -->
                 </div>
-                <div class="mb-3">
-                    <label class="form-label" asp-for="registerModel.ConfirmPassword">Confirm password</label>
-                    <input type="password" asp-for="registerModel.ConfirmPassword" class="form-control" />
-                    <span asp-validation-for="registerModel.ConfirmPassword" class="text-danger"></span>
+                <div>
+                    <label>Confirm password</label>
+                    <input type="password" name="registerModel.ConfirmPassword" />
+                    <span></span> <!-- Replace with server-side validation message for ConfirmPassword -->
                 </div>
-                <div class="mb-3">
-                    <button type="submit" class="btn btn-primary">Register</button>
+                <div>
+                    <input type="submit" value="Register">
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+

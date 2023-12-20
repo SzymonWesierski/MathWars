@@ -6,7 +6,6 @@
 <div class="container">
     <div class="row pb-2">
         <h2 class="text-primary pl-3">Solve Task</h2>
-        <hr />
     </div>
     <div class="mb-3">
         <strong>Title:</strong>
@@ -26,10 +25,11 @@
     </div>
     
     <form method="post">
-        <div asp-validation-summary="All"></div>
+        
         <div class="mb-3">
             Answer:
             <input asp-for="@Model.Answer.Answer" class="form-control" />
+            @Model.AnswerResult
             <input type="hidden" asp-for="@Model.Task.Answer" />
             <input type="hidden" asp-for="Task.Id" />
         </div>
