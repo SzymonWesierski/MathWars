@@ -102,13 +102,13 @@ public class SolvingTaskModel : PageModel
                 await _db.Answers.AddAsync(answ);
                 await _db.SaveChangesAsync();
 
-                ModelState.AddModelError("Answer.Answer", "Correct answer : )");
+               AnswerResult = "Correct answer : )";
                 
                 return Page();
             }
             else
             {
-                ModelState.AddModelError("Answer.Answer", "Wrong answer :( ");
+                AnswerResult = "Wrong answer :(";
                 return Page();
             }
         }

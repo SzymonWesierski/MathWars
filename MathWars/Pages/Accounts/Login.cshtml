@@ -5,16 +5,21 @@
 
 <div class="login-box">
     <form method ="post">
-        
+         
+    
+        <div asp-validation-summary="All" class="text-danger"></div>
+
         
         <h1>Login</h1>
         <div>
             <label asp-for="loginModel.UserName">User Name:</label>
             <input type="text" asp-for="loginModel.UserName" placeholder="User Name" >
+            <span asp-validation-for="loginModel.UserName" class="text-danger"></span>
         </div>
         <div>
             <label asp-for="loginModel.Password">Password:</label>
             <input type="password" asp-for="loginModel.Password" placeholder="Password">
+            <span asp-validation-for="loginModel.Password" class="text-danger"></span>
         </div>
 
         <div>

@@ -14,22 +14,22 @@
                 <div>
                     <label>User name</label>
                     <input type="text" name="registerModel.UserName" />
-                    <span></span> <!-- Replace with server-side validation message for UserName -->
+                <span asp-validation-for="registerModel.UserName" class="text-danger"></span>
                 </div>
                 <div>
                     <label>Email Address</label>
                     <input type="text" name="registerModel.Email" />
-                    <span></span> <!-- Replace with server-side validation message for Email -->
+                <span asp-validation-for="registerModel.Email" class="text-danger"></span>
                 </div>
                 <div>
                     <label>Password</label>
                     <input type="password" name="registerModel.Password" />
-                    <span></span> <!-- Replace with server-side validation message for Password -->
+                    <span asp-validation-for="registerModel.Password" class="text-danger"></span>
                 </div>
                 <div>
                     <label>Confirm password</label>
                     <input type="password" name="registerModel.ConfirmPassword" />
-                    <span></span> <!-- Replace with server-side validation message for ConfirmPassword -->
+                    <span asp-validation-for="registerModel.ConfirmPassword" class="text-danger"></span>
                 </div>
                 <div>
                     <input type="submit" value="Register">

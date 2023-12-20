@@ -12,3 +12,6 @@
 /.vs/ProjectEvaluation/mathwars.metadata.v7.bin
 /.vs/MathWars/v17/.suo
 /.vs/MathWars/v17/.futdcache.v2
+/MathWars/appsettings.json
+/.vs/MathWars/DesignTimeBuild/.dtbcache.v2
+/.vs/MathWars/config/applicationhost.config
