@@ -15,14 +15,6 @@
         <strong>Content:</strong>
         <p class="mb-0"> @Model.Task.Content</p>
     </div>
-    @{
-        if (Model.Task.ImagePath != null)
-        {
-            <div class="mb-3">
-                <img src="@Url.Content(Model.Task.ImagePath)" alt="Optional Image for Task "/>
-            </div>
-        }
-    }
 
     <!-- Drawing area -->
     <canvas id="drawingCanvas" width="900" height="400" style="border:1px solid #000; background-color: white;"></canvas>
@@ -31,6 +23,15 @@
         <button id="eraserBtn" class="btn btn-warning" style="width:100px;">Eraser</button>
         <button id="clearCanvasBtn" class="btn btn-danger" style="width:150px;">Clear Area</button>
     </div>
+
+    @{
+        if (Model.Task.ImagePath != "")
+        {
+            <div class="mb-3">
+                <img width="50%" src="@Url.Content(Model.Task.ImagePath)" alt="Optional Image for Task " />
+            </div>
+        }
+    }
         
     <div class="mb-3">
     <form method="post">
