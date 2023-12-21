@@ -1,0 +1,14 @@
+﻿.flex-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+    .flex-container > .container.p-3 {
+        flex: 0 0 75%;
+        /* Możesz dostosować padding i marginesy według potrzeb */
+    }
+
+        .flex-container > .container {
+            flex: 0 0 25%;
+            /* Możesz dostosować padding i marginesy według potrzeb */
+        }

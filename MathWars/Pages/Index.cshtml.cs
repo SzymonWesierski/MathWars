@@ -18,43 +18,74 @@ namespace MathWars.Pages
 		public IEnumerable<TasksCategory>? Categories { get; set; }
 		public string difficultyLevel = String.Empty;
         private readonly IConfiguration _configuration;
-        public IEnumerable<Tasks> TasksList { get; set; } = Enumerable.Empty<Tasks>();
-        
+		public List<Tasks> TasksList { get; set; } = new List<Tasks>();
 
-        public IndexModel(ApplicationDbContext db, IConfiguration configuration)
+		// Dodane właściwości dla paginacji
+		public int CurrentPage { get; set; } = 1;
+		public int TotalPages { get; set; }
+		private int ItemsPerPage { get; } = 1; // Możesz dostosować tę wartość
+
+
+		public IndexModel(ApplicationDbContext db, IConfiguration configuration)
         {
             _db = db;
             _configuration = configuration;
         }
 
-        public void OnGet()
-        {
-            Categories = GetCategorys();
+		public void OnGet(int currentPage = 1, string difficulty = null)
+		{
+			Categories = GetCategorys();
+			Category = _db.TasksCategory.Find(RandomCategoryId()) ?? new TasksCategory();
 
-			Category = _db.TasksCategory
-                .Find(RandomCategoryId()) ?? new TasksCategory();
+			// Użyj przekazanej wartości 'difficulty' lub wartości domyślnej z konfiguracji, jeśli 'difficulty' jest null.
+			difficultyLevel = difficulty ?? _configuration.GetSection("FiltrTaskIndexPage").GetValue<string>("DefaultDifficultyLevel") ?? String.Empty;
 
-            difficultyLevel = _configuration.GetSection("FiltrTaskIndexPage")
-                .GetValue<string>("DefaultDifficultyLevel") ?? String.Empty;
+			var allTasks = taskQueryResult().ToList();
+			CurrentPage = currentPage;
+			TotalPages = (int)Math.Ceiling((double)allTasks.Count / ItemsPerPage);
+			TasksList = allTasks.Skip((CurrentPage - 1) * ItemsPerPage).Take(ItemsPerPage).ToList();
+		}
 
-            TasksList = taskQueryResult();
-        }
 
-        public IActionResult OnPost()
-        {
-            Categories = GetCategorys();
+		public IActionResult OnPost(int currentPage, string difficultyLevel)
+		{
+			// Zapisz wartości z formularza do właściwości modelu
+			this.difficultyLevel = difficultyLevel;
 
-			Category = _db.TasksCategory
-                .Find(Category.Id) ?? new TasksCategory();
+			// Wczytanie kategorii
+			Categories = GetCategorys();
 
-			difficultyLevel = Request.Form["difficultyLevel"].ToString();
+			// Wyszukanie wybranej kategorii
+			Category = _db.TasksCategory.Find(Category.Id) ?? new TasksCategory();
 
-            TasksList = taskQueryResult();
+			// Pobranie przefiltrowanej listy zadań
+			var allTasks = taskQueryResult().ToList();
 
-            return Page();
-        }
+			// Obliczenie liczby stron na podstawie liczby przefiltrowanych zadań
+			TotalPages = (int)Math.Ceiling(allTasks.Count / (double)ItemsPerPage);
 
-        private IEnumerable<Tasks> taskQueryResult()
+			// Aplikacja paginacji na przefiltrowanej liście zadań
+			TasksList = allTasks.Skip((currentPage - 1) * ItemsPerPage).Take(ItemsPerPage).ToList();
+
+			// Aktualizacja bieżącej strony
+			CurrentPage = currentPage;
+
+			// Jeśli nie ma żadnych zadań na liście po filtracji, zresetuj bieżącą stronę do 1
+			if (!TasksList.Any() && currentPage != 1)
+			{
+				// Przekieruj do pierwszej strony z zachowaniem obecnego poziomu trudności
+				return RedirectToPage(new { currentPage = 1, difficulty = this.difficultyLevel });
+			}
+
+
+			// Zwróć stronę wraz z przefiltrowanymi i spaginowanymi danymi
+			return Page();
+		}
+
+
+
+
+		private IEnumerable<Tasks> taskQueryResult()
         {
             if (Category != null)
             {
