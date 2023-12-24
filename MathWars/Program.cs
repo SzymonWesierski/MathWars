@@ -3,6 +3,8 @@ using MathWars.Models;
 using MathWars.StartupInitializers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using static System.Formats.Asn1.AsnWriter;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +26,18 @@ builder.Services.ConfigureApplicationCookie(config =>
 
 builder.Services.AddSession();
 
+// Initializing basic roles
+var roleManager = builder.Services.BuildServiceProvider().GetService<RoleManager<IdentityRole>>();
+var configuration = builder.Configuration.GetSection("ApplicationRoles").GetChildren();
+foreach (var role in configuration)
+{
+    RoleInitializer.InitializeRoleAsync(roleManager, role.Value).Wait();
+}
+
+// Check if default admin user exist
+var userManager = builder.Services.BuildServiceProvider().GetService<UserManager<ApplicationUser>>();
+await AdminInitializer.InitializeUserAsync(userManager, builder.Configuration);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -44,24 +58,5 @@ app.UseAuthorization();
 app.UseSession();
 
 app.MapRazorPages();
-
-// Initializing basic roles
-using (var scope = app.Services.CreateScope())
-{
-	var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-	var configuration = app.Configuration.GetSection("ApplicationRoles").GetChildren();
-
-	foreach (var role in configuration)
-	{
-		RoleInitializer.InitializeRoleAsync(roleManager, role.Value).Wait();
-	}
-}
-
-// Check if default admin user exist
-using (var scope = app.Services.CreateScope())
-{
-	var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-	await AdminInitializer.InitializeUserAsync(userManager, app.Configuration);
-}
 
 app.Run();
