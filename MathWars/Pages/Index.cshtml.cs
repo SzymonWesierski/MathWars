@@ -17,7 +17,8 @@ namespace MathWars.Pages
         public TasksCategory Category { get; set; } = new TasksCategory();
 		public IEnumerable<TasksCategory>? Categories { get; set; }
 		public string difficultyLevel = String.Empty;
-        private readonly IConfiguration _configuration;
+		private int categoryId;
+		private readonly IConfiguration _configuration;
 		public List<Tasks> TasksList { get; set; } = new List<Tasks>();
 
 		// Dodane właściwości dla paginacji
@@ -32,19 +33,23 @@ namespace MathWars.Pages
             _configuration = configuration;
         }
 
-		public void OnGet(int currentPage = 1, string difficulty = null)
+		public void OnGet(int currentPage = 1, string difficulty = null, int categoryId = 0)
 		{
 			Categories = GetCategorys();
-			Category = _db.TasksCategory.Find(RandomCategoryId()) ?? new TasksCategory();
 
 			// Użyj przekazanej wartości 'difficulty' lub wartości domyślnej z konfiguracji, jeśli 'difficulty' jest null.
 			difficultyLevel = difficulty ?? _configuration.GetSection("FiltrTaskIndexPage").GetValue<string>("DefaultDifficultyLevel") ?? String.Empty;
+
+			// Użyj przekazanej wartości 'categoryId' lub losowej kategorii, jeśli 'categoryId' jest równy 0.
+			Category = categoryId > 0 ? _db.TasksCategory.Find(categoryId) : _db.TasksCategory.Find(RandomCategoryId()) ?? new TasksCategory();
+			this.categoryId = categoryId; // Dodaj to
 
 			var allTasks = taskQueryResult().ToList();
 			CurrentPage = currentPage;
 			TotalPages = (int)Math.Ceiling((double)allTasks.Count / ItemsPerPage);
 			TasksList = allTasks.Skip((CurrentPage - 1) * ItemsPerPage).Take(ItemsPerPage).ToList();
 		}
+
 
 
 		public IActionResult OnPost(int currentPage, string difficultyLevel)
@@ -61,7 +66,7 @@ namespace MathWars.Pages
 			// Pobranie przefiltrowanej listy zadań
 			var allTasks = taskQueryResult().ToList();
 
-			// Obliczenie liczby stron na podstawie liczby przefiltrowanych zadań
+			// Obliczenie liczby stron na podstawie liczby przefiltrowanych zadań 
 			TotalPages = (int)Math.Ceiling(allTasks.Count / (double)ItemsPerPage);
 
 			// Aplikacja paginacji na przefiltrowanej liście zadań

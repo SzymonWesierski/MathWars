@@ -17,3 +17,5 @@
 /.vs/MathWars/config/applicationhost.config
 /.vs/MathWars/v17
 /MathWars/wwwroot/images/forTasks
+/.vs
+/MathWars/appsettings.json
