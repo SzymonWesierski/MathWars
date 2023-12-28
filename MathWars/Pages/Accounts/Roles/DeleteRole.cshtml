@@ -12,6 +12,7 @@
             <h2 class="text-primary pl-3">Delete Role</h2>
             <hr />
         </div>
+            <div asp-validation-summary="All" class="text-danger"></div>
         <div class="mb-3">
             Role Name:
                 <input asp-for="@Model.role.Name" class="form-control" readonly />

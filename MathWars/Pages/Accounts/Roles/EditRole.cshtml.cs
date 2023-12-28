@@ -29,6 +29,16 @@ public class EditRoleModel : PageModel
 
         if (roleToUpdate != null)
         {
+            var bannedToUpdateList = new List<string> { "admin", "taskManager", "user" };
+
+            foreach (var banned in bannedToUpdateList)
+            {
+                if (roleToUpdate.Name == banned)
+                {
+                    ModelState.AddModelError("", "You can't update this role");
+                    return Page();
+                }
+            }
             roleToUpdate.Name = role.Name;
 
             var result = await _roleManager.UpdateAsync(roleToUpdate);

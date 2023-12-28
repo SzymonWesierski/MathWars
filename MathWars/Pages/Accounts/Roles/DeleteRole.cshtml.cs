@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MathWars.Pages.TaskPages;
 [Authorize(Roles = "admin")]
@@ -29,6 +30,17 @@ public class DeleteRoleModel : PageModel
 
         if (roleToDelete != null)
         {
+            var bannedToDeleteList = new List<string> { "admin", "taskManager", "user" };
+
+            foreach (var banned in bannedToDeleteList)
+            {
+                if (roleToDelete.Name == banned)
+                {
+                    ModelState.AddModelError("", "You can't delete this role");
+                    return Page();
+                }
+            }
+
             var result = await _roleManager.DeleteAsync(roleToDelete);
 
             if (result.Succeeded)
