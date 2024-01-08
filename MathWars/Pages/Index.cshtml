@@ -7,110 +7,209 @@
 <link rel="stylesheet" href="~/css/Index.css" asp-append-version="true" />
 
 
-<div class="flex-container">
-
-	<div class="container p-3">
-		<div class="row pt-4">
-			<div class="col-6">
-				<h2 class="text-primary">Task</h2>
-			</div>
-		</div>
-
-		<br /><br />
-
-		<table class="table table-bordered table-striped" style="width:100%">
-			<thead>
-				<tr>
-					<th>
-						Title
-					</th>
-					<th>
-						Content
-					</th>
-					<th>
-						Difficulty Level
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				@if (Model.TasksList != null)
-				{
-					@foreach (var obj in Model.TasksList)
-					{
-						<tr>
-							<td width="40%">@obj.Title</td>
-							<td width="40%">@obj.Content</td>
-							<td width="20%">@obj.difficultyLevel</td>
-							<td>
-								<div class="w-75 btn-group" role="group">
-									<a asp-page="TaskPages/SolvingTask" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
-										<i class="bi bi-pencil-square"></i> Solve
-									</a>
-								</div>
-							</td>
-						</tr>
-					}
-				}
-			</tbody>
-		</table>
-
-		<!-- Kontrolki nawigacyjne -->
-		@if (Model.TotalPages > 1)
-		{
-			<nav aria-label="Page navigation" class="mt-4">
-				<ul class="pagination">
-					@if (Model.CurrentPage > 1)
-					{
-						<li class="page-item">
-							<a class="page-link" href="?currentPage=@(Model.CurrentPage - 1)&difficulty=@Model.difficultyLevel&categoryId=@Model.Category.Id">Poprzedni</a>
-
-						</li>
-					}
-
-					@if (Model.CurrentPage < Model.TotalPages)
-					{
-						<li class="page-item">
-							<a class="page-link" href="?currentPage=@(Model.CurrentPage + 1)&difficulty=@Model.difficultyLevel&categoryId=@Model.Category.Id">Następny</a>
-
-						</li>
-					}
-				</ul>
-			</nav>
-		}
+	<div class="heading">
+		<h1>MathWars - Matura na 100%</h1>
 	</div>
 
+<div class="git">
+	<div class="main-content">
+		<div class="task">
+			<table class="task-table">
+				<tbody>
+					@if (Model.TasksList != null)
+					{
+						@foreach (var obj in Model.TasksList)
+						{
+							<tr>
+								<td>
+									<span class="difficulty-level">@obj.difficultyLevel</span>
+									<span class="category-name">@Model.Category.CategoryName</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="Title">@obj.Title</td>
+							</tr>
+							<tr>
+								<td class="content">@obj.Content</td>
+							</tr>
+							<tr class="last-tr">
+								<td>
+									<div class="task-row">
+										<div class="pagination-button left">
+											@if (Model.CurrentPage == 1)
+											{
+												<a class="page-link" href="#" onclick="return false;">Poprzedni</a>
+												}
+											else if (Model.CurrentPage > 1)
+											{
+												<a class="page-link" href="?currentPage=@(Model.CurrentPage - 1)&difficulty=@Model.difficultyLevel&categoryId=@Model.Category.Id">Poprzedni</a>
+											}
 
+										</div>
 
-	<div class="container">
-		<br />
-		<div class="row pt-4">
-			<div class="col-6">
-				<h2 class="text-primary">Filtruj Zadania</h2>
-			</div>
+										<div class="solve-button" role="group">
+											<a asp-page="TaskPages/SolvingTask" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
+												<i class="bi bi-pencil-square"></i> Solve
+											</a>
+										</div>
+
+										<div class="pagination-button right">
+											@if (Model.CurrentPage == Model.TotalPages)
+											{
+												<a class="page-link" href="#" onclick="return false;">Nastęny</a>
+											}
+											else if (Model.CurrentPage < Model.TotalPages)
+											{
+												<a class="page-link" href="?currentPage=@(Model.CurrentPage + 1)&difficulty=@Model.difficultyLevel&categoryId=@Model.Category.Id">Następny</a>
+											}
+										</div>
+									</div>
+								</td>
+							</tr>
+						}
+					}
+				</tbody>
+			</table>
+			<p class="motivation">To zadanie nie jest takie trudne na jakie wygląda, dasz RADĘ!</p>
 		</div>
 
-		<br /><br />
+		<div class="filter">
+			<table class="filter-table">
+				<tr>
+					<td>
+						<span class="filter-table-heading">Filtruj Zadania</span>
+					</td>
+				</tr>
+				<tr>
+					<td>
 
-		<form method="post">
-			<div class="border p-3 mt-4">
-				<div class="mb-3">
-					Category:
-					<select asp-for="@Model.Category.Id" asp-items="@(new SelectList(Model.Categories, "Id", "CategoryName"))" class="form-control">
-					</select>
-					<span asp-validation-for="@Model.Category.Id" class="text-danger"></span>
-				</div>
-				<div class="mb-3">
-					Difficulty level:
-					<br />
-					<input type="number" class="form-control" name="difficultyLevel" value="@Model.difficultyLevel" />
-				</div>
-				<!-- Ukryte pole dla currentPage, aby zachować stan paginacji -->
-				<input type="hidden" name="currentPage" value="@Model.CurrentPage" />
-				<button type="submit" class="btn btn-primary" style="width:150px;">Filtr</button>
+					</td>
+
+				</tr>
+
+				<form method="post">
+					<tr>
+						<td>
+							Kategoria:
+							<select asp-for="@Model.Category.Id" asp-items="@(new SelectList(Model.Categories, "Id", "CategoryName"))" class="form-control">
+							</select>
+							<span asp-validation-for="@Model.Category.Id" class="text-danger"></span>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Poziom trudności:
+							<br />
+							<input type="number" class="form-control" name="difficultyLevel" value="@Model.difficultyLevel" />
+							<br />
+						</td>
+					</tr>
+					<tr class="last-tr-filter-table">
+						<td>
+							<!-- Ukryte pole dla currentPage, aby zachować stan paginacji -->
+							<input type="hidden" name="currentPage" value="@Model.CurrentPage" />
+							<button type="submit" class="btn btn-primary" style="width:150px;">Filtruj</button>
+						</td>
+					</tr>
+				</form>
+			</table>
+		</div>
+	</div>
+
+	<div class="second-content">
+		<div class="tutorial">
+			<h1> Zrozum więcej!</h1>
+			<p>
+				Nie wiesz, jak uporać się z danym zagadnieniem? Czy trygonometria wydaje Ci się być czarną magią?
+				<a href="https://www.matemaks.pl">Zajrzyj tutaj</a> i rozjaśnij ciemności matematycznych tajemnic!
+			</p>
+		</div>
+		<div class="jeszcze-nie-wiem">
+			<h1>Czy wiesz że ? </h1>
+			<div class="fun-fuct" id="mathFact">
+
 			</div>
-		</form>
+			
+		</div>
 
+	</div>
+
+	<div id="quotes-container" class="quotes-container">
+		<p id="quote"></p>
+		<p id="author"></p>
 	</div>
 
 </div>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+
+		var facts = [
+			"Liczba PI (π) jest nieskończona i jej cyfry nie wykazują żadnego wzorca?",
+			"Zero (0) nie było uznawane za liczbę aż do średniowiecza?",
+			"Matematyk i astronom Arabii, Al-Khwarizmi, jest uznawany za ojca algebry?",
+			"W geometrii, istnieje tylko siedem płaskich kafelków, które mogą całkowicie pokryć płaszczyznę bez przerw i nakładania się - nazywają się one Parkietażami Penrose'a?",
+			"Kwadrat magiczny to kwadratowa tablica liczb, gdzie suma każdego wiersza, kolumny i przekątnej jest taka sama?",
+			"Istnieje nieskończenie wiele liczb pierwszych?",
+			"Złoty podział, który często występuje w naturze, można znaleźć w dziełach sztuki i architektury?",
+			"W 1735 roku matematyk Leonhard Euler rozwiązał problem mostów królewieckich, zakładając podstawy grafów teoretycznych?",
+			"Hipoteza Riemanna, jedna z najbardziej znanych i nierozwiązanych zagadek matematyki, dotyczy rozkładu liczb pierwszych?",
+			"Matematyka jest jedynym językiem wspólnym dla wszystkich cywilizacji na Ziemi?",
+			"Matematyk hinduski Srinivasa Ramanujan opracował ponad 3000 wyników matematycznych, wiele z nich w swoich marzeniach?",
+			"Liczba 55555 w systemie pięciokątnym (zapisywana jako 1) to liczba pierwsza?",
+			"Paradoks Monty'ego Halla pokazuje, że zmiana początkowej decyzji w pewnej grze może zwiększyć szansę na wygraną?",
+			"Istnieje coś takiego jak „samotna liczba”, która nie jest sumą dwóch liczb pierwszych?",
+			"Teoria chaosu bada, w jaki sposób niewielkie zmiany w warunkach początkowych mogą prowadzić do diametralnie różnych wyników, co jest znane jako efekt motyla?"
+		];
+
+		var factElement = document.getElementById('mathFact');
+		var randomFact = facts[Math.floor(Math.random() * facts.length)];
+		factElement.textContent = randomFact;
+	});
+</script>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		var quotes = [
+			{ quote: "Matematyka jest królową nauk, a arytmetyka królową matematyki.", author: "Carl Friedrich Gauss" },
+			{ quote: "Nie jest ważne, jak wolno idziesz, dopóki nie zatrzymasz się.", author: "Confucius" },
+			{ quote: "Matematyka jest językiem, za pomocą którego Bóg napisał wszechświat.", author: "Galileo Galilei" },
+			{ quote: "Matematyka jest drzwiami i kluczem do nauk.", author: "Roger Bacon" },
+			{ quote: "Piękno matematyki polega na tym, że można ją znaleźć w najbardziej nieoczekiwanych miejscach.", author: "Harold R. Jacobs" },
+			{ quote: "Matematyk, który nie jest jednocześnie trochę poetą, nigdy nie będzie doskonałym matematykiem.", author: "Karl Weierstrass" },
+			{ quote: "W matematyce trudność polega nie na tym, by formułować problemy, ale na tym, aby zrozumieć ich naturę.", author: "Confucius" },
+			{ quote: "Nie jest ważne, jak wolno idziesz, dopóki nie zatrzymasz się.", author: "Sofia Kovalevskaya" },
+			{ quote: "Matematyka jest królową nauk, a teoria liczb jest królową matematyki.", author: "Carl Friedrich Gauss" },
+			{ quote: "Wszystko jest liczbą.", author: "Pitagoras" },
+			{ quote: "Najlepszym sposobem na przewidywanie przyszłości jest jej tworzenie.", author: "Alan Kay" },
+			{ quote: "Matematyka jest sztuką dawania tego samego imienia różnym rzeczom", author: "Henri Poincaré" },
+			{ quote: "Matematyka nie kłamie. Ludzie kłamią.", author: "Gary Paulsen" },
+			{ quote: "Nie ma gałęzi matematyki, choćby abstrakcyjna jak była, która by wcześniej czy później nie okazała się przydatna do czegoś praktycznego", author: "Guglielmo Marconi" },
+			{ quote: "Matematyka jest jak miłość; pewna idea, która wypełnia nieskończoną ilość przestrzeni w sercu.", author: "Rainer Maria Rilke" },
+			{ quote: "Piękno matematyki polega na tym, że każdy może jej doświadczyć na własnym poziomie.", author: "Shakuntala Devi" },
+			{ quote: "Nie ma krótszej drogi do geometrii.", author: "Euclides" },
+			{ quote: "Życie jest jak równanie matematyczne, aby uzyskać najwięcej, musisz wiedzieć, jak przekształcać ujemne w pozytywne.", author: "Michał Żołądek" },
+			{ quote: "Matematyka to sztuka dawania tych samych nazw różnym rzeczom.", author: "J.H. Poincaré" },
+			{ quote: "W nauce nie ma drogi krótkiej, z wyjątkiem tej, która jest płaska i nudna.", author: " Bertrand Russell" },
+			{ quote: "Matematyka może nie nauczyć nas oddychania, ale nauczy nas logicznego myślenia.", author: "Albert Einstein" },
+			{ quote: "Matematyka to muzyka rozumu.", author: "James Joseph Sylvester" },
+		];
+
+		function displayRandomQuote() {
+			var randomIndex = Math.floor(Math.random() * quotes.length);
+			var quote = quotes[randomIndex].quote;
+			var author = quotes[randomIndex].author;
+
+			document.getElementById('quote').textContent = quote;
+			document.getElementById('author').textContent = author;
+		}
+
+		displayRandomQuote();
+
+		setInterval(displayRandomQuote, 8000);
+	});
+
+</script>
+
+
 

@@ -1,14 +1,179 @@
-﻿.flex-container {
-    display: flex;
-    justify-content: space-between;
+﻿body {
+    padding-top: 50px; 
+    padding-right:20%; 
+    padding-left: 20%; 
 }
 
-    .flex-container > .container.p-3 {
-        flex: 0 0 75%;
-        /* Możesz dostosować padding i marginesy według potrzeb */
+.heading {
+    background: linear-gradient(to right, #cbfcda, #95bafe);
+    border-radius: 15px; 
+    text-align: center; 
+    margin: 0 auto 20px; 
+}
+
+h1 {
+    color: #333333; 
+    margin: 0;
+    padding: 10px 0;
+    font-family: fantasy;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 20px;
+}
+
+.task {
+    flex: 3; 
+    background: linear-gradient(to right, #cbfcda, #95bafe);
+    border-radius: 10px; 
+    margin-right: 10px; 
+    padding: 10px; 
+    position: relative; 
+}
+
+
+
+.filter {
+    text-align: center;
+    flex: 1; 
+    background: linear-gradient(to right, #cbfcda, #95bafe);
+    border-radius: 10px; 
+    padding: 10px; 
+    margin: 0 auto; 
+}
+
+.task-table {
+    width: 100%; 
+    border-collapse: collapse; 
+}
+
+    .task-table td {
+        padding: 8px; 
+        border-bottom: 1px solid #ddd; 
     }
 
-        .flex-container > .container {
-            flex: 0 0 25%;
-            /* Możesz dostosować padding i marginesy według potrzeb */
-        }
+    .task-table .Title {
+        font-weight: bold; 
+    }
+
+    .task-table .content {
+        color: #666; 
+    }
+
+    .last-tr {
+        border-bottom: none; 
+        display: flex; 
+        flex-direction: column; 
+        height: 100%; 
+        justify-content: flex-end; 
+    }
+
+
+.solve-button a {
+    text-decoration: none; 
+    color: white; 
+    background-color: #007bff; 
+    padding: 5px 10px; 
+    border-radius: 5px; 
+}
+
+    .solve-button a:hover {
+        background-color: #0056b3; 
+    }
+
+.difficulty-level {
+    font-size: 2em; 
+    font-weight: bold; 
+}
+
+.category-name {
+    font-size: 0.9em; 
+}
+.task-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pagination-button {
+    
+}
+
+    .pagination-button.left {
+       
+    }
+
+    .pagination-button.right {
+        
+    }
+
+.motivation {
+    text-align: center;
+}
+
+
+.filter-table {
+    width: auto; 
+    margin: 0 auto;
+}
+.filter-table-heading {
+    font-size: 1.5em;
+    font-weight: bold; 
+}
+.second-content {
+    display: flex;
+    padding-bottom: 20px;
+}
+
+.tutorial {
+    background: linear-gradient(to right, #cbfcda, #95bafe);
+    border-radius: 15px; 
+    text-align: center; 
+    margin: 0 auto 20px; 
+    width: 50%;
+    margin-right: 10px; 
+}
+
+    .tutorial h1 {
+        text-align: center;
+        font-size: 1.5em; 
+        font-weight: bold; 
+        color: #333; 
+    }
+
+    .tutorial p {
+        text-align: center;
+    }
+
+.jeszcze-nie-wiem {
+    background: linear-gradient(to right, #cbfcda, #95bafe);
+    border-radius: 15px; 
+    text-align: center; 
+    margin: 0 auto 20px; 
+    width: 50%;
+}
+    .jeszcze-nie-wiem h1 {
+        text-align: center;
+        font-size: 1.5em; 
+        font-weight: bold; 
+        color: #333; 
+    }
+
+.fun-fuct {
+    font-family: 'Dancing Script', cursive; 
+}
+
+.quotes-container {
+    padding: 20px;
+    text-align: center;
+    font-style: italic;
+    font-size: 4em;
+}
+
+    .quotes-container p {
+        margin: 0;
+        font-family: 'Dancing Script', cursive;
+    }
+
