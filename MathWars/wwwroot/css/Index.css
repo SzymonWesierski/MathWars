@@ -5,7 +5,7 @@
 }
 
 .heading {
-    background: linear-gradient(to right, #cbfcda, #95bafe);
+    
     border-radius: 15px; 
     text-align: center; 
     margin: 0 auto 20px; 
@@ -26,7 +26,7 @@ h1 {
 
 .task {
     flex: 3; 
-    background: linear-gradient(to right, #cbfcda, #95bafe);
+   
     border-radius: 10px; 
     margin-right: 10px; 
     padding: 10px; 
@@ -38,7 +38,7 @@ h1 {
 .filter {
     text-align: center;
     flex: 1; 
-    background: linear-gradient(to right, #cbfcda, #95bafe);
+    
     border-radius: 10px; 
     padding: 10px; 
     margin: 0 auto; 
@@ -49,26 +49,26 @@ h1 {
     border-collapse: collapse; 
 }
 
-    .task-table td {
-        padding: 8px; 
-        border-bottom: 1px solid #ddd; 
-    }
+.task-table td {
+    padding: 8px; 
+    border-bottom: 1px solid #ddd; 
+}
 
-    .task-table .Title {
-        font-weight: bold; 
-    }
+.task-table .Title {
+    font-weight: bold; 
+}
 
-    .task-table .content {
-        color: #666; 
-    }
+.task-table .content {
+    color: #666; 
+}
 
-    .last-tr {
-        border-bottom: none; 
-        display: flex; 
-        flex-direction: column; 
-        height: 100%; 
-        justify-content: flex-end; 
-    }
+.last-tr {
+    border-bottom: none; 
+    display: flex; 
+    flex-direction: column; 
+    height: 100%; 
+    justify-content: flex-end; 
+}
 
 
 .solve-button a {
@@ -79,9 +79,9 @@ h1 {
     border-radius: 5px; 
 }
 
-    .solve-button a:hover {
-        background-color: #0056b3; 
-    }
+.solve-button a:hover {
+    background-color: #0056b3; 
+}
 
 .difficulty-level {
     font-size: 2em; 
@@ -101,13 +101,13 @@ h1 {
     
 }
 
-    .pagination-button.left {
+.pagination-button.left {
        
-    }
+}
 
-    .pagination-button.right {
+.pagination-button.right {
         
-    }
+}
 
 .motivation {
     text-align: center;
@@ -128,7 +128,7 @@ h1 {
 }
 
 .tutorial {
-    background: linear-gradient(to right, #cbfcda, #95bafe);
+   
     border-radius: 15px; 
     text-align: center; 
     margin: 0 auto 20px; 
@@ -148,7 +148,7 @@ h1 {
     }
 
 .jeszcze-nie-wiem {
-    background: linear-gradient(to right, #cbfcda, #95bafe);
+    
     border-radius: 15px; 
     text-align: center; 
     margin: 0 auto 20px; 

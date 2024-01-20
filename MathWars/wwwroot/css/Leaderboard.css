@@ -1,0 +1,47 @@
+﻿.gold-icon {
+    color: gold;
+}
+
+.silver-icon {
+    color: silver;
+}
+
+.bronze-icon {
+    color: #cd7f32; 
+}
+
+
+.table {
+    font-size: 1rem; 
+}
+
+ 
+
+.table tbody tr:nth-child(odd) {
+    background-color: #f8f9fa; 
+}
+
+.table tbody tr:nth-child(1) td,
+.table tbody tr:nth-child(2) td,
+.table tbody tr:nth-child(3) td {
+    font-weight: bold; 
+    background-color: #f1f1f1; 
+}
+
+.gold-icon, .silver-icon, .bronze-icon {
+    font-size: 1.5rem; 
+    vertical-align: middle; 
+}
+
+.gold-icon {
+    color: #ffd700;
+}
+
+.silver-icon {
+    color: #c0c0c0;
+}
+
+.bronze-icon {
+    color: #cd7f32;
+}
+

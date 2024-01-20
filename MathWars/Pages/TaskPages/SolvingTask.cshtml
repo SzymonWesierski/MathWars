@@ -3,6 +3,10 @@
 @{
 }
 
+
+<link rel="stylesheet" href="~/css/_Layout.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/SolvingTask.css" asp-append-version="true" />
+
 <div class="container">
     <div class="row pb-2">
         <h2 class="text-primary pl-3">Solve Task</h2>
@@ -11,28 +15,39 @@
         <strong>Title:</strong>
         <p class="mb-0"> @Model.Task.Title</p>
     </div>
+ 
+    
+  
     <div class="mb-3">
         <strong>Content:</strong>
         <p class="mb-0"> @Model.Task.Content</p>
     </div>
 
+
     <!-- Drawing area -->
     <canvas id="drawingCanvas" width="900" height="400" style="border:1px solid #000; background-color: white;"></canvas>
     <div>
-        <button id="brushBtn" class="btn btn-info" style="width:100px;">Brush</button>
-        <button id="eraserBtn" class="btn btn-warning" style="width:100px;">Eraser</button>
-        <button id="clearCanvasBtn" class="btn btn-danger" style="width:150px;">Clear Area</button>
+        <button id="brushBtn" class="btn btn-info" style="width:100px;">
+            <i class="bi bi-brush"></i>
+        </button>
+        <button id="eraserBtn" class="btn btn-warning" style="width:100px;">
+            <i class="bi bi-eraser"></i>
+        </button>
+        <button id="clearCanvasBtn" class="btn btn-danger" style="width:150px;">
+            <i class="bi bi-trash"></i>
+        </button>
     </div>
+
 
     @{
         if (Model.Task.ImagePath != "")
         {
             <div class="mb-3">
-                <img width="50%" src="@Url.Content(Model.Task.ImagePath)" alt="Optional Image for Task " />
+                <img width="50%" src="@Url.Content(Model.Task.ImagePath)" alt="Optional Image for Task " class="task-image" />
             </div>
         }
     }
-        
+ 
     <div class="mb-3">
     <form method="post">
         <!--<div asp-validation-summary="All"></div>-->
