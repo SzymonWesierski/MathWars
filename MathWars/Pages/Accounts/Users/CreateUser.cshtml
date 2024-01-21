@@ -6,39 +6,39 @@
 <div class="container mt-5">
     <div class="row justify-content-center align-items-center">
         <div class="col-sm-12 col-mid-12 col-lg-4">
-            <h1 class="mb-3">Register</h1>
+            <h1 class="mb-3">Rejestracja</h1>
 
             <form method="post">
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="mb-3">
-                    <label class="form-label" asp-for="createAccount.UserName">User name</label>
+                    <label class="form-label" asp-for="createAccount.UserName">Nazwa użytkownika</label>
                     <input type="text" asp-for="createAccount.UserName" class="form-control" />
                     <span asp-validation-for="createAccount.UserName" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" asp-for="createAccount.Email">Email Adress</label>
+                    <label class="form-label" asp-for="createAccount.Email">Adres email</label>
                     <input type="email" asp-for="createAccount.Email" class="form-control" />
                     <span asp-validation-for="createAccount.Email" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" asp-for="createAccount.Password">Password</label>
+                    <label class="form-label" asp-for="createAccount.Password">Hasło</label>
                     <input type="password" asp-for="createAccount.Password" class="form-control" />
                     <span asp-validation-for="createAccount.Password" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" asp-for="createAccount.ConfirmPassword">Confirm password</label>
+                    <label class="form-label" asp-for="createAccount.ConfirmPassword">Powtórz hasło</label>
                     <input type="password" asp-for="createAccount.ConfirmPassword" class="form-control" />
                     <span asp-validation-for="createAccount.ConfirmPassword" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    Role:
+                    Rola:
                     <select asp-for="@Model.Role.Id" asp-items="@(new SelectList(Model.Roles, "Id", "Name"))" class="form-control">
-                        <option value="">-- Select Role --</option>
+                        <option value="">-- Wybierz rolę --</option>
                     </select>
                     <span asp-validation-for="@Model.Role.Id" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <button type="submit" class="btn btn-primary">Register</button>
+                    <button type="submit" class="btn btn-primary">Rejestracja</button>
                 </div>
             </form>
         </div>

@@ -30,22 +30,22 @@
 
 
                 <ul class="sidebar-navigation">
-                    <li><a asp-area="" asp-page="/Index"><i class="bi bi-house"></i><span> Home</span></a></li>
+                    <li><a asp-area="" asp-page="/Index"><i class="bi bi-house"></i><span>Strona Główna</span></a></li>
                     @if (User.IsInRole("taskManager") || User.IsInRole("admin"))
                     {
-                        <li><a asp-area="" asp-page="/TaskPages/ViewTasks"><i class="bi bi-journal-text"></i><span>Tasks</span></a></li>
-                        <li><a asp-area="" asp-page="/TaskPages/Category/ViewTasksCategory"><i class="bi bi-journal-text"></i><span>Tasks Category</span></a></li>
-                        <li><a asp-area="" asp-page="/TaskPages/TypeOfAnswer/ViewAnswerType"><i class="bi bi-journal-text"></i><span>Answer Types</span></a></li>
+                        <li><a asp-area="" asp-page="/TaskPages/ViewTasks"><i class="bi bi-journal-text"></i><span>Zadania</span></a></li>
+                        <li><a asp-area="" asp-page="/TaskPages/Category/ViewTasksCategory"><i class="bi bi-journal-text"></i><span>Kategoria</span></a></li>
+                        <li><a asp-area="" asp-page="/TaskPages/TypeOfAnswer/ViewAnswerType"><i class="bi bi-journal-text"></i><span>Typ odpowiedzi</span></a></li>
                     }
                     @if (User.IsInRole("admin"))
                     {
-                        <li><a asp-area="" asp-page="/Accounts/Users/ViewUser"><i class="bi bi-people"></i><span>Users</span></a></li>
-                        <li><a asp-area="" asp-page="/Accounts/Roles/ViewRole"><i class="bi bi-journal-text"></i><span>Roles</span></a></li>
+                        <li><a asp-area="" asp-page="/Accounts/Users/ViewUser"><i class="bi bi-people"></i><span>Użytkownicy</span></a></li>
+                        <li><a asp-area="" asp-page="/Accounts/Roles/ViewRole"><i class="bi bi-journal-text"></i><span>Role</span></a></li>
                     }
                     
-                    <li><a asp-area="" asp-page="/Accounts/Profile/Leaderboard"><i class="bi bi-bar-chart-line"></i><span>Leaderboard</span></a></li>
+                    <li><a asp-area="" asp-page="/Accounts/Profile/Leaderboard"><i class="bi bi-bar-chart-line"></i><span>Tabela wyników</span></a></li>
                     <li><a asp-area="" asp-page="/Accounts/Profile/IndexProfile"><i class="bi bi-person-circle"></i><span>@User.Identity.Name</span></a></li>
-                    <li><a asp-area="" asp-page="/Accounts/Logout"><i class="bi bi-power"></i><span>Logout</span></a></li>
+                    <li><a asp-area="" asp-page="/Accounts/Logout"><i class="bi bi-power"></i><span>Wyloguj</span></a></li>
                 </ul>
                 </div>
 
@@ -61,13 +61,13 @@
                             <div class="navbar-top-content">
                             <div class="navbar-left">
                                 <ul>
-                                         <li> <a asp-area="" asp-page="/Index">Home</a> </li>
-                                         <li> <a asp-area="" asp-page="/TaskPages/ViewTasks">Tasks</a> </li>
+                                         <li> </li>
+                                         <li> </li>
                                 </ul>
                             </div>
                                 <div class="navbar-top-buttons">
-                                        <button><a asp-page="/Accounts/Login"> Login </a></button>
-                                        <button><a asp-page="/Accounts/Register"> Register </a></button>
+                                        <button><a asp-page="/Accounts/Login"> Zaloguj </a></button>
+                                        <button><a asp-page="/Accounts/Register"> Rejestracja </a></button>
                                 </div>
 
                             </div>
@@ -77,8 +77,8 @@
                             </div>
 
                             <div class="dropdown-menu" id="myDropdown">
-                               <a asp-page="/Accounts/Login"> Login </a>
-                            <a asp-page="/Accounts/Register"> Register </a>
+                               <a asp-page="/Accounts/Login"> Zaloguj </a>
+                            <a asp-page="/Accounts/Register"> Rejestracja </a>
                             </div>
 
                         </div>

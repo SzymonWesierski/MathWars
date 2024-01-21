@@ -6,17 +6,18 @@
 
 <link rel="stylesheet" href="~/css/Index.css" asp-append-version="true" />
 
-<div class="container mt-5">
-	<div class="bg-light p-5 rounded-shadow">
+<div class="" main-section"">
 
 
-	<div class="heading">
-		<h1>MathWars - Matura na 100%</h1>
-	</div>
+	
 
 
 	
 <div class="git">
+		<div class="heading">
+			<h1>MathWars - Matura na 100%</h1>
+		</div>
+
 	<div class="main-content">
 		<div class="task">
 			<table class="task-table">
@@ -35,7 +36,7 @@
 								<td class="Title">@obj.Title</td>
 							</tr>
 							<tr>
-								<td class="content">@obj.Content</td>
+									<td class="content" style="overflow-wrap: break-word; word-break: break-all;">@obj.Content</td>
 							</tr>
 							<tr class="last-tr">
 								<td>
@@ -54,7 +55,7 @@
 
 										<div class="solve-button" role="group">
 											<a asp-page="TaskPages/SolvingTask" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
-												<i class="bi bi-pencil-square"></i> Solve
+												<i class="bi bi-pencil-square"></i> Rozwiąż
 											</a>
 										</div>
 
@@ -147,7 +148,6 @@
 </div>
 
 
-</div>
 </div>
 
 <script>

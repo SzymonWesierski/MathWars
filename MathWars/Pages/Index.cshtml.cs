@@ -24,7 +24,7 @@ namespace MathWars.Pages
 		// Dodane właściwości dla paginacji
 		public int CurrentPage { get; set; } = 1;
 		public int TotalPages { get; set; }
-		private int ItemsPerPage { get; } = 1; // Możesz dostosować tę wartość
+		private int ItemsPerPage { get; } = 1; 
 
 
 		public IndexModel(ApplicationDbContext db, IConfiguration configuration)
@@ -33,16 +33,14 @@ namespace MathWars.Pages
             _configuration = configuration;
         }
 
-		public void OnGet(int currentPage = 1, string difficulty = null, int categoryId = 0)
+		public void OnGet(int currentPage = 1, string difficulty = null, int categoryId = 3)
 		{
 			Categories = GetCategorys();
 
-			// Użyj przekazanej wartości 'difficulty' lub wartości domyślnej z konfiguracji, jeśli 'difficulty' jest null.
 			difficultyLevel = difficulty ?? _configuration.GetSection("FiltrTaskIndexPage").GetValue<string>("DefaultDifficultyLevel") ?? String.Empty;
 
-			// Użyj przekazanej wartości 'categoryId' lub losowej kategorii, jeśli 'categoryId' jest równy 0.
-			Category = categoryId > 0 ? _db.TasksCategory.Find(categoryId) : _db.TasksCategory.Find(RandomCategoryId()) ?? new TasksCategory();
-			this.categoryId = categoryId; // Dodaj to
+			Category = _db.TasksCategory.Find(categoryId);
+			this.categoryId = categoryId;
 
 			var allTasks = taskQueryResult().ToList();
 			CurrentPage = currentPage;
@@ -55,36 +53,25 @@ namespace MathWars.Pages
 
 		public IActionResult OnPost(int currentPage, string difficultyLevel)
 		{
-			// Zapisz wartości z formularza do właściwości modelu
 			this.difficultyLevel = difficultyLevel;
 
-			// Wczytanie kategorii
 			Categories = GetCategorys();
 
-			// Wyszukanie wybranej kategorii
 			Category = _db.TasksCategory.Find(Category.Id) ?? new TasksCategory();
 
-			// Pobranie przefiltrowanej listy zadań
 			var allTasks = taskQueryResult().ToList();
 
-			// Obliczenie liczby stron na podstawie liczby przefiltrowanych zadań 
 			TotalPages = (int)Math.Ceiling(allTasks.Count / (double)ItemsPerPage);
 
-			// Aplikacja paginacji na przefiltrowanej liście zadań
 			TasksList = allTasks.Skip((currentPage - 1) * ItemsPerPage).Take(ItemsPerPage).ToList();
 
-			// Aktualizacja bieżącej strony
 			CurrentPage = currentPage;
 
-			// Jeśli nie ma żadnych zadań na liście po filtracji, zresetuj bieżącą stronę do 1
 			if (!TasksList.Any() && currentPage != 1)
 			{
-				// Przekieruj do pierwszej strony z zachowaniem obecnego poziomu trudności
 				return RedirectToPage(new { currentPage = 1, difficulty = this.difficultyLevel });
 			}
 
-
-			// Zwróć stronę wraz z przefiltrowanymi i spaginowanymi danymi
 			return Page();
 		}
 
@@ -107,12 +94,6 @@ namespace MathWars.Pages
             }
 
             return Enumerable.Empty<Tasks>();
-        }
-        private int RandomCategoryId()
-        {
-            //TODO random not static
-            var Id = 1;
-            return Id;
         }
 
         private IEnumerable<TasksCategory> GetCategorys() 

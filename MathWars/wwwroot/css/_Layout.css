@@ -210,13 +210,13 @@ button:hover {
  }
 
 body {
-    background-color: #fff !important;
+    background-color: #e6eaf5 !important;
     /*background-image: url("../images/bg.png");*/
-   
+
     color: var(--white);
     background-position: 0 0;
     background-size: 200px 200px;
-    font-family: IBM Plex , sans-serif !important; 
+    font-family: IBM Plex, sans-serif !important;
     font-size: 1rem;
     font-weight: 300;
     line-height: 1.5;

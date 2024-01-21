@@ -9,14 +9,14 @@
     <div class="row pt-4">
         <div class="col-6">
             <div class="bg-light" style="padding: 20px; height: 20vh; align-items: center;">
-                <h2 class="text-primary">Your Level</h2>
+                <h2 class="text-primary">Twój poziom</h2>
                 <h1 class="text-primary">@Model.currentUser.Level</h1>
             </div>
         </div>
 
         <div class="col-6">
             <div class="bg-light" style=" padding: 20px; height: 20vh;">
-                <h2 class="text-primary">Your Experience</h2>
+                <h2 class="text-primary">Doświadczenie</h2>
                 <h3 class="text-primary">@Model.currentUser.Experience / @Model.currentUser.ExpToReachNewLvl</h3>
                 <div class="progress">
                     <div class="progress-bar" role="progressbar" style="width: @(Model.currentUser.Experience * 100 / Model.currentUser.ExpToReachNewLvl)%;" aria-valuenow="@Model.currentUser.Experience" aria-valuemin="0" aria-valuemax="@Model.currentUser.ExpToReachNewLvl"></div>
@@ -29,14 +29,14 @@
     <div class="row pt-4">
         <div class="col-12">
             <div class="bg-light" style="padding: 20px;">
-                <h2 class="text-primary">Your Answers</h2>
+                <h2 class="text-primary">Twoje odpowiedzi</h2>
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>Title</th>
-                            <th>Content</th>
-                            <th>Difficulty Level</th>
-                            <th>Answer</th>
+                            <th>Tytuł</th>
+                            <th>Treść</th>
+                            <th>Poziom trudności</th>
+                            <th>Odpowiedź</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -45,7 +45,7 @@
                         {
                             <tr>
                                 <td width="25%">@obj.Task.Title</td>
-                                <td width="35%">@obj.Task.Content</td>
+                                <td width="35%" style="overflow-wrap: break-word; word-break: break-all;">@obj.Task.Content</td>
                                 <td width="10%">@obj.Task.difficultyLevel</td>
                                 <td width="20%">@obj.Task.Answer</td>
                                 <td width="10%">

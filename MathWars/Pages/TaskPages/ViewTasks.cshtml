@@ -6,11 +6,11 @@
 <div class="container p-3">
 	<div class="row pt-4">
 		<div class="col-6">
-			<h2 class="text-primary">Task List</h2>
+			<h2 class="text-primary">Lista zadań</h2>
 		</div>
 		<div class="col-6 text-end">
 			<a asp-page="CreateTask" class="btn btn-primary">
-				<i class="bi bi-plus-square"></i> &nbsp;Create New Task
+				<i class="bi bi-plus-square"></i> &nbsp;Stwórz nowe zadanie
 			</a>
 		</div>
 	</div>
@@ -21,22 +21,22 @@
 		<thead>
 			<tr>
 				<th>
-					Title
+					Tytuł
 				</th>
 				<th>
-					Content
+					Treść
 				</th>
 				<th>
-					Category
+					Kategoria
 				</th>
 				<th>
-					Difficulty Level
+					Poziom Trudności
 				</th>
 				<th>
-					AnswerType
+					Typ odpowiedzi
 				</th>
 				<th>
-					Answer
+					Odpowiedź
 				</th>
 				<th></th>
 			</tr>
@@ -46,7 +46,7 @@
 			{
 				<tr>
 					<td width="20%">@obj.Title</td>
-					<td width="20%">@obj.Content</td>
+					<td width="20%" style="overflow-wrap: break-word; word-break: break-all; maxlength=" 30"">@obj.Content</td>
 					<td width="20%">
 						@foreach (var category in obj.TasksAndCategories.Select(tc => tc.TaskCategory))
 						{

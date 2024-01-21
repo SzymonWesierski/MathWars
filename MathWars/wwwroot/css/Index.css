@@ -1,18 +1,22 @@
 ﻿body {
-    padding-top: 50px; 
-    padding-right:20%; 
-    padding-left: 20%; 
+    background-color: #dee5f7;
+}
+
+.git {
+    padding-left: 20%;
+    padding-right: 20%;
 }
 
 .heading {
-    
-    border-radius: 15px; 
-    text-align: center; 
-    margin: 0 auto 20px; 
+    border-radius: 15px;
+    text-align: center;
+    margin: 50px auto 20px;
+    background-color: #3c63d2;
+    background-image: url("../images/bg.png");
 }
 
 h1 {
-    color: #333333; 
+    color: #dee5f7;
     margin: 0;
     padding: 10px 0;
     font-family: fantasy;
@@ -25,28 +29,30 @@ h1 {
 }
 
 .task {
-    flex: 3; 
-   
-    border-radius: 10px; 
-    margin-right: 10px; 
-    padding: 10px; 
-    position: relative; 
+    flex: 3;
+    background-color: lightcyan;
+    background-image: url("../images/bg.png"), linear-gradient(to right, lightcyan, #E0FFFF);
+    border-radius: 10px;
+    margin-right: 10px;
+    padding: 10px;
+    position: relative;
 }
 
 
 
 .filter {
     text-align: center;
-    flex: 1; 
-    
-    border-radius: 10px; 
-    padding: 10px; 
-    margin: 0 auto; 
+    flex: 1;
+    background-color: lightcyan;
+    background-image: url("../images/bg.png"), linear-gradient(to right, lightcyan, #E0FFFF);
+    border-radius: 10px;
+    padding: 10px;
+    margin: 0 auto;
 }
 
 .task-table {
-    width: 100%; 
-    border-collapse: collapse; 
+    width: 100%;
+    border-collapse: collapse;
 }
 
 .task-table td {
@@ -97,18 +103,6 @@ h1 {
     align-items: center;
 }
 
-.pagination-button {
-    
-}
-
-.pagination-button.left {
-       
-}
-
-.pagination-button.right {
-        
-}
-
 .motivation {
     text-align: center;
 }
@@ -128,12 +122,12 @@ h1 {
 }
 
 .tutorial {
-   
-    border-radius: 15px; 
-    text-align: center; 
-    margin: 0 auto 20px; 
+    background-color: #dee5f7;
+    background-image: url("../images/bg.png");
+    border-radius: 15px;
+    text-align: center;
     width: 50%;
-    margin-right: 10px; 
+    margin-right: 10px;
 }
 
     .tutorial h1 {
@@ -147,12 +141,17 @@ h1 {
         text-align: center;
     }
 
+    .tutorial a{
+        color: blue;
+    }
+
 .jeszcze-nie-wiem {
-    
-    border-radius: 15px; 
-    text-align: center; 
-    margin: 0 auto 20px; 
+    background-color: #dee5f7;
+    background-image: url("../images/bg.png");
+    border-radius: 15px;
+    text-align: center;
     width: 50%;
+    padding: 10px;
 }
     .jeszcze-nie-wiem h1 {
         text-align: center;
@@ -166,7 +165,10 @@ h1 {
 }
 
 .quotes-container {
+    background-color: #dee5f7;
+    background-image: url("../images/bg.png");
     padding: 20px;
+    border-radius: 15px;
     text-align: center;
     font-style: italic;
     font-size: 4em;

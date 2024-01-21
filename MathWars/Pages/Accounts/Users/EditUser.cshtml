@@ -12,12 +12,12 @@
     <div class="border p-3 mt-4">
         <div class="row pb-2">
 
-            <h2 class="text-primary pl-3">Edit User</h2>
+            <h2 class="text-primary pl-3">Edytuj użytkownika</h2>
             <hr />
         </div>
         <div asp-validation-summary="All"></div>
         <div class="mb-3">
-            UserName:
+            Nazwa użytkownika:
             <input asp-for="@Model.user.UserName" class="form-control" />
                 <span asp-validation-for="@Model.user.UserName" class="text-danger"></span>
         </div>
@@ -27,24 +27,24 @@
                 <span asp-validation-for="@Model.user.Email" class="text-danger"></span>
         </div>
         <div class="mb-3">
-            Level:
+            Poziom:
                 <input asp-for="@Model.user.Level" class="form-control" />
                 <span asp-validation-for="@Model.user.Level" class="text-danger"></span>
         </div>
         <div class="mb-3">
-            Experience:
+            Doświadczenie:
                 <input asp-for="@Model.user.Experience" class="form-control" />
                 <span asp-validation-for="@Model.user.Experience" class="text-danger"></span>
         </div>
             <div class="mb-3">
-                Role:
+                Rola:
                 <select asp-for="@Model.NewRole.Id" asp-items="@(new SelectList(Model.Roles, "Id", "Name"))" class="form-control">
                     <option value="">@Model.CurrentRole</option>
                 </select>
                 <span asp-validation-for="@Model.NewRole.Id" class="text-danger"></span>
             </div>
-        <button type="submit" class="btn btn-primary" style="width:150px;">Update</button>
-        <a asp-page="ViewUser" class="btn btn-secondary" style="width:150px;">Back to list</a>
+        <button type="submit" class="btn btn-primary" style="width:150px;">Edytuj</button>
+        <a asp-page="ViewUser" class="btn btn-secondary" style="width:150px;">Powrót</a>
     </div>
 </form>
 </div>

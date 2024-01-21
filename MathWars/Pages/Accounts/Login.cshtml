@@ -10,14 +10,14 @@
         <div asp-validation-summary="All" class="text-danger"></div>
 
         
-        <h1>Login</h1>
+        <h1>Zaloguj</h1>
         <div>
-            <label asp-for="loginModel.UserName">User Name:</label>
+            <label asp-for="loginModel.UserName">Nazwa użytkownika:</label>
             <input type="text" asp-for="loginModel.UserName" placeholder="User Name" >
             <span asp-validation-for="loginModel.UserName" class="text-danger"></span>
         </div>
         <div>
-            <label asp-for="loginModel.Password">Password:</label>
+            <label asp-for="loginModel.Password">Hasło:</label>
             <input type="password" asp-for="loginModel.Password" placeholder="Password">
             <span asp-validation-for="loginModel.Password" class="text-danger"></span>
         </div>
@@ -25,19 +25,19 @@
         <div>
 
             <input type="checkbox" asp-for="loginModel.RememberMe">
-            <label asp-for="loginModel.RememberMe">Remember me?</label>
+            <label asp-for="loginModel.RememberMe">Zapamiętaj mnie?</label>
             
         </div>
 
         <div>
-            <a class="fyp" href="/forgot-password">Forgot your password?</a>
+            <a class="fyp" href="/forgot-password">Zapomniałeś hasło?</a>
         </div>
 
         <div>
-            <input type="submit" value="Login">
+            <input type="submit" value="Zaloguj">
         </div>
         <div>
-            <a href="/sign-up">Sign up if you don't have an account yet.</a>
+            <a asp-page="Register">Nie masz jeszcze konta? Przejdź do rejestracji!</a>
         </div>
     </form>
 </div>

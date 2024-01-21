@@ -28,7 +28,7 @@ public class Tasks
     public List<TasksCategory> Category { get; set; } =  new();
 
     
-    [Range(1, 6, ErrorMessage = "Please enter a valid number (1-6).")]
+    [Range(1, 6, ErrorMessage = "Podaj wartość 1-6")]
     [Required(ErrorMessage = "Pole poziom trudności jest wymagane")]
     public int difficultyLevel { get; set; }
     [AllowNull]

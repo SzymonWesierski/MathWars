@@ -8,31 +8,31 @@
 <div class="register-box">
     <div>
         <div>
-            <h1>Register</h1>
+            <h1>Rejestracja</h1>
 
             <form method="post">
                 <div>
-                    <label>User name</label>
+                    <label>Nazwa użytkownika</label>
                     <input type="text" name="registerModel.UserName" />
                 <span asp-validation-for="registerModel.UserName" class="text-danger"></span>
                 </div>
                 <div>
-                    <label>Email Address</label>
+                    <label>Adres Email</label>
                     <input type="text" name="registerModel.Email" />
                 <span asp-validation-for="registerModel.Email" class="text-danger"></span>
                 </div>
                 <div>
-                    <label>Password</label>
+                    <label>Hasło</label>
                     <input type="password" name="registerModel.Password" />
                     <span asp-validation-for="registerModel.Password" class="text-danger"></span>
                 </div>
                 <div>
-                    <label>Confirm password</label>
+                    <label>Powtórz hasło</label>
                     <input type="password" name="registerModel.ConfirmPassword" />
                     <span asp-validation-for="registerModel.ConfirmPassword" class="text-danger"></span>
                 </div>
                 <div>
-                    <input type="submit" value="Register">
+                    <input type="submit" value="Rejestruj">
                 </div>
             </form>
         </div>
