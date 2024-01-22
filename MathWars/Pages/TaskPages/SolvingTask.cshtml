@@ -9,17 +9,17 @@
 
 <div class="container">
     <div class="row pb-2">
-        <h2 class="text-primary pl-3">Solve Task</h2>
+        <h2 class="text-primary pl-3">Rozwiąż zadanie</h2>
     </div>
     <div class="mb-3">
-        <strong>Title:</strong>
+        <strong>Tytuł:</strong>
         <p class="mb-0"> @Model.Task.Title</p>
     </div>
  
     
   
     <div class="mb-3">
-        <strong>Content:</strong>
+        <strong>Treść:</strong>
         <p class="mb-0"> @Model.Task.Content</p>
     </div>
 
@@ -51,15 +51,15 @@
     <div class="mb-3">
     <form method="post">
         <!--<div asp-validation-summary="All"></div>-->
-        Answer (@Model.Task.AnswerType.FormatExplanation):
+        Odpowiedź (@Model.Task.AnswerType.FormatExplanation):
         <input asp-for="@Model.Answer.Answer" class="form-control" />
          @Model.AnswerResult
 
         <input type="hidden" asp-for="@Model.Task.Id" />
 
         <br/>
-        <button type="submit" class="btn btn-primary" style="width:150px;">Check</button>
-        <a asp-page="/Index" class="btn btn-secondary" style="width:150px;">Back to home page</a>
+        <button type="submit" class="btn btn-primary" style="width:150px;">Sprawdź</button>
+        <a asp-page="/Index" class="btn btn-secondary" style="width:150px;">Powrót do strony głównej</a>
         
     </form>
     </div>
