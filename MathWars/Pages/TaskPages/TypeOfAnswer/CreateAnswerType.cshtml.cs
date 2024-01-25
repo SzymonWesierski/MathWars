@@ -11,12 +11,12 @@ namespace MathWars.Pages.TaskPages.TypeOfAnswer;
 public class CreateAnswerTypeModel : PageModel
 {
     private readonly ApplicationDbContext _db;
-    public AnswerTypes AnswerType { get; set; }
+    public AnswerTypesViewModel AnswerType { get; set; }
 
     public CreateAnswerTypeModel(ApplicationDbContext db)
     {
         _db = db;
-        AnswerType = new AnswerTypes();
+        AnswerType = new AnswerTypesViewModel();
     }
     public void OnGet()
     {
@@ -29,35 +29,19 @@ public class CreateAnswerTypeModel : PageModel
             return NotFound();
         }
 
-        if (ModelState.IsValid && TaskCategoryValidation(AnswerType))
+        if (ModelState.IsValid)
         {
-            await _db.AnswerTypes.AddAsync(AnswerType);
+            var answerType = new AnswerTypes
+            {
+                Name = AnswerType.Name,
+                FormatExplanation = AnswerType.FormatExplanation,
+                HowManyCorrectAnswers = AnswerType.HowManyCorrectAnswers,
+                Created = AnswerType.Created
+            };
+            await _db.AnswerTypes.AddAsync(answerType);
             await _db.SaveChangesAsync();
             return RedirectToPage("ViewAnswerType");
         }
         return Page();
-    }
-
-    private bool TaskCategoryValidation(AnswerTypes AnswerType)
-    {
-        bool result = true;
-
-        if (AnswerType.Name == null)
-        {
-            ModelState.AddModelError("AnswerType.Name", "Pole nazwy jest wymagane");
-            result = false;
-        }
-        if (AnswerType.FormatExplanation == null)
-        {
-            ModelState.AddModelError("AnswerType.FormatExplanation", "Pole wyjaœnienia typu odpowiedzi jest wymagane");
-            result = false;
-        }
-        if (AnswerType.HowManyCorrectAnswers == 0)
-        {
-            ModelState.AddModelError("AnswerType.HowManyCorrectAnswers", "Pole iloœci prawid³owych odpowiedzi musi wynosiæ wiêcej ni¿ 0");
-            result = false;
-        }
-
-        return result;
     }
 }

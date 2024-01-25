@@ -19,6 +19,7 @@
             <div class="mb-3">
                 Treść:
                 <textarea asp-for="@Model.Task.Content" class="form-control"></textarea>
+                <span asp-validation-for="@Model.Task.Content" class="text-danger"></span>
            
             </div>
             <div class="mb-3">
@@ -43,7 +44,7 @@
             <div class="mb-3">
                 Poziom trudności:
                 <input asp-for="@Model.Task.difficultyLevel" class="form-control" />
-          
+                <span asp-validation-for="@Model.Task.difficultyLevel" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 Typ odpowiedzi:
@@ -52,7 +53,7 @@
                 <span asp-validation-for="@Model.Task.AnswerTypeId" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                Poprawna odpowiedź:
+                Poprawna odpowiedź (Jeżeli typ odpowiedzi wymaga więcej niż jednej odpowiedzi to podaj je po przecinku):
                 <input asp-for="@Model.Task.Answer" class="form-control" />
                 <span asp-validation-for="@Model.Task.Answer" class="text-danger"></span>
             </div>
