@@ -1,6 +1,5 @@
 h1 {
     font-weight: 500;
-    
     text-align: center;
     font-size: 6rem;
     line-height: 1.1;
@@ -16,19 +15,16 @@ h1 {
     color: #0d6efd;
     padding: 0px;
     margin: 0px;
-    
 }
 
 h2 {
     font-size: 25px;
     text-align: center;
-    
 }
 
 .box-title {
     font-size: 25px;
     text-align: left;
-  
 }
 
 .boxes-headline {
@@ -36,19 +32,17 @@ h2 {
 }
 
 .button-under-start {
-   
     margin-top:30px;
     display: flex;
     justify-content: center; 
     align-items: center; 
-    
 }
+
 .button-under-start button {
    width:20vw;
    height:10vh;
    font-size:24px;
 }
-
 
 .boxes {
     width: 70%;
@@ -83,7 +77,6 @@ h2 {
    
 }
 
-
 .box-left{
    
     font-size: 1.2rem;
@@ -105,10 +98,10 @@ h2 {
 }
 
 .box-right img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 10px;
-        min-width: 30vw;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    min-width: 30vw;
 }
 
 .box-container {

@@ -3,7 +3,7 @@ document.addEventListener('mousemove', (e) => {
     const elements = document.querySelectorAll('.symbols');
 
     elements.forEach(element => {
-        const speedFactor = 100; // Możesz dostosować ten współczynnik
+        const speedFactor = 100; 
         const x = -(window.innerWidth / 2 - mouseX) / window.innerWidth * speedFactor;
         const y = -(window.innerHeight / 2 - mouseY) / window.innerHeight * speedFactor;
 

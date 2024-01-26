@@ -13,22 +13,22 @@
             <form method="post">
                 <div>
                     <label>Nazwa użytkownika</label>
-                    <input type="text" name="registerModel.UserName" />
+                    <input type="text" name="registerModel.UserName" placeholder="Nazwa użytkownika" />
                 <span asp-validation-for="registerModel.UserName" class="text-danger"></span>
                 </div>
                 <div>
                     <label>Adres Email</label>
-                    <input type="text" name="registerModel.Email" />
+                    <input type="text" name="registerModel.Email" placeholder="Adres Email" />
                 <span asp-validation-for="registerModel.Email" class="text-danger"></span>
                 </div>
                 <div>
                     <label>Hasło</label>
-                    <input type="password" name="registerModel.Password" />
+                    <input type="password" name="registerModel.Password" placeholder="Hasło" />
                     <span asp-validation-for="registerModel.Password" class="text-danger"></span>
                 </div>
                 <div>
                     <label>Powtórz hasło</label>
-                    <input type="password" name="registerModel.ConfirmPassword" />
+                    <input type="password" name="registerModel.ConfirmPassword" placeholder="Powtórz hasło" />
                     <span asp-validation-for="registerModel.ConfirmPassword" class="text-danger"></span>
                 </div>
                 <div>

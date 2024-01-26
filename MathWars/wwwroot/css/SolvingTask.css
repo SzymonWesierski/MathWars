@@ -47,15 +47,15 @@ button.btn-secondary {
 
 
 container {
-    text-align: center; /* Wyśrodkowanie obrazu */
-    margin-top: 20px; /* Dodatkowy margines na górze, jeśli potrzebny */
+    text-align: center; 
+    margin-top: 20px; 
 }
 
 .task-image {
-    max-width: 50%; /* Zmniejszenie szerokości obrazu do 50% kontenera */
-    height: auto; /* Zachowanie proporcji obrazu */
+    max-width: 50%; 
+    height: auto; 
 }
 
 .btn i {
-    font-size: 20px; /* Zwiększa rozmiar ikon */
+    font-size: 20px; 
 }

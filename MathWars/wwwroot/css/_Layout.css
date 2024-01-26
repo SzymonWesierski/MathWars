@@ -1,5 +1,3 @@
-/* LOGO OGÓLNE */
-
 .sidebar-logo {
     font-size: 20px;
     color: #fff;
@@ -57,15 +55,12 @@
     box-shadow: 5px 0 5px rgba(0, 0, 0, 0.1);
 }
 
-
 .bg-gradient-primary {
     background-color: #4e73df;
-    
 }
 
 .sidebar-container:hover {
-        width: 250px;
-        
+    width: 250px;
 }
 
 .sidebar-navigation {
@@ -74,27 +69,26 @@
     margin: 0;
 }
 
-    .sidebar-navigation li a {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 50px;
-        position: relative;
-        text-decoration: none;
-        color: #fff;
-       
-        border-style: none;
-    }
+.sidebar-navigation li a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    position: relative;
+    text-decoration: none;
+    color: #fff;
+    border-style: none;
+}
 
 .sidebar-navigation li a:hover {
-        opacity: 0.8;
-        color: #fff;
+    opacity: 0.8;
+    color: #fff;
 }
 
 .sidebar-navigation li i {
-        font-size: 24px;
-        position: absolute;
-        left: 12px; 
+    font-size: 24px;
+    position: absolute;
+    left: 12px; 
 }
 
 .sidebar-navigation li span {
@@ -122,7 +116,6 @@
 }
 
 .navbar-top {
-
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -133,10 +126,6 @@
     font-size:20px;
 }
 
-
-
-
-
 .navbar-top-content {
     display: flex;
     justify-content: space-between;
@@ -145,15 +134,12 @@
 }
 
 .navbar-top-content ul {
-        list-style: none;
-        display: flex;
-        margin: 0;
-        padding: 0;
-        gap: 30px;
-        
-    }
-
-
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    gap: 30px;
+}
 
 button {
     margin-left: 0.5rem;
@@ -169,7 +155,6 @@ button:hover {
     opacity:0.7;
 }
 
-
 .hamburger-menu {
     display: none; 
     font-size: 2rem; 
@@ -178,14 +163,13 @@ button:hover {
     
 @media screen and (max-width: 600px) {
 .hamburger-menu {
-        display: block; 
+    display: block; 
 }
 
 .navbar-top-content ul, .navbar-top-buttons {
-        display: none; 
+    display: none; 
     }
 }
-
 
 .dropdown-menu {
     display: none;
@@ -212,7 +196,6 @@ button:hover {
 body {
     background-color: #e6eaf5 !important;
     /*background-image: url("../images/bg.png");*/
-
     color: var(--white);
     background-position: 0 0;
     background-size: 200px 200px;
@@ -222,13 +205,11 @@ body {
     line-height: 1.5;
 }
 
-
-
 .main-container {
     display: flex;
     flex-direction: column;
     flex: 1;
-   border: 1px solid red;
+    border: 1px solid red;
 }
 
 html, body {
@@ -239,13 +220,9 @@ html, body {
     flex-direction: column;
 }
 
-
-
 main {
     min-height: 100vh;
- 
 }
-
 
 footer {
     width: 100%;
@@ -253,23 +230,18 @@ footer {
     color: black;
     text-align: center;
     padding:20px;
-   
     font-size: 16px;
     box-shadow: 0 -2px 4px 0.5px rgba(0,0,0,0.1);
    
 }
 
 a, a:hover {
-
-color:white;
-text-decoration:none;
+    color:white;
+    text-decoration:none;
 
 }
-
 .navbar-left a:hover{
-
     opacity: 0.75;
-
 }
 
 footer a {
@@ -279,13 +251,13 @@ footer a {
 }
 
 footer a:hover {
-  text-decoration: none; 
-  opacity:0.75;
+    text-decoration: none; 
+    opacity:0.75;
 }
 
 .login-box {
     width: 400px;
-    padding: 20px;
+    padding: 0px 25px 0px 25px;
     margin: 0 auto;
     border: 1px solid #ddd;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -305,7 +277,6 @@ footer a:hover {
 .login-box input[type="text"],
 .login-box input[type="password"],
 .login-box input[type="submit"] {
-
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
@@ -313,27 +284,25 @@ footer a:hover {
     border-radius: 4px;
 }
 
-
 .login-box input[type="submit"] {
-        background-color: #5980f8;
-        color: white;
-    }
+    background-color: #5980f8;
+    color: white;
+}
 
 .login-box input[type="submit"]:hover {
-            background-color: #5980f8;
-            color: white;
-            opacity: 0.75;
-        }
+    background-color: #5980f8;
+    color: white;
+    opacity: 0.75;
+}
 
 .login-box label {
-        display: inline-block;
-        margin-right: 5px;
+    display: inline-block;
+    margin-right: 5px;
 }
 
 .login-box input[type="checkbox"] {
-        vertical-align: middle;
+    vertical-align: middle;
 }
-
 
 .login-box a {
     display: block; 
@@ -344,12 +313,8 @@ footer a:hover {
 }
 
 .login-box a.fyp {
-        text-align: right;
+    text-align: right;
 }
-
-
-
-
 
 .register-box {
     width: 400px;
@@ -381,7 +346,6 @@ footer a:hover {
     border-radius: 4px;
 }
 
-
 .register-box input[type="submit"] {
     background-color: #5980f8;
     color: white;
@@ -398,10 +362,7 @@ footer a:hover {
     margin-right: 5px;
 }
 
-
-
 .register-box a {
-
     display: block;
     text-align: center;
     margin-top: 10px;
