@@ -10,6 +10,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace MathWars.Pages.TaskPages;
 [Authorize]
@@ -21,7 +22,8 @@ public class SolvingTaskModel : PageModel
     public Answers Answer { get; set; } = new Answers();
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IConfiguration _configuration;
-    public string AnswerResult;
+    public bool AnswerResult = false;
+    public List<string> AnswersList { get; set; }
 
 
     public SolvingTaskModel(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IConfiguration configuration)
@@ -74,7 +76,7 @@ public class SolvingTaskModel : PageModel
                 return NotFound();
             }
 
-            if (Answer.Answer == Task.Answer)
+            if (IsAnswerCorrect())
             {
                 // Get the currently logged-in user
                 var user = await _userManager.GetUserAsync(User) ?? new ApplicationUser();
@@ -90,25 +92,29 @@ public class SolvingTaskModel : PageModel
                     User = user,
                     Task = Task,
                     TaskId = Task.Id,
-                    Answer = Answer.Answer,
+                    Answer = Task.Answer,
                 };
 
                 Task.Answers.Add(answ);
 
-                // User LVL and EXP
-                user = GetHowManyExperienceReached(user);
-                user = GetHowManyLevelsReached(user);
+
+                if (!DidUserRespondToTask(user))
+                {
+                    // User LVL and EXP
+                    user = GetHowManyExperienceReached(user);
+                    user = GetHowManyLevelsReached(user);
+                }
 
                 await _db.Answers.AddAsync(answ);
                 await _db.SaveChangesAsync();
 
-               AnswerResult = "Correct answer : )";
+
+                AnswerResult = true;
                 
                 return Page();
             }
             else
             {
-                AnswerResult = "Wrong answer :(";
                 return Page();
             }
         }
@@ -119,6 +125,54 @@ public class SolvingTaskModel : PageModel
             return Page();
         }
     }
+
+    private bool DidUserRespondToTask(ApplicationUser user)
+    {
+        var result = _db.Answers.Where(t => t.TaskId == Task.Id && t.UserId == user.Id);
+
+        if(result.Any())  return true; 
+
+        return false;
+    }
+
+
+    private bool IsAnswerCorrect()
+    {
+        bool isWholeAnswerCorrect = true;
+
+        //Prepering answers from form
+        string answersFromForm = "";
+        foreach (var answer in AnswersList)
+        {
+            answersFromForm += answer.Replace(" ", "").ToUpper() + ",";
+        }
+        answersFromForm = answersFromForm.Substring(0, answersFromForm.Length - 1);
+
+        var answersFromFormList = answersFromForm.Split(",");
+        var taskAnswersList = Task.Answer.Split(",");
+
+        for (int i = 0; i < answersFromFormList.Length; i++)
+        {
+            bool invalid = true;
+            for (int j = 0; j < taskAnswersList.Length; j++)
+            {
+                if (taskAnswersList[j] == answersFromFormList[i])
+                {
+                    taskAnswersList[j] = "";
+                    invalid = false;
+                    break;
+                }
+            }
+            if (invalid)
+            {
+                ModelState.AddModelError($"AnswersList[{i}]", "Nie poprawna odpowiedŸ");
+                isWholeAnswerCorrect = false;
+            }
+        }
+
+        return isWholeAnswerCorrect;
+    }
+
 
     private ApplicationUser GetHowManyLevelsReached(ApplicationUser user)
     {        

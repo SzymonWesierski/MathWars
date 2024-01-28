@@ -93,6 +93,23 @@ public class CreateTaskModel : PageModel
 				});
 			}
 		}
+        var answerType = _db.AnswerTypes.FirstOrDefault(a => a.Id == Task.AnswerTypeId);
+
+        if(answerType == null)  return BadRequest();
+
+        var countAnswersForm = Task.Answer.Split(',').Select(s => s.Trim()).ToList().Count();
+
+        if (countAnswersForm != answerType.HowManyCorrectAnswers)
+        {
+            ModelState.AddModelError("Task.Answer", $"Musisz podaæ {answerType.HowManyCorrectAnswers.ToString()} odpowedzi po przecinku");
+
+			// If the model state is not valid, return the page with validation errors.
+			Categories = await _db.TasksCategory.ToListAsync();
+			AnswersTypesList = await _db.AnswerTypes.ToListAsync();
+
+			return Page();
+        }
+        Task.Answer = Task.Answer.ToUpper().Replace(" ", "");
 
         await _db.Tasks.AddAsync(Task);
         await _db.SaveChangesAsync();

@@ -33,19 +33,24 @@ namespace MathWars.Pages
             _configuration = configuration;
         }
 
-		public void OnGet(int currentPage = 1, string difficulty = null, int categoryId = 3)
+		public IActionResult OnGet(int currentPage = 1, string difficulty = null)
 		{
 			Categories = GetCategorys();
 
-			difficultyLevel = difficulty ?? _configuration.GetSection("FiltrTaskIndexPage").GetValue<string>("DefaultDifficultyLevel") ?? String.Empty;
+			if(Categories == null) return NotFound();
 
-			Category = _db.TasksCategory.Find(categoryId);
-			this.categoryId = categoryId;
+			Category = Categories.First();
+
+            categoryId = Category.Id;
+
+			difficultyLevel = difficulty ?? _configuration.GetSection("FiltrTaskIndexPage").GetValue<string>("DefaultDifficultyLevel") ?? String.Empty;
 
 			var allTasks = taskQueryResult().ToList();
 			CurrentPage = currentPage;
 			TotalPages = (int)Math.Ceiling((double)allTasks.Count / ItemsPerPage);
 			TasksList = allTasks.Skip((CurrentPage - 1) * ItemsPerPage).Take(ItemsPerPage).ToList();
+
+			return Page();
 		}
 
 

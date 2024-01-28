@@ -12,7 +12,7 @@ namespace MathWars.Pages.TaskPages.TypeOfAnswer;
 public class EditAnswerTypeModel : PageModel
 {
     private readonly ApplicationDbContext _db;
-    public AnswerTypes AnswerType { get; set; } = new AnswerTypes();
+    public AnswerTypesViewModel AnswerType { get; set; } = new AnswerTypesViewModel();
 
     public EditAnswerTypeModel(ApplicationDbContext db)
     {
@@ -20,13 +20,23 @@ public class EditAnswerTypeModel : PageModel
     }
     public async Task<IActionResult> OnGetAsync(int id)
     {
-        AnswerType = await _db.AnswerTypes
+        var AnswerTypeFromDB = await _db.AnswerTypes
             .FirstOrDefaultAsync(at => at.Id == id) ?? new AnswerTypes();
 
-        if (AnswerType == null) 
+        if (AnswerTypeFromDB == null) 
         {
             return NotFound(); 
         }
+
+        AnswerType = new AnswerTypesViewModel()
+        {
+            Id = id,
+            Created = AnswerTypeFromDB.Created,
+            Name = AnswerTypeFromDB.Name,
+            FormatExplanation = AnswerTypeFromDB.FormatExplanation,
+            HowManyCorrectAnswers = AnswerTypeFromDB.HowManyCorrectAnswers
+        };
+        
         return Page();
     }
 
@@ -34,36 +44,22 @@ public class EditAnswerTypeModel : PageModel
     {
         if(AnswerType != null) 
         {
-            if (TaskCategoryValidation(AnswerType) && ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                _db.AnswerTypes.Update(AnswerType);
+                var AnswerTypeToDB = new AnswerTypes
+                {
+                    Id = AnswerType.Id,
+                    Created = AnswerType.Created,
+                    Name = AnswerType.Name,
+                    FormatExplanation = AnswerType.FormatExplanation,
+                    HowManyCorrectAnswers = AnswerType.HowManyCorrectAnswers,
+                };
+
+                _db.AnswerTypes.Update(AnswerTypeToDB);
                 await _db.SaveChangesAsync();
                 return RedirectToPage("ViewAnswerType");
             }
         }
         return Page();
-    }
-
-    private bool TaskCategoryValidation(AnswerTypes AnswerType)
-    {
-        bool result = true;
-
-        if (AnswerType.Name == null)
-        {
-            ModelState.AddModelError("AnswerType.Name", "Pole nazwy jest wymagane");
-            result = false;
-        }
-        if (AnswerType.FormatExplanation == null)
-        {
-            ModelState.AddModelError("AnswerType.FormatExplanation", "Pole wyjaœnienia typu odpowiedzi jest wymagane");
-            result = false;
-        }
-        if (AnswerType.HowManyCorrectAnswers == 0)
-        {
-            ModelState.AddModelError("AnswerType.HowManyCorrectAnswers", "Pole iloœci prawid³owych odpowiedzi musi wynosiæ wiêcej ni¿ 0");
-            result = false;
-        }
-
-        return result;
     }
 }

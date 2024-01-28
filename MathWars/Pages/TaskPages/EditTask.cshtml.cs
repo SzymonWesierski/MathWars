@@ -52,8 +52,6 @@ public class EditTaskModel : PageModel
         Categories = await _db.TasksCategory.ToListAsync();
         AnswerTypesList = await _db.AnswerTypes.ToListAsync();
 
-        
-
         return Page();
     }
 
@@ -62,23 +60,7 @@ public class EditTaskModel : PageModel
 
         if (!ModelState.IsValid)
         {
-            Categories = await _db.TasksCategory.ToListAsync();
-            AnswerTypesList = await _db.AnswerTypes.ToListAsync();
-
-            var taskFromDb = await _db.Tasks
-            .Include(t => t.AnswerType)
-            .Include(t => t.TasksAndCategories)
-            .ThenInclude(tc => tc.TaskCategory)
-            .FirstOrDefaultAsync(m => m.Id == Task.Id);
-
-            if (taskFromDb == null)
-            {
-                return NotFound();
-            }
-
-            Task = taskFromDb;
-
-            return Page();
+            return await ReturnPageAndResources();
         }
 
         // Load the existing task with its current relationships
@@ -94,6 +76,23 @@ public class EditTaskModel : PageModel
 
         // Update the task
         var pathToExistingTaskOldImage = existingTask.ImagePath;
+
+        //Preparing task answer
+        var answerType = _db.AnswerTypes.FirstOrDefault(a => a.Id == Task.AnswerTypeId);
+
+        if (answerType == null) return BadRequest();
+
+        var countAnswersForm = Task.Answer.Split(',').Select(s => s.Trim()).ToList().Count();
+
+        if (countAnswersForm != answerType.HowManyCorrectAnswers)
+        {
+            ModelState.AddModelError("Task.Answer", $"Musisz podaæ {answerType.HowManyCorrectAnswers.ToString()} odpowedzi");
+            return await ReturnPageAndResources();
+        }
+
+        Task.Answer = Task.Answer.ToUpper().Replace(" ", "");
+
+
         _db.Entry(existingTask).CurrentValues.SetValues(Task);
 
         // Get the existing category ids
@@ -159,12 +158,33 @@ public class EditTaskModel : PageModel
                 System.IO.File.Delete(pathToDeleteImage);
             }
         }
-        
+
         // Save changes to the database
         await _db.SaveChangesAsync();
 
         return RedirectToPage("ViewTasks");
 
+    }
+
+    public async Task<IActionResult> ReturnPageAndResources()
+    {
+        var taskFromDb = await _db.Tasks
+            .Include(t => t.AnswerType)
+            .Include(t => t.TasksAndCategories)
+            .ThenInclude(tc => tc.TaskCategory)
+            .FirstOrDefaultAsync(m => m.Id == Task.Id);
+
+        if (taskFromDb == null)
+        {
+            return NotFound();
+        }
+
+        Task = taskFromDb;
+
+        Categories = await _db.TasksCategory.ToListAsync();
+        AnswerTypesList = await _db.AnswerTypes.ToListAsync();
+
+        return Page();
     }
 
 }

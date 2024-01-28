@@ -6,6 +6,19 @@
 
 <link rel="stylesheet" href="~/css/_Layout.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/css/SolvingTask.css" asp-append-version="true" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+@{
+    if (@Model.AnswerResult != null)
+    {
+        <script type="text/javascript">
+            $(function () {
+                $("#aModal").modal('show');
+            })
+        </script>
+    }
+}
+
 
 <div class="container">
     <div class="row pb-2">
@@ -50,19 +63,45 @@
  
     <div class="mb-3">
     <form method="post">
-        <!--<div asp-validation-summary="All"></div>-->
-        Odpowiedź (@Model.Task.AnswerType.FormatExplanation):
-        <input asp-for="@Model.Answer.Answer" class="form-control" />
-         @Model.AnswerResult
-
         <input type="hidden" asp-for="@Model.Task.Id" />
 
+        <!--<div asp-validation-summary="All"></div>-->
+        Odpowiedź (@Model.Task.AnswerType.FormatExplanation):
+        @for (int i = 0; i < Model.Task.AnswerType.HowManyCorrectAnswers; i++)
+        {
+                <input asp-for="@Model.AnswersList[i]" class="form-control" />
+                <span asp-validation-for="@Model.AnswersList[i]" class="text-danger"></span>
+        }
+
         <br/>
+
         <button type="submit" class="btn btn-primary" style="width:150px;">Sprawdź</button>
         <a asp-page="/Index" class="btn btn-secondary" style="width:150px;">Powrót do strony głównej</a>
         
     </form>
     </div>
+    @*modal*@
+    @if (Model.AnswerResult == true)
+    {
+        <div class="modal fade" id="aModal" tabindex="-1" role="dialog" aria-labelledby="aModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="aModalLabel">Gratulacje</h4>
+                    </div>
+                    <div class="modal-body">
+                        Udało Ci się poprawnie rozwiązać zadanie : ) 
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
 
 </div>
 
+<script src="~/js/Drawing.js"></script>

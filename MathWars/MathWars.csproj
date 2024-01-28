@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\js\Drawing.js" />
+    <Content Remove="wwwroot\js\MathEditor.js" />
+    <Content Remove="wwwroot\js\RenderMathContent.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,6 +17,8 @@
     <None Include="Pages\TaskPages\TypeOfAnswer\DeleteAnswerType.cshtml" />
     <None Include="Pages\TaskPages\TypeOfAnswer\EditAnswerType.cshtml" />
     <None Include="Pages\TaskPages\TypeOfAnswer\ViewAnswerType.cshtml" />
+    <None Include="wwwroot\js\RenderMathContent.js" />
+    <None Include="wwwroot\js\MathEditor.js" />
     <None Include="wwwroot\js\Drawing.js" />
   </ItemGroup>
 
