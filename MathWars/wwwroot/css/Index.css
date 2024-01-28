@@ -38,8 +38,6 @@ h1 {
     position: relative;
 }
 
-
-
 .filter {
     text-align: center;
     flex: 1;
@@ -76,7 +74,6 @@ h1 {
     justify-content: flex-end; 
 }
 
-
 .solve-button a {
     text-decoration: none; 
     color: white; 
@@ -97,6 +94,7 @@ h1 {
 .category-name {
     font-size: 0.9em; 
 }
+
 .task-row {
     display: flex;
     justify-content: space-between;
@@ -107,15 +105,16 @@ h1 {
     text-align: center;
 }
 
-
 .filter-table {
     width: auto; 
     margin: 0 auto;
 }
+
 .filter-table-heading {
     font-size: 1.5em;
     font-weight: bold; 
 }
+
 .second-content {
     display: flex;
     padding-bottom: 20px;
@@ -130,22 +129,22 @@ h1 {
     margin-right: 10px;
 }
 
-    .tutorial h1 {
-        text-align: center;
-        font-size: 1.5em; 
-        font-weight: bold; 
-        color: #333; 
-    }
+.tutorial h1 {
+    text-align: center;
+    font-size: 1.5em; 
+    font-weight: bold; 
+    color: #333; 
+}
 
-    .tutorial p {
-        text-align: center;
-    }
+.tutorial p {
+    text-align: center;
+}
 
-    .tutorial a{
-        color: blue;
-    }
+.tutorial a{
+    color: blue;
+}
 
-.jeszcze-nie-wiem {
+.fun-fact-box {
     background-color: #dee5f7;
     background-image: url("../images/bg.png");
     border-radius: 15px;
@@ -153,12 +152,13 @@ h1 {
     width: 50%;
     padding: 10px;
 }
-    .jeszcze-nie-wiem h1 {
-        text-align: center;
-        font-size: 1.5em; 
-        font-weight: bold; 
-        color: #333; 
-    }
+
+.fun-fact-box h1 {
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333;
+}
 
 .fun-fuct {
     font-family: 'Dancing Script', cursive; 
@@ -174,8 +174,8 @@ h1 {
     font-size: 3em;
 }
 
-    .quotes-container p {
-        margin: 0;
-        font-family: 'Dancing Script', cursive;
-    }
+.quotes-container p {
+    margin: 0;
+    font-family: 'Dancing Script', cursive;
+}
 

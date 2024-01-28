@@ -10,12 +10,9 @@
     color: #cd7f32; 
 }
 
-
 .table {
     font-size: 1rem; 
 }
-
- 
 
 .table tbody tr:nth-child(odd) {
     background-color: #f8f9fa; 

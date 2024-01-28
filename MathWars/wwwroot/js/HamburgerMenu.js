@@ -7,9 +7,6 @@ function toggleMenu() {
     }
 }
 
-
-
-
 window.onclick = function (event) {
     if (!event.target.matches('.hamburger-menu')) {
         var dropdowns = document.getElementsByClassName("dropdown-menu");
