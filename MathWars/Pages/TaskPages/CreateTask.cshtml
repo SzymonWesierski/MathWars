@@ -11,16 +11,19 @@
            
             </div>
             <div class="mb-3">
-                Tytuł:
+                <h4>Tytuł:</h4>
                 <input asp-for="@Model.Task.Title" class="form-control" />
                 <span asp-validation-for="@Model.Task.Title" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                Treść zadania:
-                <textarea asp-for="@Model.Task.Content" class="form-control"></textarea>
+                <h4>Treść zadania:</h4>
+                <div style="overflow-wrap: break-word; word-break: break-all; maxlength=" 30"" id="latex-preview"></div>
+                <textarea id="latex-preview-input" asp-for="@Model.Task.Content" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="@Model.Task.Content" class="text-danger"></span>
+                <button type="button" class="btn btn-secondary" onclick="addEquations()">Dodaj układ równań</button>
             </div>
             <div class="mb-3">
-                Kreator równań:
+                <h4>Kreator równań:</h4>
                 <div class="mb-3 m-lg-5">
                     Treść LaTeX (treść gotowa do skopiowania):
                     <button type="button" class="btn btn-secondary" id="copy-button">Kopiuj</button>
@@ -36,6 +39,7 @@
                     <button type="button" class="btn btn-secondary" onclick="insertSymbol('x')">\(x\)</button>
                     <button type="button" class="btn btn-secondary" onclick="insertSymbol('y')">\(y\)</button>
                     <button type="button" class="btn btn-secondary" onclick="insertSymbol('z')">\(z\)</button>
+                    <button type="button" class="btn btn-secondary" onclick="insertSymbol('\\div')">\( \div \)</button>
                     <button type="button" class="btn btn-secondary" onclick="insertSymbol('\\frac{}{}')">\(\frac{x}{y}\)</button>
                     <button type="button" class="btn btn-secondary" onclick="insertSymbol('\\sqrt{}')">\(\sqrt{x}\)</button>
                     <button type="button" class="btn btn-secondary" onclick="insertSymbol('\\sqrt[{}]{}')">\( \sqrt[x]{y} \)</button>
@@ -116,12 +120,12 @@
                 </div>
             </div>
             <div class="mb-3">
-                Dodaj zdjęcie (jeśli jest wymagane):
+                <h4>Dodaj zdjęcie (jeśli jest wymagane):</h4>
                 <input type="file" accept="image/*" asp-for="@Model.ImageFile" class="form-control" />
                 <span asp-validation-for="@Model.ImageFile" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                Kategoria:
+                <h4>Kategoria:</h4>
                 <div class="form-control">
                     @foreach (var category in Model.Categories)
                     {
@@ -135,18 +139,18 @@
                 <span asp-validation-for="SelectedCategoryIds" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                Poziom trudności:
+                <h4>Poziom trudności:</h4>
                 <input asp-for="@Model.Task.difficultyLevel" class="form-control" />
                 <span asp-validation-for="@Model.Task.difficultyLevel" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                Typ odpowiedzi:
+                <h4>Typ odpowiedzi:</h4>
                 <select asp-for="@Model.Task.AnswerTypeId" asp-items="@(new SelectList(Model.AnswersTypesList, "Id", "Name"))" class="form-control">
                 </select>
                 <span asp-validation-for="@Model.Task.AnswerTypeId" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                Poprawna odpowiedź (Jeżeli typ odpowiedzi wymaga więcej niż jednej odpowiedzi to podaj je po przecinku):
+                <h4>Poprawna odpowiedź (Jeżeli typ odpowiedzi wymaga więcej niż jednej odpowiedzi to podaj je po przecinku):</h4>
                 <input asp-for="@Model.Task.Answer" class="form-control" />
                 <span asp-validation-for="@Model.Task.Answer" class="text-danger"></span>
             </div>
@@ -158,3 +162,4 @@
 
 
 <script src="~/js/MathEditor.js"></script>
+<script src="~/js/RenderMathInTaskContent.js"></script>
