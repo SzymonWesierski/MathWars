@@ -76,4 +76,35 @@
 		</tbody>
 	</table>
 
+	<!-- Pagination -->
+	@if (Model.Tasks.HasPreviousPage || Model.Tasks.HasNextPage)
+	{
+		<nav aria-label="Page navigation">
+			<ul class="pagination justify-content-center">
+				@if (Model.Tasks.HasPreviousPage)
+				{
+					<li class="page-item">
+						<a class="page-link" asp-page="./ViewTasks" asp-route-pageIndex="@(Model.Tasks.PageIndex - 1)">Poprzednia</a>
+					</li>
+				}
+
+				@for (var i = Model.Tasks.PageIndex - 4; i <= Model.Tasks.PageIndex + 4; i++)
+				{
+					if (i >= 1 && i <= Model.Tasks.TotalPages)
+					{
+						<li class="page-item @(i == Model.Tasks.PageIndex ? "active" : "")">
+							<a class="page-link" asp-page="./ViewTasks" asp-route-pageIndex="@i">@i</a>
+						</li>
+					}
+				}
+
+				@if (Model.Tasks.HasNextPage)
+				{
+					<li class="page-item">
+						<a class="page-link" asp-page="./ViewTasks" asp-route-pageIndex="@(Model.Tasks.PageIndex + 1)">Następna</a>
+					</li>
+				}
+			</ul>
+		</nav>
+	}
 </div>

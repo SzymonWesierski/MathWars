@@ -46,5 +46,35 @@
 			
 		</tbody>
 	</table>
+	<!-- Pagination -->
+	@if (Model.Categories.HasPreviousPage || Model.Categories.HasNextPage)
+	{
+		<nav aria-label="Page navigation">
+			<ul class="pagination justify-content-center">
+				@if (Model.Categories.HasPreviousPage)
+				{
+					<li class="page-item">
+						<a class="page-link" asp-page="./ViewTasksCategory" asp-route-pageIndex="@(Model.Categories.PageIndex - 1)">Poprzednia</a>
+					</li>
+				}
 
+				@for (var i = Model.Categories.PageIndex - 4; i <= Model.Categories.PageIndex + 4; i++)
+				{
+					if (i >= 1 && i <= Model.Categories.TotalPages)
+					{
+						<li class="page-item @(i == Model.Categories.PageIndex ? "active" : "")">
+							<a class="page-link" asp-page="./ViewTasksCategory" asp-route-pageIndex="@i">@i</a>
+						</li>
+					}
+				}
+
+				@if (Model.Categories.HasNextPage)
+				{
+					<li class="page-item">
+						<a class="page-link" asp-page="./ViewTasksCategory" asp-route-pageIndex="@(Model.Categories.PageIndex + 1)">Następna</a>
+					</li>
+				}
+			</ul>
+		</nav>
+	}
 </div>

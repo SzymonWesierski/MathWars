@@ -10,16 +10,16 @@
         <div class="col-6">
             <div class="bg-light" style="padding: 20px; height: 20vh; align-items: center;">
                 <h2 class="text-primary">Twój poziom</h2>
-                <h1 class="text-primary">@Model.currentUser.Level</h1>
+                <h1 class="text-primary">@Model.CurrentUser.Level</h1>
             </div>
         </div>
 
         <div class="col-6">
             <div class="bg-light" style=" padding: 20px; height: 20vh;">
                 <h2 class="text-primary">Doświadczenie</h2>
-                <h3 class="text-primary">@Model.currentUser.Experience / @Model.currentUser.ExpToReachNewLvl</h3>
+                <h3 class="text-primary">@Model.CurrentUser.Experience / @Model.CurrentUser.ExpToReachNewLvl</h3>
                 <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: @(Model.currentUser.Experience * 100 / Model.currentUser.ExpToReachNewLvl)%;" aria-valuenow="@Model.currentUser.Experience" aria-valuemin="0" aria-valuemax="@Model.currentUser.ExpToReachNewLvl"></div>
+                    <div class="progress-bar" role="progressbar" style="width: @(Model.CurrentUser.Experience * 100 / Model.CurrentUser.ExpToReachNewLvl)%;" aria-valuenow="@Model.CurrentUser.Experience" aria-valuemin="0" aria-valuemax="@Model.CurrentUser.ExpToReachNewLvl"></div>
                 </div>
             </div>
         </div>
@@ -41,7 +41,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var obj in Model.answers)
+                        @foreach (var obj in Model.AnswersList)
                         {
                             <tr>
                                 <td width="25%">@obj.Task.Title</td>
@@ -59,8 +59,40 @@
                         }
                     </tbody>
                 </table>
+
+                <!-- Pagination -->
+                @if (Model.AnswersList.HasPreviousPage || Model.AnswersList.HasNextPage)
+                {
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            @if (Model.AnswersList.HasPreviousPage)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" asp-page="./IndexProfile" asp-route-pageIndex="@(Model.AnswersList.PageIndex - 1)">Poprzednia</a>
+                                </li>
+                            }
+
+                            @for (var i = Model.AnswersList.PageIndex - 4; i <= Model.AnswersList.PageIndex + 4; i++)
+                            {
+                                if (i >= 1 && i <= Model.AnswersList.TotalPages)
+                                {
+                                    <li class="page-item @(i == Model.AnswersList.PageIndex ? "active" : "")">
+                                        <a class="page-link" asp-page="./IndexProfile" asp-route-pageIndex="@i">@i</a>
+                                    </li>
+                                }
+                            }
+
+                            @if (Model.AnswersList.HasNextPage)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" asp-page="./IndexProfile" asp-route-pageIndex="@(Model.AnswersList.PageIndex + 1)">Następna</a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                }
+
             </div>
         </div>
     </div>
-
 </div>

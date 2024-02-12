@@ -9,17 +9,22 @@ namespace MathWars.Pages.TaskPages.Category;
 public class ViewTasksCategoryModel : PageModel
 {
     private readonly ApplicationDbContext _db;
-    public IEnumerable<TasksCategory> Categories { get; set; }
-
-    public ViewTasksCategoryModel(ApplicationDbContext db)
+	private readonly IConfiguration _configuration;
+	public ViewTasksCategoryModel(ApplicationDbContext db, IConfiguration configuration)
     {
         _db = db;
-        Categories = new List<TasksCategory>();
-    }
+		_configuration = configuration;
+	}
 
-    public void OnGet()
-    {
-        Categories = _db.TasksCategory;
-    }
+	public PaginatedList<TasksCategory> Categories { get; set; }
+
+	public async Task OnGetAsync(int? pageIndex)
+	{
+		int pageSize = _configuration.GetSection("NumberOfElementsInList").GetValue<int>("Categories");
+
+		IQueryable<TasksCategory> categoryQuery = _db.TasksCategory;
+
+		Categories = await PaginatedList<TasksCategory>.CreateAsync(categoryQuery, pageIndex ?? 1, pageSize);
+	}
 
 }

@@ -28,7 +28,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach(var obj in Model.roles)
+			@foreach(var obj in Model.Roles)
 			{
 				<tr>
 					<td width="20%">@obj.Name</td>
@@ -47,5 +47,35 @@
 			
 		</tbody>
 	</table>
+	<!-- Pagination -->
+	@if (Model.Roles.HasPreviousPage || Model.Roles.HasNextPage)
+	{
+		<nav aria-label="Page navigation">
+			<ul class="pagination justify-content-center">
+				@if (Model.Roles.HasPreviousPage)
+				{
+					<li class="page-item">
+						<a class="page-link" asp-page="./ViewRole" asp-route-pageIndex="@(Model.Roles.PageIndex - 1)">Poprzednia</a>
+					</li>
+				}
 
+				@for (var i = Model.Roles.PageIndex - 4; i <= Model.Roles.PageIndex + 4; i++)
+				{
+					if (i >= 1 && i <= Model.Roles.TotalPages)
+					{
+						<li class="page-item @(i == Model.Roles.PageIndex ? "active" : "")">
+							<a class="page-link" asp-page="./ViewRole" asp-route-pageIndex="@i">@i</a>
+						</li>
+					}
+				}
+
+				@if (Model.Roles.HasNextPage)
+				{
+					<li class="page-item">
+						<a class="page-link" asp-page="./ViewRole" asp-route-pageIndex="@(Model.Roles.PageIndex + 1)">Następna</a>
+					</li>
+				}
+			</ul>
+		</nav>
+	}
 </div>

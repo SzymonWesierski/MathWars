@@ -4,20 +4,28 @@ using MathWars.Data;
 using MathWars.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 
 namespace MathWars.Pages.TaskPages;
 [Authorize(Roles = "admin")]
 public class ViewRoleModel : PageModel
 {
     private readonly RoleManager<IdentityRole> _roleManager;
-    public IEnumerable<IdentityRole?> roles { get; set; }
+	private readonly IConfiguration _configuration;
 
-    public ViewRoleModel(RoleManager<IdentityRole> roleManager)
-    {
-        _roleManager = roleManager;
-    }
-    public void OnGet()
-    {
-        roles = _roleManager.Roles;
-    }
+	public ViewRoleModel(RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+	{
+		_roleManager = roleManager;
+		_configuration = configuration;
+	}
+
+	public PaginatedList<IdentityRole> Roles { get; set; }
+
+	public async Task OnGetAsync(int? pageIndex)
+	{
+		int pageSize = _configuration.GetSection("NumberOfElementsInList").GetValue<int>("Roles");
+		IQueryable<IdentityRole> roleQuery = _roleManager.Roles;
+
+		Roles = await PaginatedList<IdentityRole>.CreateAsync(roleQuery, pageIndex ?? 1, pageSize);
+	}
 }

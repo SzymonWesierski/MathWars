@@ -69,5 +69,35 @@
 			
 		</tbody>
 	</table>
+	<!-- Pagination -->
+	@if (Model.UserWithRoleList.HasPreviousPage || Model.UserWithRoleList.HasNextPage)
+	{
+		<nav aria-label="Page navigation">
+			<ul class="pagination justify-content-center">
+				@if (Model.UserWithRoleList.HasPreviousPage)
+				{
+					<li class="page-item">
+						<a class="page-link" asp-page="./ViewUser" asp-route-pageIndex="@(Model.UserWithRoleList.PageIndex - 1)">Poprzednia</a>
+					</li>
+				}
 
+				@for (var i = Model.UserWithRoleList.PageIndex - 4; i <= Model.UserWithRoleList.PageIndex + 4; i++)
+				{
+					if (i >= 1 && i <= Model.UserWithRoleList.TotalPages)
+					{
+						<li class="page-item @(i == Model.UserWithRoleList.PageIndex ? "active" : "")">
+							<a class="page-link" asp-page="./ViewUser" asp-route-pageIndex="@i">@i</a>
+						</li>
+					}
+				}
+
+				@if (Model.UserWithRoleList.HasNextPage)
+				{
+					<li class="page-item">
+						<a class="page-link" asp-page="./ViewUser" asp-route-pageIndex="@(Model.UserWithRoleList.PageIndex + 1)">Następna</a>
+					</li>
+				}
+			</ul>
+		</nav>
+	}
 </div>
