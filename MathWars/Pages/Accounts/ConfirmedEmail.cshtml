@@ -1,0 +1,25 @@
+﻿@page
+@model MathWars.Pages.Accounts.ConfirmedEmailModel
+@{
+}
+<div class="container">
+    <div class="row pt-4">
+        @if (@Model.Success)
+        {
+            <div class="col-5">
+                <h1>Super, potwierdziłeś swojego maila : )</h1>
+                <h4>Teraz możesz przejść do strony głównej </h4>
+            </div>
+            <div class="col-5">
+                <a asp-area="" asp-page="/Index" class="btn btn-primary" ><i class="bi bi-house"></i><span>Strona Główna</span></a>
+            </div>
+        }
+        else
+        {
+            <div class="col-5">
+                <h1>Coś poszło nie tak : (</h1>
+            </div>
+        }
+
+    </div>
+</div>

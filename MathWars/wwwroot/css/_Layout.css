@@ -337,6 +337,7 @@ footer a:hover {
 }
 
 .register-box input[type="text"],
+.register-box input[type="email"],
 .register-box input[type="password"],
 .register-box input[type="submit"] {
     width: 100%;

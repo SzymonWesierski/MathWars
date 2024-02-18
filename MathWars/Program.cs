@@ -1,10 +1,9 @@
 using MathWars.Data;
 using MathWars.Models;
+using MathWars.Services;
 using MathWars.StartupInitializers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using static System.Formats.Asn1.AsnWriter;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +16,25 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 		builder.Configuration.GetConnectionString("DefaultConnection")
 	));
 
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    var section = builder.Configuration.GetSection("ApplicationPasswordRequirements");
+
+    options.Password.RequiredLength = section.GetValue<int>("RequiredLength");
+    options.Password.RequiredUniqueChars = section.GetValue<int>("RequiredUniqueChars");
+    options.Password.RequireDigit = section.GetValue<bool>("RequireDigit");
+    options.Password.RequireLowercase = section.GetValue<bool>("RequireLowercase");
+    options.Password.RequireNonAlphanumeric = section.GetValue<bool>("RequireNonAlphanumeric");
+    options.Password.RequireUppercase = section.GetValue<bool>("RequireUppercase");
+    options.SignIn.RequireConfirmedEmail = section.GetValue<bool>("RequireConfirmedEmail");
+});
+
+builder.Services.AddScoped<IEmailSenderService, EmailSenderService>();
+
+builder.Services.Configure<SMTPConfigModel>(builder.Configuration.GetSection("SMTPConfig"));
 
 builder.Services.ConfigureApplicationCookie(config =>
 {

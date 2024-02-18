@@ -4,8 +4,7 @@ namespace MathWars.ViewModels
 {
     public class Register
     {
-        [Required]
-        [DataType(DataType.EmailAddress)]
+        [Required, DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         [Required]
         public string UserName { get; set; }

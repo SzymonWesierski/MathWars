@@ -39,7 +39,14 @@ namespace MathWars.Pages.Accounts
                         return RedirectToPage(returnUrl);
                     }
                 }
-                ModelState.AddModelError("", "Username or Password incorrect");
+                if (identityResult.IsNotAllowed)
+                {
+                    ModelState.AddModelError("", "Nie zatwierdzi³eœ jeszcze maila, którego Ci wys³aliœmy :)");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Nazwa u¿ytkownika lub has³o jest nieprawid³owe");
+                }
             }
             return Page();
             

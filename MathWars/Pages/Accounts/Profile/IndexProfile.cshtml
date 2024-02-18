@@ -1,4 +1,7 @@
 ﻿@page
+
+@using System.Security.Claims
+
 @model IndexProfileModel
 @{
 }
@@ -7,15 +10,35 @@
 
     <!-- Section for Level and Experience -->
     <div class="row pt-4">
-        <div class="col-6">
-            <div class="bg-light" style="padding: 20px; height: 20vh; align-items: center;">
-                <h2 class="text-primary">Twój poziom</h2>
-                <h1 class="text-primary">@Model.CurrentUser.Level</h1>
+
+        <div class="col-4">
+            <div class="bg-light" style="padding: 20px;height: 360px; align-items: center;">
+                <!-- src="Url.Content(Model.Task.ImagePath)" -->
+                <img width="100%" src="~/images/profilePictures/YouCanDeleteMe.png" alt="Optional Image for Task " class="task-image" />
             </div>
         </div>
 
-        <div class="col-6">
-            <div class="bg-light" style=" padding: 20px; height: 20vh;">
+        <div class="col-4">
+            <div class="bg-light" style="padding: 20px;height: 360px; align-items: center;">
+                <h2 class="text-primary">Twoje dane:</h2>
+                <div style="margin: 40px;">
+                    <h5>Nazwa użytkownika:</h5>
+                    <p>@User.Identity.Name</p>
+                    <h5>E-mail:</h5>
+                    <p>@User.FindFirstValue(ClaimTypes.Email)</p>
+                </div>
+                <a asp-page="ChangePassword" class="btn btn-primary mx-2">
+                    Chcesz zmienić swoje hasło?
+                </a>
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="bg-light" style="padding: 20px; height: 180px; align-items: center;">
+                <h2 class="text-primary">Twój poziom</h2>
+                <h1 class="text-primary">@Model.CurrentUser.Level</h1>
+            </div>
+            <div class="bg-light" style=" padding: 20px; height: 180px;">
                 <h2 class="text-primary">Doświadczenie</h2>
                 <h3 class="text-primary">@Model.CurrentUser.Experience / @Model.CurrentUser.ExpToReachNewLvl</h3>
                 <div class="progress">
@@ -23,6 +46,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 
     <!-- Section for Answers -->

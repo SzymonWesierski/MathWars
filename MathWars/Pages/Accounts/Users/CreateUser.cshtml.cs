@@ -47,7 +47,6 @@ public class CreateUserModel : PageModel
             {
                 Role = await roleManager.FindByIdAsync(Role.Id);
                 await userManager.AddToRoleAsync(user, Role.Name);
-                await signInManager.SignInAsync(user, isPersistent: false);
                 return RedirectToPage("/Index");
             }
 

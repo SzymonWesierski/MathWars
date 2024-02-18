@@ -5,12 +5,8 @@
 
 <div class="login-box">
     <form method ="post">
-         
-    
-        <div asp-validation-summary="All" class="text-danger"></div>
-
-        
         <h1>Zaloguj</h1>
+            <div asp-validation-summary="All" class="text-danger"></div>
         <div>
             <label asp-for="loginModel.UserName">Nazwa użytkownika:</label>
             <input type="text" asp-for="loginModel.UserName" placeholder="Nazwa użytkownika" >
@@ -30,7 +26,7 @@
         </div>
 
         <div>
-            <a class="fyp" href="/forgot-password">Zapomniałeś hasło?</a>
+                <a class="fyp" asp-page="ForgotPassword">Zapomniałeś hasło?</a>
         </div>
 
         <div>

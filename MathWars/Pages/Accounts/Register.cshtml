@@ -9,26 +9,26 @@
     <div>
         <div>
             <h1>Rejestracja</h1>
-
+            <div asp-validation-summary="All" class="text-danger"></div>
             <form method="post">
                 <div>
                     <label>Nazwa użytkownika</label>
-                    <input type="text" name="registerModel.UserName" placeholder="Nazwa użytkownika" />
+                    <input type="text" asp-for="registerModel.UserName" placeholder="Nazwa użytkownika" />
                 <span asp-validation-for="registerModel.UserName" class="text-danger"></span>
                 </div>
                 <div>
                     <label>Adres Email</label>
-                    <input type="text" name="registerModel.Email" placeholder="Adres Email" />
+                    <input type="email" asp-for="registerModel.Email" placeholder="Adres Email" />
                 <span asp-validation-for="registerModel.Email" class="text-danger"></span>
                 </div>
                 <div>
                     <label>Hasło</label>
-                    <input type="password" name="registerModel.Password" placeholder="Hasło" />
+                    <input type="password" asp-for="registerModel.Password" placeholder="Hasło" />
                     <span asp-validation-for="registerModel.Password" class="text-danger"></span>
                 </div>
                 <div>
                     <label>Powtórz hasło</label>
-                    <input type="password" name="registerModel.ConfirmPassword" placeholder="Powtórz hasło" />
+                    <input type="password" asp-for="registerModel.ConfirmPassword" placeholder="Powtórz hasło" />
                     <span asp-validation-for="registerModel.ConfirmPassword" class="text-danger"></span>
                 </div>
                 <div>
