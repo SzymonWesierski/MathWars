@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace MathWars.Pages.TaskPages.Category;
-[Authorize]
+[Authorize(Roles = "admin,taskManager")]
 [BindProperties]
 public class EditTaskCategoryModel : PageModel
 {

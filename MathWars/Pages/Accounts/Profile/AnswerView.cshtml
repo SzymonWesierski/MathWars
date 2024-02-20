@@ -3,6 +3,30 @@
 @{
 }
 
-<h1>________Response data to the task</h1>
-
-<h3>___________Not done yet</h3>
+<div class="container">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary pl-3">Twoje rozwiązane zadanie</h2>
+            <hr />
+        </div>
+        <div class="mb-3">
+            <h5><label asp-for="@Model.Answer.Task.Title">Tytuł</label></h5>
+            <input asp-for="@Model.Answer.Task.Title" class="form-control" readonly />
+        </div>
+        <div class="mb-3">
+            <h5><label asp-for="@Model.Answer.Task.Content">Treść</label></h5>
+            <textarea asp-for="@Model.Answer.Task.Content" class="form-control" readonly></textarea>
+        </div>
+        <div class="mb-3">
+            <h5><label>Zdjęcie tablicy</label></h5>
+            <div>
+                <img width="50%" src="~/images/WhiteBoardImage/YouCanDeleteMe.png" alt="Report Image" class="task-image" />
+            </div>
+        </div>
+        <div class="mb-3">
+            <h5><label asp-for="@Model.Answer.Answer">Poprawna odpowiedź</label></h5>
+            <input asp-for="@Model.Answer.Answer" class="form-control" readonly/>
+        </div>
+        <a asp-page="IndexProfile" asp-route-uid="@Model.Uid" class="btn btn-secondary" style="width:150px;">Powrót do profilu</a>
+    </div>
+</div>

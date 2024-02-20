@@ -8,7 +8,7 @@
 
 <link rel="stylesheet" href="~/css/UserProfile.css" asp-append-version="true" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
 
 
 
@@ -36,7 +36,7 @@
                     <h5>E-mail:</h5>
                     <p>@User.FindFirstValue(ClaimTypes.Email)</p>
                 </div>
-                <a asp-page="ChangePassword" class="btn btn-primary mx-2">
+                <a asp-page="ChangePassword" asp-route-uid="@Model.Uid" class="btn btn-primary mx-2">
                     Chcesz zmienić swoje hasło?
                 </a>
             </div>
@@ -97,7 +97,7 @@
                             <th>Tytuł</th>
                             <th>Treść</th>
                             <th>Poziom trudności</th>
-                            <th>Odpowiedź</th>
+                            <th>Data ukończenia</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -108,7 +108,7 @@
                                 <td width="25%">@obj.Task.Title</td>
                                 <td width="35%" style="overflow-wrap: break-word; word-break: break-all;">@obj.Task.Content</td>
                                 <td width="10%">@obj.Task.difficultyLevel</td>
-                                <td width="20%">@obj.Task.Answer</td>
+                                <td width="20%">@obj.SubmissionDate</td>
                                 <td width="10%">
                                     <div>
                                         <a asp-page="AnswerView" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
@@ -129,7 +129,7 @@
                             @if (Model.AnswersList.HasPreviousPage)
                             {
                                 <li class="page-item">
-                                    <a class="page-link" asp-page="./IndexProfile" asp-route-pageIndex="@(Model.AnswersList.PageIndex - 1)">Poprzednia</a>
+                                    <a class="page-link" asp-page="./IndexProfile" asp-route-uid="@Model.Uid" asp-route-pageIndex="@(Model.AnswersList.PageIndex - 1)"><i class="bi bi-arrow-left"></i></a>
                                 </li>
                             }
 
@@ -138,7 +138,7 @@
                                 if (i >= 1 && i <= Model.AnswersList.TotalPages)
                                 {
                                     <li class="page-item @(i == Model.AnswersList.PageIndex ? "active" : "")">
-                                        <a class="page-link" asp-page="./IndexProfile" asp-route-pageIndex="@i">@i</a>
+                                        <a class="page-link" asp-page="./IndexProfile" asp-route-uid="@Model.Uid" asp-route-pageIndex="@i">@i</a>
                                     </li>
                                 }
                             }
@@ -146,7 +146,7 @@
                             @if (Model.AnswersList.HasNextPage)
                             {
                                 <li class="page-item">
-                                    <a class="page-link" asp-page="./IndexProfile" asp-route-pageIndex="@(Model.AnswersList.PageIndex + 1)">Następna</a>
+                                    <a class="page-link" asp-page="./IndexProfile" asp-route-uid="@Model.Uid" asp-route-pageIndex="@(Model.AnswersList.PageIndex + 1)"><i class="bi bi-arrow-right"></i></a>
                                 </li>
                             }
                         </ul>
@@ -158,5 +158,8 @@
     </div>
 </div>
 
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
 <script src="~/js/UserProfile.js"></script>
+

@@ -12,14 +12,29 @@ namespace MathWars.Pages.Accounts.Profile
     public class AnswerViewModel : PageModel
     {
         private readonly ApplicationDbContext _db;
-        public Answers Answer { get; set; }
+
         public AnswerViewModel(ApplicationDbContext db) 
         {
             _db = db;
         }
-        public void OnGet(int Id)
+
+        public Answers Answer { get; set; }
+        public string Uid { get; set; }
+
+
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            Answer = _db.Answers.Find(Id);
+            Answer = await _db.Answers.Include(a => a.Task)
+                .FirstOrDefaultAsync(a => a.Id == id);
+
+            if(Answer == null)
+            {
+                return NotFound();
+            }
+
+            Uid = Answer.UserId;
+
+            return Page();  
         }
     }
 }

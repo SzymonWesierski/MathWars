@@ -30,7 +30,7 @@
 									<td class="Title">@obj.Title</td>
 								</tr>
 								<tr>
-										<td class="content" style="overflow-wrap: break-word; word-break: break-all;">@obj.Content</td>
+									<td class="content" style="overflow-wrap: break-word; word-break: break-all;">@obj.Content</td>
 								</tr>
 								<tr class="last-tr">
 									<td>
@@ -38,11 +38,11 @@
 											<div class="pagination-button left">
 												@if (Model.CurrentPage == 1)
 												{
-													<a class="page-link" href="#" onclick="return false;">Poprzedni</a>
+													<a class="page-link" href="#" onclick="return false;"><i class="bi bi-arrow-left"></i></a>
 													}
 												else if (Model.CurrentPage > 1)
 												{
-													<a class="page-link" href="?currentPage=@(Model.CurrentPage - 1)&difficulty=@Model.difficultyLevel&categoryId=@Model.Category.Id">Poprzedni</a>
+													<a class="page-link" href="?currentPage=@(Model.CurrentPage - 1)&difficulty=@Model.difficultyLevel&categoryId=@Model.Category.Id"><i class="bi bi-arrow-left"></i></a>
 												}
 
 											</div>
@@ -56,11 +56,11 @@
 											<div class="pagination-button right">
 												@if (Model.CurrentPage == Model.TotalPages)
 												{
-													<a class="page-link" href="#" onclick="return false;">Nastęny</a>
+													<a class="page-link" href="#" onclick="return false;"><i class="bi bi-arrow-right"></i></a>
 												}
 												else if (Model.CurrentPage < Model.TotalPages)
 												{
-													<a class="page-link" href="?currentPage=@(Model.CurrentPage + 1)&difficulty=@Model.difficultyLevel&categoryId=@Model.Category.Id">Następny</a>
+													<a class="page-link" href="?currentPage=@(Model.CurrentPage + 1)&difficulty=@Model.difficultyLevel&categoryId=@Model.Category.Id"><i class="bi bi-arrow-right"></i></a>
 												}
 											</div>
 										</div>

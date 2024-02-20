@@ -23,8 +23,12 @@
 <div class="container">
     <div class="row pb-2">
         <h2 class="text-primary pl-3">Rozwiąż zadanie</h2>
-        <a asp-page="/Reports/ReportBugInTask" asp-route-id="@Model.Task.Id" class="btn btn-secondary" style="width:150px;"><i class="bi bi-bug"></i></a>
     </div>
+
+    <div class="bug-report">
+        <a asp-page="/Reports/ReportBugInTask" asp-route-id="@Model.Task.Id" class="btn btn-secondary" style="width:50px;"><i class="bi bi-bug"></i></a>
+    </div>
+
     <div class="mb-3">
         <strong>Tytuł:</strong>
         <p class="mb-0"> @Model.Task.Title</p>

@@ -22,7 +22,7 @@ public class ViewTasksCategoryModel : PageModel
 	{
 		int pageSize = _configuration.GetSection("NumberOfElementsInList").GetValue<int>("Categories");
 
-		IQueryable<TasksCategory> categoryQuery = _db.TasksCategory;
+		IQueryable<TasksCategory> categoryQuery = _db.TasksCategory.OrderByDescending(t => t.Created);
 
 		Categories = await PaginatedList<TasksCategory>.CreateAsync(categoryQuery, pageIndex ?? 1, pageSize);
 	}

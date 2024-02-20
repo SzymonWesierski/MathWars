@@ -30,16 +30,18 @@ public class ChangePasswordModel : PageModel
     [Required(ErrorMessage = "Powtórz nowe has³o jest wymagane"), DataType(DataType.Password), Display(Name = "Powtórz nowe has³o:")]
     [Compare("NewPassword", ErrorMessage = "Nowe i powtórzone has³o musi byæ takie samo")]
     public string ConfirmPassword { get; set; }
+    public string Uid {  get; set; }
 
-    public void OnGet()
+    public void OnGet(string uid)
     {
+        Uid = uid;
     }
 
     public async Task<IActionResult> OnPostAsync()
     {
         if (ModelState.IsValid)
         {
-            var user = await _userManager.GetUserAsync(User) ?? new ApplicationUser();
+            var user = await _userManager.FindByIdAsync(Uid) ?? new ApplicationUser();
 
             if (user == null) return NotFound();
 

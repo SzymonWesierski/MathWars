@@ -25,7 +25,7 @@ namespace MathWars.Pages.TaskPages
 			IQueryable<Tasks> tasksQuery = _db.Tasks
 				.Include(t => t.TasksAndCategories)
 					.ThenInclude(tc => tc.TaskCategory)
-				.Include(a => a.AnswerType);
+				.Include(a => a.AnswerType).OrderByDescending(t => t.Created);
 
 			Tasks = await PaginatedList<Tasks>.CreateAsync(tasksQuery, pageIndex ?? 1, pageSize);
 		}

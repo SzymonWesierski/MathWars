@@ -53,7 +53,8 @@
 					<td width="20%">@obj.user.Email</td>
 					<td width="10%">@obj.user.Level</td>
 					<td width="10%">@obj.user.Experience</td>
-					<td width="20%">@obj.RoleName</td>
+					<td width="10%">@obj.RoleName</td>
+					<td width="10%">@obj.user.Created</td>
 					<td>
 						<div class="w-75 btn-group" role="group">
 							<a asp-page="EditUser" asp-route-id="@obj.user.Id" class="btn btn-primary mx-2">
@@ -77,7 +78,7 @@
 				@if (Model.UserWithRoleList.HasPreviousPage)
 				{
 					<li class="page-item">
-						<a class="page-link" asp-page="./ViewUser" asp-route-pageIndex="@(Model.UserWithRoleList.PageIndex - 1)">Poprzednia</a>
+						<a class="page-link" asp-page="./ViewUser" asp-route-pageIndex="@(Model.UserWithRoleList.PageIndex - 1)"><i class="bi bi-arrow-left"></i></a>
 					</li>
 				}
 
@@ -94,7 +95,7 @@
 				@if (Model.UserWithRoleList.HasNextPage)
 				{
 					<li class="page-item">
-						<a class="page-link" asp-page="./ViewUser" asp-route-pageIndex="@(Model.UserWithRoleList.PageIndex + 1)">Następna</a>
+						<a class="page-link" asp-page="./ViewUser" asp-route-pageIndex="@(Model.UserWithRoleList.PageIndex + 1)"><i class="bi bi-arrow-right"></i></a>
 					</li>
 				}
 			</ul>

@@ -30,7 +30,7 @@ public class ViewUserModel : PageModel
     public async Task OnGetAsync(int? pageIndex)
     {
         int pageSize = _configuration.GetSection("NumberOfElementsInList").GetValue<int>("Users");
-        Users = await userManager.Users.ToListAsync();
+        Users = await userManager.Users.OrderByDescending(u => u.Created).ToListAsync();
 
         List<UserWithRole> userWithRoleList = await PrepareUserWithRoleList();
 

@@ -1,0 +1,76 @@
+﻿@page
+@model MathWars.Pages.Reports.ViewReportsModel
+@{
+}
+
+<div class="container p-3">
+	<div class="row pt-4">
+		<div class="col-6">
+			<h2 class="text-primary">Zgłoszenia błędów</h2>
+		</div>
+	</div>
+
+	<br /><br />
+
+	<table class="table table-bordered table-striped" style="width:100%">
+		<thead>
+			<tr>
+				<th>
+					Tytuł
+				</th>
+				<th>
+					Data wysłania
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var obj in Model.Reports)
+			{
+				<tr>
+					<td width="50%">@obj.Title</td>
+					<td width="40%">@obj.Created</td>
+					<td>
+						<div class="w-75 btn-group" role="group">
+							<a asp-page="ViewAndDeleteReportModel" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
+							<i class="bi bi-three-dots"></i>
+						</a>
+						</div>
+					</td>
+				</tr>
+			}
+			
+		</tbody>
+	</table>
+	<!-- Pagination -->
+	@if (Model.Reports.HasPreviousPage || Model.Reports.HasNextPage)
+	{
+		<nav aria-label="Page navigation">
+			<ul class="pagination justify-content-center">
+				@if (Model.Reports.HasPreviousPage)
+				{
+					<li class="page-item">
+						<a class="page-link" asp-page="./ViewReports" asp-route-pageIndex="@(Model.Reports.PageIndex - 1)"><i class="bi bi-arrow-left"></i></a>
+					</li>
+				}
+
+				@for (var i = Model.Reports.PageIndex - 4; i <= Model.Reports.PageIndex + 4; i++)
+				{
+					if (i >= 1 && i <= Model.Reports.TotalPages)
+					{
+						<li class="page-item @(i == Model.Reports.PageIndex ? "active" : "")">
+							<a class="page-link" asp-page="./ViewReports" asp-route-pageIndex="@i">@i</a>
+						</li>
+					}
+				}
+
+				@if (Model.Reports.HasNextPage)
+				{
+					<li class="page-item">
+						<a class="page-link" asp-page="./ViewReports" asp-route-pageIndex="@(Model.Reports.PageIndex + 1)"><i class="bi bi-arrow-right"></i></a>
+					</li>
+				}
+			</ul>
+		</nav>
+	}
+</div>

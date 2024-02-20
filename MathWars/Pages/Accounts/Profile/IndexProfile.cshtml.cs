@@ -32,12 +32,12 @@ namespace MathWars.Pages
 		public PaginatedList<Answers> AnswersList { get; set; }
         [Required(ErrorMessage = "Jeżeli chcesz zmienić zdjęcie to musisz je dodać"), Display(Name = "Dodaj zdjęcie: ")]
         public IFormFile? ImageFile { get; set; }
+        public string Uid {  get; set; }
 
-        public async Task<IActionResult> OnGet(int? pageIndex) 
+        public async Task<IActionResult> OnGet(int? pageIndex, string uid) 
         {
-            var tempUser = await _userManager.GetUserAsync(User);
-
-            CurrentUser = await _userManager.FindByIdAsync(tempUser.Id) ?? new ApplicationUser();
+            Uid = uid;
+            CurrentUser = await _userManager.FindByIdAsync(uid) ?? new ApplicationUser();
 
             if (CurrentUser == null)
 			{
@@ -47,7 +47,7 @@ namespace MathWars.Pages
 			int pageSize = _configuration.GetSection("NumberOfElementsInList").GetValue<int>("Profil");
 
 			IQueryable<Answers> answerQuery = _db.Answers
-				.Include(a => a.Task).Where(a => a.UserId == CurrentUser.Id);
+				.Include(a => a.Task).Where(a => a.UserId == CurrentUser.Id).OrderByDescending(a => a.SubmissionDate);
 
             AnswersList = await PaginatedList<Answers>.CreateAsync(answerQuery, pageIndex ?? 1, pageSize);
 

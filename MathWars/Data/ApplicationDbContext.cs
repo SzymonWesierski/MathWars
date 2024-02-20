@@ -20,6 +20,7 @@ namespace MathWars.Data
         public DbSet<TasksCategory> TasksCategory { get; set; }
         public DbSet<AnswerTypes> AnswerTypes { get; set; }
         public DbSet<TasksAndCategories> TasksAndCategories { get; set; }
+        public DbSet<UsersReports> UsersReports { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

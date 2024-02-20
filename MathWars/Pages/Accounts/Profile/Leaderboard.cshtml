@@ -71,7 +71,7 @@
 				@if (Model.Users.HasPreviousPage)
 				{
 					<li class="page-item">
-						<a class="page-link" asp-page="./Leaderboard" asp-route-pageIndex="@(Model.Users.PageIndex - 1)">Poprzednia</a>
+						<a class="page-link" asp-page="./Leaderboard" asp-route-pageIndex="@(Model.Users.PageIndex - 1)"><i class="bi bi-arrow-left"></i></a>
 					</li>
 				}
 
@@ -88,7 +88,7 @@
 				@if (Model.Users.HasNextPage)
 				{
 					<li class="page-item">
-						<a class="page-link" asp-page="./Leaderboard" asp-route-pageIndex="@(Model.Users.PageIndex + 1)">Następna</a>
+						<a class="page-link" asp-page="./Leaderboard" asp-route-pageIndex="@(Model.Users.PageIndex + 1)"><i class="bi bi-arrow-right"></i></a>
 					</li>
 				}
 			</ul>

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace MathWars.Pages.TaskPages.TypeOfAnswer;
-[Authorize]
+[Authorize(Roles = "admin,taskManager")]
 [BindProperties]
 public class DeleteAnswerTypeModel : PageModel
 {

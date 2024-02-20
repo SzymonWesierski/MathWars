@@ -1,6 +1,7 @@
 ﻿@using MathWars.Models;
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 <!DOCTYPE html>
 <html lang="en">
@@ -40,15 +41,20 @@
                         <li><a asp-area="" asp-page="/TaskPages/ViewTasks"><i class="bi bi-journal-text"></i><span>Zadania</span></a></li>
                         <li><a asp-area="" asp-page="/TaskPages/Category/ViewTasksCategory"><i class="bi bi-journal-text"></i><span>Kategoria</span></a></li>
                         <li><a asp-area="" asp-page="/TaskPages/TypeOfAnswer/ViewAnswerType"><i class="bi bi-journal-text"></i><span>Typ odpowiedzi</span></a></li>
+                        <li><a asp-area="" asp-page="/Reports/ViewReports"><i class="bi bi-journal-text"></i><span>Zgłoszenia błędów</span></a></li>
                     }
                     @if (User.IsInRole("admin"))
                     {
                         <li><a asp-area="" asp-page="/Accounts/Users/ViewUser"><i class="bi bi-people"></i><span>Użytkownicy</span></a></li>
                         <li><a asp-area="" asp-page="/Accounts/Roles/ViewRole"><i class="bi bi-journal-text"></i><span>Role</span></a></li>
                     }
+
+                    @{
+                        var userId = UserManager.GetUserId(User);
+                    }
                     
                     <li><a asp-area="" asp-page="/Accounts/Profile/Leaderboard"><i class="bi bi-bar-chart-line"></i><span>Tabela wyników</span></a></li>
-                    <li><a asp-area="" asp-page="/Accounts/Profile/IndexProfile"><i class="bi bi-person-circle"></i><span>@User.Identity.Name</span></a></li>
+                    <li><a asp-area="" asp-page="/Accounts/Profile/IndexProfile" asp-route-uid="@userId"><i class="bi bi-person-circle"></i><span>@User.Identity.Name</span></a></li>
                     <li><a asp-area="" asp-page="/Reports/ReportBugOnWebsite"><i class="bi bi-bug"></i><span>Zgłoś błąd</span></a></li>
                     <li><a asp-area="" asp-page="/Accounts/Logout"><i class="bi bi-power"></i><span>Wyloguj</span></a></li>
                     

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 
 namespace MathWars.Pages.TaskPages.TypeOfAnswer;
-[Authorize]
+[Authorize(Roles = "admin,taskManager")]
 public class ViewAnswerTypeModel : PageModel
 {
     private readonly ApplicationDbContext _db;
@@ -22,7 +22,7 @@ public class ViewAnswerTypeModel : PageModel
 	public async Task OnGetAsync(int? pageIndex)
 	{
 		int pageSize = _configuration.GetSection("NumberOfElementsInList").GetValue<int>("AnswerType");
-        IQueryable<AnswerTypes> answerTypeQuery = _db.AnswerTypes;
+        IQueryable<AnswerTypes> answerTypeQuery = _db.AnswerTypes.OrderByDescending(at => at.Created);
 
 		AnswerType = await PaginatedList<AnswerTypes>.CreateAsync(answerTypeQuery, pageIndex ?? 1, pageSize);
 	}

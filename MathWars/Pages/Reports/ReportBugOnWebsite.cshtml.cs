@@ -1,10 +1,12 @@
+using MathWars.Data;
 using MathWars.Models;
-using MathWars.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Options;
 using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 
 namespace MathWars.Pages.Reports;
 
@@ -12,36 +14,76 @@ namespace MathWars.Pages.Reports;
 [Authorize]
 public class ReportBugOnWebsiteModel : PageModel
 {
-    private readonly IEmailSenderService _emailSenderService;
-    public ReportBugOnWebsiteModel(IEmailSenderService emailSenderService)
+    private readonly ApplicationDbContext _context;
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IConfiguration _configuration;
+
+    public ReportBugOnWebsiteModel(ApplicationDbContext context, UserManager<ApplicationUser> userManager,
+        IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
     {
-        _emailSenderService = emailSenderService;
+        _context = context;
+        _userManager = userManager;
+        _webHostEnvironment = webHostEnvironment;
+        _configuration = configuration;
     }
 
+    public UsersReports UserReport { get; set; } = new UsersReports();
+    public IFormFile? ImageFile { get; set; }
 
-    [Required(ErrorMessage = "Przed wys³aniem muisz wype³niæ to pole"), Display(Name = "WprowadŸ treœæ wiadomoœci:")]
-    public string EmailContent { get; set; }
-
-    public void OnGet()
+    public async Task<IActionResult> OnGetAsync()
     {
+        var tempUser = await _userManager.GetUserAsync(User);
+
+        if (tempUser == null)
+        {
+            return NotFound();
+        }
+
+        UserReport.UserId = tempUser.Id;
+
+        return Page();
     }
 
-    public async Task<IActionResult> OnPost()
+    public async Task<IActionResult> OnPostAsync()
     {
         if (ModelState.IsValid)
         {
-            UserEmailOptions options = new UserEmailOptions
+            // Handle image upload
+            if (ImageFile != null && ImageFile.Length > 0)
             {
-                ToEmails = new List<string> { "sz425@wp.pl" },
-                PlaceHolders = new List<KeyValuePair<string, string>>() 
+                // generating new uniqe file name 
+                var uniqueFileName = Guid.NewGuid().ToString() + "_" + ImageFile.FileName;
+
+                var appDirectory = _webHostEnvironment.WebRootPath;
+
+                var imageDirectory = _configuration.GetSection("ImagesDirectorys")
+                    .GetValue<string>("reportPictures");
+
+                if (imageDirectory == null || uniqueFileName == null)
                 {
-                    new KeyValuePair<string, string>("{{UserName}}", "Szymon")
+                    // TODO logger should handle that error
+                    ModelState.AddModelError("ImageFile", "B³¹d œcie¿ki");
+                    return Page();
                 }
-            };
+                else
+                {
+                    // Save image on server
+                    var filePath = Path.Combine(imageDirectory, uniqueFileName);
 
-            await _emailSenderService.SendTestEmail(options);
+                    var physicalFilePath = appDirectory + filePath;
 
-            return Page();
+                    using (var fileStream = new FileStream(physicalFilePath, FileMode.Create))
+                    {
+                        ImageFile.CopyTo(fileStream);
+                    }
+                    UserReport.ImagePath = filePath;
+                }
+            }
+
+            await _context.UsersReports.AddAsync(UserReport);
+            await _context.SaveChangesAsync();
+            return RedirectToPage("/Index");
         }
         return Page();
     }
