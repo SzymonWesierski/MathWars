@@ -19,7 +19,15 @@ public static class AdminInitializer
 			var adminPassword = adminData["Password"];
 			var ApplicationRoles = configuration.GetSection("ApplicationRoles");
 			var roleName = ApplicationRoles["Admin"];
-			adminUser = new ApplicationUser { UserName = adminUserName, Email = adminEmail };
+			adminUser = new ApplicationUser 
+			{ 
+				UserName = adminUserName, 
+				Email = adminEmail, 
+				EmailConfirmed = true,
+                ProfileImagePath = configuration.GetSection("ProfilePicture")
+					.GetValue<string>("defaultProfilePicture")
+			};
+
 			var result = await userManager.CreateAsync(adminUser, adminPassword);
 
 			if (result.Succeeded)

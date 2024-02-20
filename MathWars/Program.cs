@@ -13,8 +13,8 @@ builder.Services.AddRazorPages();
 builder.Configuration.AddJsonFile("appsettings.json");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
-		builder.Configuration.GetConnectionString("DefaultConnection")
-	));
+    builder.Configuration.GetConnectionString("DefaultConnection"),
+    providerOptions => providerOptions.EnableRetryOnFailure()));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
@@ -43,18 +43,6 @@ builder.Services.ConfigureApplicationCookie(config =>
 
 builder.Services.AddSession();
 
-// Initializing basic roles
-var roleManager = builder.Services.BuildServiceProvider().GetService<RoleManager<IdentityRole>>();
-var configuration = builder.Configuration.GetSection("ApplicationRoles").GetChildren();
-foreach (var role in configuration)
-{
-    RoleInitializer.InitializeRoleAsync(roleManager, role.Value).Wait();
-}
-
-// Check if default admin user exist
-var userManager = builder.Services.BuildServiceProvider().GetService<UserManager<ApplicationUser>>();
-await AdminInitializer.InitializeUserAsync(userManager, builder.Configuration);
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -75,5 +63,18 @@ app.UseAuthorization();
 app.UseSession();
 
 app.MapRazorPages();
+
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
+    var configuration = builder.Configuration.GetSection("ApplicationRoles").GetChildren();
+    foreach (var role in configuration)
+    {
+        RoleInitializer.InitializeRoleAsync(roleManager, role.Value).Wait();
+    }
+
+    var userManager = scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
+    await AdminInitializer.InitializeUserAsync(userManager, builder.Configuration);
+}
 
 app.Run();

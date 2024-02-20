@@ -1,5 +1,4 @@
 using MathWars.Data;
-using MathWars.Migrations;
 using MathWars.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;

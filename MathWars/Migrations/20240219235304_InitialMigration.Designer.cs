@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MathWars.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231129104223_AddTasksCategory")]
-    partial class AddTasksCategory
+    [Migration("20240219235304_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,31 @@ namespace MathWars.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("MathWars.Models.AnswerTypes", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FormatExplanation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("HowManyCorrectAnswers")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AnswerTypes");
+                });
+
             modelBuilder.Entity("MathWars.Models.Answers", b =>
                 {
                     b.Property<int>("Id")
@@ -33,8 +58,12 @@ namespace MathWars.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<double>("Answer")
-                        .HasColumnType("float");
+                    b.Property<string>("Answer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("SubmissionDate")
                         .HasColumnType("datetime2");
@@ -106,6 +135,9 @@ namespace MathWars.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("ProfileImagePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -137,8 +169,12 @@ namespace MathWars.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<double>("Answer")
-                        .HasColumnType("float");
+                    b.Property<string>("Answer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("AnswerTypeId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -147,21 +183,36 @@ namespace MathWars.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("categoryId")
-                        .HasColumnType("int");
 
                     b.Property<int>("difficultyLevel")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("categoryId");
+                    b.HasIndex("AnswerTypeId");
 
                     b.ToTable("Tasks");
+                });
+
+            modelBuilder.Entity("MathWars.Models.TasksAndCategories", b =>
+                {
+                    b.Property<int>("TaskCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TaskId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TaskCategoryId", "TaskId");
+
+                    b.HasIndex("TaskId");
+
+                    b.ToTable("TasksAndCategories");
                 });
 
             modelBuilder.Entity("MathWars.Models.TasksCategory", b =>
@@ -175,6 +226,9 @@ namespace MathWars.Migrations
                     b.Property<string>("CategoryName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -335,13 +389,32 @@ namespace MathWars.Migrations
 
             modelBuilder.Entity("MathWars.Models.Tasks", b =>
                 {
-                    b.HasOne("MathWars.Models.TasksCategory", "category")
-                        .WithMany()
-                        .HasForeignKey("categoryId")
+                    b.HasOne("MathWars.Models.AnswerTypes", "AnswerType")
+                        .WithMany("Tasks")
+                        .HasForeignKey("AnswerTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("category");
+                    b.Navigation("AnswerType");
+                });
+
+            modelBuilder.Entity("MathWars.Models.TasksAndCategories", b =>
+                {
+                    b.HasOne("MathWars.Models.TasksCategory", "TaskCategory")
+                        .WithMany("TasksAndCategories")
+                        .HasForeignKey("TaskCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MathWars.Models.Tasks", "Task")
+                        .WithMany("TasksAndCategories")
+                        .HasForeignKey("TaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Task");
+
+                    b.Navigation("TaskCategory");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -395,6 +468,11 @@ namespace MathWars.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("MathWars.Models.AnswerTypes", b =>
+                {
+                    b.Navigation("Tasks");
+                });
+
             modelBuilder.Entity("MathWars.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Answers");
@@ -403,6 +481,13 @@ namespace MathWars.Migrations
             modelBuilder.Entity("MathWars.Models.Tasks", b =>
                 {
                     b.Navigation("Answers");
+
+                    b.Navigation("TasksAndCategories");
+                });
+
+            modelBuilder.Entity("MathWars.Models.TasksCategory", b =>
+                {
+                    b.Navigation("TasksAndCategories");
                 });
 #pragma warning restore 612, 618
         }

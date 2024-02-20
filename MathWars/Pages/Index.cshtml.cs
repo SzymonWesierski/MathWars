@@ -39,7 +39,7 @@ namespace MathWars.Pages
 
 			if(Categories == null) return NotFound();
 
-			Category = Categories.First();
+			Category = Categories.FirstOrDefault() ?? new TasksCategory();
 
             categoryId = Category.Id;
 

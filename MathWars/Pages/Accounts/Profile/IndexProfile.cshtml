@@ -6,6 +6,13 @@
 @{
 }
 
+<link rel="stylesheet" href="~/css/UserProfile.css" asp-append-version="true" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+
+
+
 <div class="container p-3">
 
     <!-- Section for Level and Experience -->
@@ -13,8 +20,10 @@
 
         <div class="col-4">
             <div class="bg-light" style="padding: 20px;height: 360px; align-items: center;">
-                <!-- src="Url.Content(Model.Task.ImagePath)" -->
-                <img width="100%" src="~/images/profilePictures/YouCanDeleteMe.png" alt="Optional Image for Task " class="task-image" />
+                <div class="image-container" data-toggle="modal" data-target="#aModal">
+                    <img width="100%" src="@Url.Content(Model.CurrentUser.ProfileImagePath)" alt="Profile Image" class="task-image" />
+                    <i class="fas fa-edit edit-icon" data-toggle="modal" data-target="#aModal"></i>
+                </div>
             </div>
         </div>
 
@@ -47,6 +56,34 @@
             </div>
         </div>
 
+    </div>
+
+    <!--Pop up menu to edit profile picture-->
+    @*modal*@
+    <div class="modal fade" id="aModal" tabindex="-1" role="dialog" aria-labelledby="aModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="aModalLabel">Zmień swoje zdjęcie profilowe</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" enctype="multipart/form-data" asp-page-handler="UploadImage">
+                        <div class="form-group">
+                            <input asp-for="CurrentUser.Id" hidden />
+                            <label asp-for="ImageFile"></label>
+                            <input type="file" accept="image/*" asp-for="@Model.ImageFile" class="form-control" />
+                            <span asp-validation-for="ImageFile" class="text-danger" hidden></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Upload" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Section for Answers -->
@@ -120,3 +157,6 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
+<script src="~/js/UserProfile.js"></script>

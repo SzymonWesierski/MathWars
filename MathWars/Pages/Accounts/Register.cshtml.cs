@@ -35,7 +35,8 @@ public class RegisterModel : PageModel
             var user = new ApplicationUser()
             {
                 UserName = registerModel.UserName,
-                Email = registerModel.Email,    
+                Email = registerModel.Email,   
+                ProfileImagePath = _configuration.GetSection("ProfilePicture").GetValue<string>("defaultProfilePicture")
             };
             var result = await userManager.CreateAsync(user,registerModel.Password);
             if (result.Succeeded) 
