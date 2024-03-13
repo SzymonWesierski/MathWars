@@ -29,10 +29,10 @@
         <a asp-page="/Reports/ReportBugInTask" asp-route-id="@Model.Task.Id" class="btn btn-secondary" style="width:50px;"><i class="bi bi-bug"></i></a>
     </div>
 
-    <div class="mb-3">
+    @* <div class="mb-3">
         <strong>Tytuł:</strong>
         <p class="mb-0"> @Model.Task.Title</p>
-    </div>
+    </div> *@
  
     
   
@@ -43,7 +43,9 @@
 
 
     <!-- Drawing area -->
-    <canvas id="drawingCanvas" width="900" height="400" style="border:1px solid #000; background-color: white;"></canvas>
+
+    
+    @* <canvas id="drawingCanvas" width="900" height="400" style="border:1px solid #000; background-color: white;"></canvas>
     <div>
         <button id="brushBtn" class="btn btn-info" style="width:100px;">
             <i class="bi bi-brush"></i>
@@ -54,7 +56,71 @@
         <button id="clearCanvasBtn" class="btn btn-danger" style="width:150px;">
             <i class="bi bi-trash"></i>
         </button>
+    </div> *@
+
+    <div class="whiteboard-container">
+        <section class="tools-board">
+            <div class="row">
+                <label class="title">Figury</label>
+                    <ul class="options">
+                        <li class="option">
+                          <img src="~/images/icons/rectangle.svg" alt="prostokąt">
+                          <span>Prostokąt</span>
+                        </li>
+                        <li class="option">
+                        <img src="~/images/icons/circle.svg" alt="okrąg">
+                            <span>Okrąg</span>
+                        </li>
+                        <li class="option">
+                        <img src="~/images/icons/triangle.svg" alt="trójkąt">
+                            <span>Trójkąt</span>
+                        </li>
+                        <li class="option"> 
+                            <input type="checkbox" id="fill-color"/>
+                            <label for="">Pokoloruj</label>
+                        </li>
+                    </ul>
+            </div>
+            <div class="row">
+                <label class="title">Opcje</label>
+                    <ul class="options">
+                        <li class="option active">
+                            <img src="~/images/icons/brush.svg" alt="pędzel">
+                        <span>Pędzel</span>
+                        </li>
+                        <li class="option">
+                            <img src="~/images/icons/eraser.svg" alt="gumka">
+                        <span>Gumka</span
+                        </li>
+                        <li class="option">
+                            <input type="range" id="size-slider" />
+                        </li>
+                    </ul>
+            </div>
+            <div class="row colors">
+                <label class="title">Kolory</label>
+                    <ul class="options">
+                        <li class="option"></li>
+                        <li class="option selected"></li>
+                        <li class="option"></li>
+                        <li class="option"></li>
+                        <li class="option">
+                            <input type="color" id="color-picker" value="#4A98F7" />
+                        </li>
+                    </ul>
+            </div>
+            <div class="row buttons">
+                <button class="clear-canvas">Clear Canvas</button>
+                <button class="save-img">Save As Image</button>
+            </div>
+        </section>
+        <section class="drawing-board">
+            <canvas></canvas>
+        </section>
+        
     </div>
+    
+
 
 
     @{

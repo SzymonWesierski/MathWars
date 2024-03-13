@@ -1,5 +1,6 @@
 ﻿.container {
     padding: 20px;
+    max-width:1140px;
 }
 
 h2.text-primary {
@@ -9,15 +10,16 @@ h2.text-primary {
 
 .mb-3 strong {
     display: block;
-    margin-bottom: 5px;
+    margin: 10px;
     font-size: 18px;
     color: #007bff;
 }
 
 .mb-3 p {
     padding: 10px;
-    background-color: #f2f2f2;
+    background-color: #fff;
     border-radius: 5px;
+    margin: 10px;
 }
 
 #drawingCanvas {
@@ -45,12 +47,6 @@ button.btn-secondary {
     border-color: #6c757d;
 }
 
-
-container {
-    text-align: center; 
-    margin-top: 20px; 
-}
-
 .task-image {
     max-width: 50%; 
     height: auto; 
@@ -65,4 +61,163 @@ container {
     right: 0;
     padding: 10px;
     overflow: visible;
+}
+
+.whiteboard-container {
+    display: flex;
+    width: 100%;
+    max-width: 1140px;
+    gap: 10px;
+    padding: 10px;
+}
+section {
+    background: white;
+    border-radius: 7px;
+}
+
+.tools-board {
+    width:210px;
+    padding: 15px 22px 0;
+}
+
+.tools-board .row {
+    margin-bottom:20px;
+}
+.row .options {
+    list-style:none;
+    margin: 10px 0 0 5px;
+}
+
+.row .options .option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.option:is(:hover, .active) img {
+    filter: invert(17%) sepia(90%) saturate(3000%) hue-rotate(900deg) brightness(100%) contrast(100%);
+}
+
+.option :where(span, label) {
+    color: #5A6168;
+    cursor: pointer;
+    padding-left: 10px;
+}
+.option:is(:hover, .active) :where(span, label) {
+    color: #4A98F7;
+}
+.option #fill-color {
+    cursor: pointer;
+    height: 14px;
+    width: 14px;
+}
+#fill-color:checked ~ label {
+    color: #4A98F7;
+}
+
+.option #size-slider {
+    width:100%;
+    height:5px;
+    margin-top: 10px;
+}
+
+.colors .options {
+    display: flex;
+    justify-content: space-between;
+}
+
+.colors .option {
+    height: 20px;
+    width: 20px;
+    background: red;
+    border-radius: 50%;
+    margin-top: 3px;
+    position: relative;
+}
+
+.colors .option:nth-child(1) {
+    background-color: #fff;
+    border: 1px solid #bfbfbf;
+}
+
+.colors .option:nth-child(2) {
+    background-color: #000;
+}
+
+.colors .option:nth-child(3) {
+    background-color: #E02020;
+}
+
+.colors .option:nth-child(4) {
+    background-color: #6DD400;
+}
+
+.colors .option:nth-child(5) {
+    background-color: #4A98F7;
+}
+
+.colors .option.selected::before {
+    position: absolute;
+    content: "";
+    top: 50%;
+    left: 50%;
+    height: 12px;
+    width: 12px;
+    background: inherit;
+    border-radius: inherit;
+    border: 2px solid #fff;
+    transform: translate(-50%, -50%);
+}
+
+.colors .option:first-child.selected::before {
+    border-color: #ccc;
+}
+
+.option #color-picker {
+    opacity: 0;
+    cursor: pointer;
+}
+
+.buttons button {
+    width: 100%;
+    color: #fff;
+    border: none;
+    outline: none;
+    padding: 11px 0;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    background: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.buttons .clear-canvas {
+    color: #6C757D;
+    border: 1px solid #6C757D;
+    transition: all 0.3s ease;
+}
+
+.clear-canvas:hover {
+    color: #fff;
+    background: #6C757D;
+}
+
+.buttons .save-img {
+    background: #4A98F7;
+    border: 1px solid #4A98F7;
+}
+
+.drawing-board {
+    flex: 1;
+    overflow: hidden;
+}
+
+.drawing-board canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.drawning-board {
+    flex: 1;
 }
