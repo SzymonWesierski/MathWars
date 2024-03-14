@@ -3,11 +3,8 @@
 @{
 }
 
-
-<link rel="stylesheet" href="~/css/_Layout.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/css/SolvingTask.css" asp-append-version="true" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
 @{
     if (@Model.AnswerResult != null)
     {
@@ -19,8 +16,8 @@
     }
 }
 
-
-<div class="container">
+ <div class="level-display">
+<div class="solving-task-container">
     <div class="row pb-2">
         <h2 class="text-primary pl-3">Rozwiąż zadanie</h2>
     </div>
@@ -57,122 +54,126 @@
             <i class="bi bi-trash"></i>
         </button>
     </div> *@
-
-    <div class="whiteboard-container">
-        <section class="tools-board">
-            <div class="row">
-                <label class="title">Figury</label>
-                    <ul class="options">
-                        <li class="option">
-                          <img src="~/images/icons/rectangle.svg" alt="prostokąt">
-                          <span>Prostokąt</span>
-                        </li>
-                        <li class="option">
-                        <img src="~/images/icons/circle.svg" alt="okrąg">
-                            <span>Okrąg</span>
-                        </li>
-                        <li class="option">
-                        <img src="~/images/icons/triangle.svg" alt="trójkąt">
-                            <span>Trójkąt</span>
-                        </li>
-                        <li class="option"> 
-                            <input type="checkbox" id="fill-color"/>
-                            <label for="">Pokoloruj</label>
-                        </li>
-                    </ul>
-            </div>
-            <div class="row">
-                <label class="title">Opcje</label>
-                    <ul class="options">
-                        <li class="option active">
-                            <img src="~/images/icons/brush.svg" alt="pędzel">
-                        <span>Pędzel</span>
-                        </li>
-                        <li class="option">
-                            <img src="~/images/icons/eraser.svg" alt="gumka">
-                        <span>Gumka</span
-                        </li>
-                        <li class="option">
-                            <input type="range" id="size-slider" />
-                        </li>
-                    </ul>
-            </div>
-            <div class="row colors">
-                <label class="title">Kolory</label>
-                    <ul class="options">
-                        <li class="option"></li>
-                        <li class="option selected"></li>
-                        <li class="option"></li>
-                        <li class="option"></li>
-                        <li class="option">
-                            <input type="color" id="color-picker" value="#4A98F7" />
-                        </li>
-                    </ul>
-            </div>
-            <div class="row buttons">
-                <button class="clear-canvas">Clear Canvas</button>
-                <button class="save-img">Save As Image</button>
-            </div>
-        </section>
-        <section class="drawing-board">
-            <canvas></canvas>
-        </section>
+   
+        <div class="whiteboard-container">
+            <section class="tools-board">
+                <div class="row">
+                    <label class="title">Figury</label>
+                        <ul class="options">
+                            <li class="option">
+                              <img src="~/images/icons/rectangle.svg" alt="prostokąt">
+                              <span>Prostokąt</span>
+                            </li>
+                            <li class="option">
+                            <img src="~/images/icons/circle.svg" alt="okrąg">
+                                <span>Okrąg</span>
+                            </li>
+                            <li class="option">
+                            <img src="~/images/icons/triangle.svg" alt="trójkąt">
+                                <span>Trójkąt</span>
+                            </li>
+                            <li class="option"> 
+                                <input type="checkbox" id="fill-color"/>
+                                <span>Pokoloruj</span>
+                            </li>
+                        </ul>
+                </div>
+                <div class="row">
+                    <label class="title">Opcje</label>
+                        <ul class="options">
+                            <li class="option active">
+                                <img src="~/images/icons/brush.svg" alt="pędzel">
+                            <span>Pędzel</span>
+                            </li>
+                            <li class="option">
+                                <img src="~/images/icons/eraser.svg" alt="gumka">
+                            <span>Gumka</span>
+                            </li>
+                            <li class="option">
+                                <input type="range" id="size-slider" />
+                            </li>
+                        </ul>
+                </div>
+                <div class="row colors">
+                    <label class="title">Kolory</label>
+                        <ul class="options">
+                            <li class="option"></li>
+                            <li class="option selected"></li>
+                            <li class="option"></li>
+                            <li class="option"></li>
+                            <li class="option">
+                                <input type="color" id="color-picker" value="#4A98F7" />
+                            </li>
+                        </ul>
+                </div>
+                <div class="row buttons">
+                    <button class="clear-canvas">Clear Canvas</button>
+                    <button class="save-img">Save As Image</button>
+                </div>
+            </section>
+            <section class="drawing-board">
+                <canvas></canvas>
+            </section>
         
-    </div>
+        </div>
     
 
 
 
-    @{
-        if (Model.Task.ImagePath != "")
-        {
-            <div class="mb-3">
-                <img width="50%" src="@Url.Content(Model.Task.ImagePath)" alt="Optional Image for Task " class="task-image" />
-            </div>
+        @{
+            if (Model.Task.ImagePath != "")
+            {
+                <div class="mb-3">
+                    <img width="50%" src="@Url.Content(Model.Task.ImagePath)" alt="Optional Image for Task " class="task-image" />
+                </div>
+            }
         }
-    }
  
-    <div class="mb-3">
-    <form method="post">
-        <input type="hidden" asp-for="@Model.Task.Id" />
-
-        <!--<div asp-validation-summary="All"></div>-->
-        Odpowiedź (@Model.Task.AnswerType.FormatExplanation):
-        @for (int i = 0; i < Model.Task.AnswerType.HowManyCorrectAnswers; i++)
+        @*modal*@
+        @if (Model.AnswerResult == true)
         {
-                <input asp-for="@Model.AnswersList[i]" class="form-control" />
-                <span asp-validation-for="@Model.AnswersList[i]" class="text-danger"></span>
-        }
-
-        <br/>
-
-        <button type="submit" class="btn btn-primary" style="width:150px;">Sprawdź</button>
-        <a asp-page="/Index" class="btn btn-secondary" style="width:150px;">Powrót do strony głównej</a>
-        
-    </form>
-    </div>
-    @*modal*@
-    @if (Model.AnswerResult == true)
-    {
-        <div class="modal fade" id="aModal" tabindex="-1" role="dialog" aria-labelledby="aModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="aModalLabel">Gratulacje</h4>
-                    </div>
-                    <div class="modal-body">
-                        Udało Ci się poprawnie rozwiązać zadanie : ) 
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <div class="modal fade" id="aModal" tabindex="-1" role="dialog" aria-labelledby="aModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="aModalLabel">Gratulacje</h4>
+                        </div>
+                        <div class="modal-body">
+                            Udało Ci się poprawnie rozwiązać zadanie : ) 
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
                     </div>
                 </div>
             </div>
+        }
+    
+
+    <div class="mb-3">
+        <form method="post">
+            <input type="hidden" asp-for="@Model.Task.Id" />
+
+            <!--<div asp-validation-summary="All"></div>-->
+            Odpowiedź (@Model.Task.AnswerType.FormatExplanation):
+            @for (int i = 0; i < Model.Task.AnswerType.HowManyCorrectAnswers; i++)
+            {
+                    <input asp-for="@Model.AnswersList[i]" class="form-control" />
+                    <span asp-validation-for="@Model.AnswersList[i]" class="text-danger"></span>
+            }
+
+            <br/>
+
+            <button type="submit" class="btn btn-primary" style="width:150px;">Sprawdź</button>
+            <a asp-page="/Index" class="btn btn-secondary" style="width:150px;">Powrót do strony głównej</a>
+        
+        </form>
         </div>
-    }
+   </div>
+    <div class="math-translator-table">
 
+        <p>test</p>
 
-</div>
-
+    </div>
 <script src="~/js/Drawing.js"></script>

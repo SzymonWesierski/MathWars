@@ -53,6 +53,7 @@
     background-size: cover;
     border-right: 1px solid #fff;
     box-shadow: 5px 0 5px rgba(0, 0, 0, 0.1);
+    z-index:5;
 }
 
 .bg-gradient-primary {
@@ -61,6 +62,7 @@
 
 .sidebar-container:hover {
     width: 250px;
+    
 }
 
 .sidebar-navigation {
@@ -119,7 +121,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1em;
+    padding: 0.5em;
     background-color: #fff;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
     gap:30px;
@@ -194,7 +196,7 @@ button:hover {
  }
 
 body {
-    background-color: #e6eaf5 !important;
+    background-color: #fdfdfd !important;
     /*background-image: url("../images/bg.png");*/
     color: var(--white);
     background-position: 0 0;
@@ -256,13 +258,14 @@ footer a:hover {
 }
 
 .login-box {
-    width: 400px;
-    padding: 0px 25px 0px 25px;
     margin: 0 auto;
+    padding: 25px 25px 25px 25px;
+    width: 400px;
     border: 1px solid #ddd;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-top: 50px;
     border-radius: 2%;
+    color: black;
 }
 
 .login-box form div {
@@ -270,7 +273,7 @@ footer a:hover {
  }
 
 .login-box label {
-    display: block;
+    
     margin-bottom: 5px;
     font-size: 15px;
 }
@@ -324,6 +327,7 @@ footer a:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-top: 50px;
     border-radius: 2%;
+    color:black;
 }
 
 .register-box form div {

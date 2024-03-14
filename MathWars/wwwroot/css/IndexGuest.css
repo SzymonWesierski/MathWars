@@ -1,10 +1,20 @@
+.index-guest-container {
+    font-family: Calibri;
+    color: black;
+    padding: 30px 0px 30px 0px;
+}
+
+.header {
+
+    padding:10px 0px 10px 0px;
+
+}
+
 h1 {
     font-weight: 500;
     text-align: center;
     font-size: 6rem;
     line-height: 1.1;
-    font-family: Calibri;
-    padding-top: 1em;
 }
 
 .gradient {
@@ -31,26 +41,22 @@ h2 {
     text-align: left;
 }
 
+
 .button-under-start {
-    margin-top:30px;
-    display: flex;
-    justify-content: center; 
-    align-items: center; 
+    font-size: 30px;
+    display: block; 
+    margin: 10px auto; 
+    text-align: center;
 }
 
-.button-under-start button {
-   width:20vw;
-   height:10vh;
-   font-size:24px;
-}
 
 .boxes {
+    
     width: 70%;
     margin: 0 auto 0 auto;
     display: flex;
     flex-direction: column;
     gap: 30px;
-    padding: 50px 0;
 }
 
 .box {
@@ -78,7 +84,6 @@ h2 {
 }
 
 .box-left{
-   
     font-size: 1.2rem;
     color: #333;
     line-height: 1.6;
@@ -119,8 +124,8 @@ h2 {
     }
 
     .button-under-start button {
-        width: 25vw;
-        height: 13vh;
+        width: 100%;
+        height: 100%;
         font-size: 24px;
     }
 }

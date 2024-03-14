@@ -5,106 +5,64 @@
     ViewData["Title"] = "Home page";
 }
 
-<link rel="stylesheet" href="~/css/_Layout.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/css/IndexGuest.css" asp-append-version="true" />
 
+<div class="index-guest-container">
 
+		<div class="symbols">
+			<div class="symbol" id="symbol1"><i class="fa fa-calculator"></i></div>
+			<div class="symbol" id="symbol2"><i class="fas fa-square-root-alt"></i></div>
+			<div class="symbol" id="symbol3"><i class="fas fa-infinity"></i></div>
+			<div class="symbol" id="symbol4"><i class="fas fa-not-equal"></i></div>
+			<div class="symbol" id="symbol5"><i class="fas fa-superscript"></i></div>
+			<div class="symbol" id="symbol6"><i class="fas fa-percent"></i></div>
+			<div class="symbol" id="symbol7"><i class="fas fa-square"></i></div>
+		</div>
 
-<div class="symbols">
+		<section>
+			<header class="header">
+				<h1><p class="gradient">Osiągnij mistrzostwo</p>poprzez pracę</h1>
+				<h2>Za każdym wyzwaniem kryje się okazja do wzrostu i rozwoju - Twoja praca to klucz do odkrycia tych możliwości</h2>
+				<button class="button-under-start"><a asp-page="/Accounts/Register"> Zacznij teraz! </a></button>
+			</header>
+		</section>
 
-	<div class="symbol" id="symbol1"><i class="fa fa-calculator"></i></div>
-	<div class="symbol" id="symbol2"><i class="fas fa-square-root-alt"></i></div>
-	<div class="symbol" id="symbol3"><i class="fas fa-infinity"></i></div>
-	<div class="symbol" id="symbol4"><i class="fas fa-not-equal"></i></div>
-	<div class="symbol" id="symbol5"><i class="fas fa-superscript"></i></div>
-	<div class="symbol" id="symbol6"><i class="fas fa-percent"></i></div>
-	<div class="symbol" id="symbol7"><i class="fas fa-square"></i></div>
+		<div class="boxes">
+			<div class="box" id="box_1">
+				<div class="box-left">
+					<h2 class="box-title"><b>Wyostrz swoje umiejętności matematyczne</b></h2>
+					<br/>
+					<p>Odkryj radość z uczenia się matematyki w interaktywny sposób, wykorzystując nasze narzędzia edukacyjne, które przekształcają trudne koncepcje w przystępne i zrozumiałe zadania </p>
+				</div>
+				<div class="box-right">
+					<img src="~/images/OnTask.png" />
+				</div>
+			</div>
 
-</div>
+		<div class="box-container">
+			<div class="box" style="flex-direction: column;">
+				<div class="box-left">
+					<h2 class="box-title"><b>Otrzymuj natychmiastowy feedback</b></h2>
+					<p>Otrzymujesz nie tylko ocenę swoich odpowiedzi, ale także szczegółowe wyjaśnienia i wskazówki, które pomagają w pogłębianiu Twojego zrozumienia matematyki.</p>
+				</div>
 
+				<div class="box-right">
+					<img src="~/images/math.jpg" />
+				</div>
+			</div>
 
-
-	
-	<h1>
-		<p class="gradient">Osiągnij mistrzostwo</p>poprzez pracę
-	</h1>
-
-	<h2>
-
-	Za każdym wyzwaniem kryje się okazja do wzrostu i rozwoju - Twoja praca to klucz do odkrycia tych możliwości
-		
-	</h2>
-	
-	<div class="button-under-start">
-
-	<button><a asp-page="/Accounts/Register"> ZACZNIJ TERAZ </a></button>
-
+			<div class="box" style="flex-direction: column; flex: 2;">
+				<div class="box-left">
+					<h2 class="box-title"><b>Zdobywaj doświadczenie i poziomy</b></h2>
+					<br/>
+					<p>Z każdym rozwiązanym zadaniem zdobywasz doświadczenie i awansujesz na wyższe poziomy umiejętności matematycznych. System nagradza Twój postęp, motywując do dalszej nauki i odkrywania nowych wyzwań. Świętuj każdy sukces na swojej matematycznej ścieżce rozwoju<p>
+				</div>
+				<div class="box-right">
+					<img src="~/images/calc.png" />
+				</div>
+			</div>
+		</div>
 	</div>
-
-<div class="boxes">
-
-	<div class="box" id="box_1">
-
-		<div class="box-left">
-
-			<h2 class="box-title"><b>Wyostrz swoje umiejętności matematyczne</b></h2>
-			<br/>
-
-			Odkryj radość z uczenia się matematyki w interaktywny sposób, wykorzystując nasze narzędzia edukacyjne,
-			które przekształcają trudne koncepcje w przystępne i zrozumiałe zadania
-
-		</div>
-
-		<div class="box-right">
-
-			<img src="~/images/OnTask.png" />
-
-		</div>
-	</div>
-
-	<div class="box-container">
-
-		<div class="box" style="flex-direction: column;">
-
-
-			<div class="box-left">
-
-				<h2 class="box-title"><b>Otrzymuj natychmiastowy feedback</b></h2>
-				<br>
-				Otrzymujesz nie tylko ocenę swoich odpowiedzi,
-				ale także szczegółowe wyjaśnienia i wskazówki, które pomagają w pogłębianiu Twojego zrozumienia matematyki.
-
-			</div>
-
-			<div class="box-right">
-
-				<img src="~/images/math.jpg" />
-
-			</div>
-
-		</div>
-
-		<div class="box" style="flex-direction: column; flex: 2;">
-
-			<div class="box-left">
-
-				<h2 class="box-title"><b>Zdobywaj doświadczenie i poziomy</b></h2>
-				<br/>
-
-				Z każdym rozwiązanym zadaniem zdobywasz doświadczenie i awansujesz na wyższe poziomy umiejętności matematycznych.
-				System nagradza Twój postęp, motywując do dalszej nauki i odkrywania nowych wyzwań. Świętuj każdy sukces na swojej matematycznej ścieżce rozwoju
-
-			</div>
-
-			<div class="box-right">
-				<img src="~/images/calc.png" />
-			</div>
-		</div>
-
-	</div>
-
-
-
 </div>
 
 
