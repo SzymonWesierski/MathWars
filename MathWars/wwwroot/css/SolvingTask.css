@@ -1,27 +1,60 @@
 ﻿.solving-task-container {
     margin-left: 50px;
-    max-width:1520px;
-    padding: 20px;
-    color:black;
-    flex: 3;
+    max-width: 1520px;
+    padding: 20px 0px 20px 20px;
+    color: black;
+    flex: 4;
+    
 }
+
+.solving-task-container h2 {
+    color: #376a9c;
+    padding-left: 10px;
+    font-weight:550;
+}
+
+.solving-task-container label {
+    font-weight:bold;
+    padding-left:5px;
+}
+
 
 .math-translator-table {
     display: block;
-    align-content: right;
+    padding-top: 20px;
+    flex: 1;
+    
+}
+
+.first-block {
+    margin: 45px 20px 0px 0px;
+    border: 2px solid #a6a6a6;
+    border-radius: 7px;
+    height: 45%;
+    padding: 10px;
+    background-color: #a6a6a6;
+}
+
+.second-block {
+    margin: 10px 20px 20px 0px;
+    border: 2px solid #a6a6a6;
+    height: 45%;
+    padding: 10px;
+    border-radius: 7px;
+    background-color: #a6a6a6;
 }
 
 .level-display {
     display:flex;
 }
 
-.math-translator-table {
-    flex:1;
-}
 
 h2.text-primary {
     font-size: 24px;
-    text-shadow: 1px 1px 2px grey;
+}
+
+.mb-3 {
+    padding:10px
 }
 
 .mb-3 strong {
@@ -30,13 +63,24 @@ h2.text-primary {
     color: #007bff;
 }
 
-.mb-3  {
+.task-content  {
     padding: 10px;
-    background-color: #fff;
+    background-color: #f1f1f1;
     border-radius: 5px;
     border: 2px solid #f1f1f1;
     margin: 0px 10px 0px 10px;
     height:auto;
+    display:flex;
+}
+
+.task-text {
+    flex: 3;
+}
+
+.task-img img{
+    flex: 1;
+    max-width: 200px;
+    height: auto;
 }
 
 #drawingCanvas {
@@ -62,11 +106,6 @@ button.btn-primary {
 button.btn-secondary {
     background-color: #6c757d;
     border-color: #6c757d;
-}
-
-.task-image {
-    max-width: 50%; 
-    height: auto; 
 }
 
 .btn i {
@@ -95,7 +134,7 @@ button.btn-secondary {
     padding: 10px;
 }
 section {
-    background: white;
+    background-color: #f1f1f1;
     border-radius: 7px;
     border: 2px solid #f1f1f1;
 }
@@ -242,7 +281,7 @@ section {
 }
 
 .drawing-board {
-    flex: 5;
+    flex: 6;
     overflow: hidden;
 }
 

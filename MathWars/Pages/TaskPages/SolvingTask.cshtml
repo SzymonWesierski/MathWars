@@ -18,10 +18,7 @@
 
  <div class="level-display">
 <div class="solving-task-container">
-    <div class="row pb-2">
-        <h2 class="text-primary pl-3">Rozwiąż zadanie</h2>
-    </div>
-
+        <h2>Rozwiąż zadanie</h2>
     <div class="bug-report">
         <a asp-page="/Reports/ReportBugInTask" asp-route-id="@Model.Task.Id" class="btn btn-secondary" style="width:50px;"><i class="bi bi-bug"></i></a>
     </div>
@@ -33,9 +30,18 @@
  
     
   
-    <div class="mb-3">
-        <strong>Treść:</strong>
-        <p class="mb-0"> @Model.Task.Content</p>
+    <div class="task-content">
+        <div class="task-text">
+            <p> @Model.Task.Content</p>
+        </div>
+            @{
+                if (Model.Task.ImagePath != "")
+                {
+                    <div class="task-img">
+                        <img src="@Url.Content(Model.Task.ImagePath)" alt="Optional Image for Task "/>
+                    </div>
+                }
+            }
     </div>
 
 
@@ -117,17 +123,6 @@
         
         </div>
     
-
-
-
-        @{
-            if (Model.Task.ImagePath != "")
-            {
-                <div class="mb-3">
-                    <img width="50%" src="@Url.Content(Model.Task.ImagePath)" alt="Optional Image for Task " class="task-image" />
-                </div>
-            }
-        }
  
         @*modal*@
         @if (Model.AnswerResult == true)
@@ -172,8 +167,12 @@
         </div>
    </div>
     <div class="math-translator-table">
-
-        <p>test</p>
-
+        <div class="first-block">
+            <p>test</p>
+        </div>
+        <div class="second-block">
+            <p>test2</p>
+        </div>
     </div>
+</div>
 <script src="~/js/Drawing.js"></script>
