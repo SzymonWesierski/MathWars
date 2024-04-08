@@ -71,15 +71,13 @@
 }
 
  <div class="level-display">
-    <div class="solving-task-container">
-        <div class="row pb-2">
-            <h2 class="text-primary pl-3">Rozwiąż zadanie</h2>
-        </div>
-
-        <div class="bug-report">
-            <a asp-page="/Reports/ReportBugInTask" asp-route-id="@Model.TaskSolvingModel.Id" class="btn btn-secondary" style="width:50px;"><i class="bi bi-bug"></i></a>
-        </div>
-
+<div class="solving-task-container">
+        <h2>Rozwiąż zadanie</h2>
+    <div class="bug-report">
+        <a asp-page="/Reports/ReportBugInTask" asp-route-id="@Model.TaskSolvingModel.Id" class="btn btn-secondary" style="width:50px;"><i class="bi bi-bug"></i></a>
+    </div>
+  
+    <div class="task-content">
         <div class="mb-3">
             @if (Model.NumberOfAttempts >= 1)
             {
@@ -90,10 +88,18 @@
                 <p>Skup się masz jedno podejść żeby dostać exp za to zadania</p>
             }
         </div>
-        <div class="mb-3">
-            <strong>Treść:</strong>
-            <p class="mb-0"> @Model.TaskSolvingModel.Content</p>
+        <div class="task-text">
+            <p> @Model.TaskSolvingModel.Content</p>
         </div>
+            @{
+                if (!string.IsNullOrEmpty(Model.TaskSolvingModel.ImageUrl))
+                {
+                    <div  class="task-img">
+                        <img src="@Url.Content(Model.TaskSolvingModel.ImageUrl)" alt="Optional Image for Task"/>
+                    </div>
+                }
+            }
+    </div>
 
 
     <!-- Drawing area -->
@@ -177,14 +183,7 @@
 
 
 
-        @{
-            if (!string.IsNullOrEmpty(Model.TaskSolvingModel.ImageUrl))
-            {
-                <div class="mb-3">
-                    <img width="50%" src="@Url.Content(Model.TaskSolvingModel.ImageUrl)" alt="Optional Image for Task " class="task-image" />
-                </div>
-            }
-        }
+       
     
 
     <div class="mb-3">
@@ -225,9 +224,12 @@
         </div>
    </div>
     <div class="math-translator-table">
-
-        <p>test</p>
-
+        <div class="first-block">
+            <p>test</p>
+        </div>
+        <div class="second-block">
+            <p>test2</p>
+        </div>
     </div>
 </div>
 <script src="~/js/Drawing.js"></script>

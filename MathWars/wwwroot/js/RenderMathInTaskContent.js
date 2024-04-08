@@ -26,7 +26,7 @@ function renderContent() {
     const previewElement = document.getElementById("latex-preview");
     const contentText = contentElement.value;
 
-    previewElement.textContent = contentText;
+    previewElement.textContent = contentText; 
 
     renderMathInElement(previewElement, {
         delimiters: [

@@ -1,5 +1,4 @@
 ﻿using MathWars.Entities;
-using MathWars.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
@@ -36,7 +35,8 @@ namespace MathWars.Data
 				UserName = "admin",
 				Email = "defaultAdmin@email.com",
 				EmailConfirmed = true,
-			};
+                ProfileImageUrl = "/images/profilePictures/defultProfilePicture.png"
+            };
 
 			await userManager.CreateAsync(admin, "Admin1@");
 			await userManager.AddToRoleAsync(admin, "Admin");

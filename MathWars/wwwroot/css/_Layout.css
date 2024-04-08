@@ -48,12 +48,11 @@
     left: 0;
     top: 0;
     transition: width 0.8s;
-    background-color: #4e73df;
-    background-image: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
+    background-color: #fff;
+    background-image: linear-gradient(180deg, #4e73df 10%, #376a9c 100%);
     background-size: cover;
-    border-right: 1px solid #fff;
     box-shadow: 5px 0 5px rgba(0, 0, 0, 0.1);
-    z-index:5;
+    z-index: 5;
 }
 
 .bg-gradient-primary {
@@ -113,10 +112,9 @@
 }
 
 .gradient-navbar {
-    background: linear-gradient(120deg, #7f70f5, #0ea0ff);
+    background: linear-gradient(180deg, #376a9c 100%,#4e73df 10%);
     color: #fff;
 }
-
 .navbar-top {
     display: flex;
     justify-content: space-between;
@@ -124,8 +122,8 @@
     padding: 0.5em;
     background-color: #fff;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
-    gap:30px;
-    font-size:20px;
+    gap: 30px;
+    font-size: 20px;
 }
 
 .navbar-top-content {
@@ -148,13 +146,18 @@ button {
     padding: 0.5rem 1rem;
     border: 3px solid #5980f8;
     cursor: pointer;
-    border-radius: 30px;
-    font-size: 1rem;
-    background-color: #5980f8;
+    border-radius: 7px;
+    font-size: 1em;
+    background-color: #0c1941;
 }
 
 button:hover {
     opacity:0.7;
+}
+
+.navbar-top-buttons button {
+    background: none;
+    border: none
 }
 
 .hamburger-menu {
@@ -195,13 +198,21 @@ button:hover {
     background-color: #f1f1f1;
  }
 
+@font-face {
+    font-family: 'Input Sans';
+    src: url("../InputSans-Regular.ttf") format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
 body {
-    background-color: #fdfdfd !important;
+    background-color: #d6eaff;
     /*background-image: url("../images/bg.png");*/
-    color: var(--white);
+    color: black;
     background-position: 0 0;
     background-size: 200px 200px;
-    font-family: IBM Plex, sans-serif !important;
+    font-family: 'Input Sans', sans-serif;
     font-size: 1rem;
     font-weight: 300;
     line-height: 1.5;
@@ -216,7 +227,7 @@ body {
 
 html, body {
     height: 100%;
-    margin: 0px;;
+    margin: 0px;
     padding: 0px;
     display: flex;
     flex-direction: column;
@@ -234,12 +245,13 @@ footer {
     padding:20px;
     font-size: 16px;
     box-shadow: 0 -2px 4px 0.5px rgba(0,0,0,0.1);
-   
+    z-index:10;
 }
 
 a, a:hover {
     color:white;
     text-decoration:none;
+    border:none;
 
 }
 .navbar-left a:hover{
@@ -266,6 +278,7 @@ footer a:hover {
     margin-top: 50px;
     border-radius: 2%;
     color: black;
+    background-color: white;
 }
 
 .login-box form div {
@@ -287,13 +300,13 @@ footer a:hover {
     border-radius: 4px;
 }
 
-.login-box input[type="submit"] {
-    background-color: #5980f8;
-    color: white;
-}
+    .login-box input[type="submit"] {
+        background-color: #102156;
+        color: white;
+    }
 
 .login-box input[type="submit"]:hover {
-    background-color: #5980f8;
+    
     color: white;
     opacity: 0.75;
 }
@@ -328,6 +341,7 @@ footer a:hover {
     margin-top: 50px;
     border-radius: 2%;
     color:black;
+    background-color:white;
 }
 
 .register-box form div {
@@ -351,13 +365,13 @@ footer a:hover {
     border-radius: 4px;
 }
 
-.register-box input[type="submit"] {
-    background-color: #5980f8;
-    color: white;
-}
+    .register-box input[type="submit"] {
+        background-color: #102156;
+        color: white;
+    }
 
 .register-box input[type="submit"]:hover {
-     background-color: #5980f8;
+    
      color: white;
      opacity: 0.75;
 }
