@@ -1,109 +1,88 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MathWars.Data;
-using MathWars.Models;
-using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
+using MathWars.Entities;
+using MathWars.Interfaces;
+using MathWars.Helpers;
+using MathWars.Models;
+using MathWars.Extensions;
 
 namespace MathWars.Pages
 {
-    [Authorize]
-    [BindProperties]
-    public class IndexModel : PageModel
-    {
-        private readonly ApplicationDbContext _db;
-        public TasksCategory Category { get; set; } = new TasksCategory();
-		public IEnumerable<TasksCategory>? Categories { get; set; }
-		public string difficultyLevel = String.Empty;
-		private int categoryId;
-		private readonly IConfiguration _configuration;
-		public List<Tasks> TasksList { get; set; } = new List<Tasks>();
+	[Authorize]
+	[BindProperties]
+	public class IndexModel : PageModel
+	{
+		private readonly IUnitOfWork _uow;
+		private readonly IConfigurationService _configurationService;
 
-		// Dodane właściwości dla paginacji
-		public int CurrentPage { get; set; } = 1;
-		public int TotalPages { get; set; }
-		private int ItemsPerPage { get; } = 1; 
-
-
-		public IndexModel(ApplicationDbContext db, IConfiguration configuration)
-        {
-            _db = db;
-            _configuration = configuration;
-        }
-
-		public IActionResult OnGet(int currentPage = 1, string difficulty = null)
+		public IndexModel(IUnitOfWork uow, IConfigurationService configurationService)
 		{
-			Categories = GetCategorys();
-
-			if(Categories == null) return NotFound();
-
-			Category = Categories.FirstOrDefault() ?? new TasksCategory();
-
-            categoryId = Category.Id;
-
-			difficultyLevel = difficulty ?? _configuration.GetSection("FiltrTaskIndexPage").GetValue<string>("DefaultDifficultyLevel") ?? String.Empty;
-
-			var allTasks = taskQueryResult().ToList();
-			CurrentPage = currentPage;
-			TotalPages = (int)Math.Ceiling((double)allTasks.Count / ItemsPerPage);
-			TasksList = allTasks.Skip((CurrentPage - 1) * ItemsPerPage).Take(ItemsPerPage).ToList();
-
-			return Page();
+			_uow = uow;
+			_configurationService = configurationService;
 		}
 
+		public List<TasksCategory> Categories { get; set; }
+		public PaginatedList<TaskToSolveModel> TasksToSolve { get; set; }
+		public int ExpForSolveTask { get; set; }
+		public bool IsTaskSolvedByUser { get; set; } = false;
+		public int PageSize { get; } = 1;
+		public TaskToSolveParams TaskToSolveParams { get; set; }
 
-
-
-		public IActionResult OnPost(int currentPage, string difficultyLevel)
+		public async Task OnGetAsync(
+			int? pageIndex, int? difficulty, int? categoryId, bool onlyNotSolved)
 		{
-			this.difficultyLevel = difficultyLevel;
+			await GetResources(pageIndex, difficulty, categoryId, onlyNotSolved);
+		}
 
-			Categories = GetCategorys();
-
-			Category = _db.TasksCategory.Find(Category.Id) ?? new TasksCategory();
-
-			var allTasks = taskQueryResult().ToList();
-
-			TotalPages = (int)Math.Ceiling(allTasks.Count / (double)ItemsPerPage);
-
-			TasksList = allTasks.Skip((currentPage - 1) * ItemsPerPage).Take(ItemsPerPage).ToList();
-
-			CurrentPage = currentPage;
-
-			if (!TasksList.Any() && currentPage != 1)
+		public IActionResult OnPostAsync()
+		{
+			return RedirectToPage("Index", new
 			{
-				return RedirectToPage(new { currentPage = 1, difficulty = this.difficultyLevel });
-			}
+				pageIndex = TaskToSolveParams.PageNumber,
+				difficulty = TaskToSolveParams.DifficultyLevel,
+				categoryId = TaskToSolveParams.CategoryId,
+				onlyNotSolved = TaskToSolveParams.OnlyNotSolved
+			});
+		}
+		private async Task<IActionResult> GetResources(int? pageIndex, int? difficulty, int? categoryId, bool onlyNotSolved)
+		{
+			Categories = _uow.TaskCategoryRepository.GetTaskCategories();
+			if (Categories == null) return NotFound();
+			Categories.Insert(0, new TasksCategory { Id = 0, CategoryName = "Wszystkie" });
 
+			TaskToSolveParams = new TaskToSolveParams
+			{
+				DifficultyLevel = difficulty ?? 0,
+				CategoryId = categoryId ?? 0,
+				PageNumber = pageIndex ?? 1,
+				PageSize = PageSize,
+				OnlyNotSolved = onlyNotSolved,
+			};
+
+			var userId = User.GetUserId();
+
+			TasksToSolve = await _uow.TaskRepository
+				.GetTasksToSolveAsync(TaskToSolveParams, userId) ?? 
+					new PaginatedList<TaskToSolveModel>();
+
+			if(TasksToSolve.Count > 0)
+			{
+				var taskId = TasksToSolve.First().Id;
+
+				if (NumberOfUsersAttemptsToSolveTask(taskId, userId) > 0) IsTaskSolvedByUser = true;
+
+				ExpForSolveTask = Progression.GetExp(TasksToSolve.First().DifficultyLevel,
+					_configurationService.GetExperienceMultiplier());
+			}
+			
 			return Page();
 		}
 
-
-
-
-		private IEnumerable<Tasks> taskQueryResult()
-        {
-            if (Category != null)
-            {
-                int.TryParse(difficultyLevel, out int difficulty);
-
-                var filteredTasks = _db.Tasks
-                    .Where(t =>
-                        t.TasksAndCategories.Any(tc => tc.TaskCategory.CategoryName == Category.CategoryName) &&
-                        t.difficultyLevel == difficulty)
-                    .ToList();
-
-                return filteredTasks;
-            }
-
-            return Enumerable.Empty<Tasks>();
-        }
-
-        private IEnumerable<TasksCategory> GetCategorys() 
-        {
-            return _db.TasksCategory;
+		private int NumberOfUsersAttemptsToSolveTask(int taskId, string userId)
+		{
+			return _uow.UserAnswersRepository
+						.DidUserSolvedTask(taskId, userId).Count();
 		}
 	}
 }

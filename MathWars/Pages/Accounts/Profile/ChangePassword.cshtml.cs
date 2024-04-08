@@ -1,4 +1,4 @@
-using MathWars.Models;
+using MathWars.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

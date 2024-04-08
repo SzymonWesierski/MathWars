@@ -1,19 +1,15 @@
-using MathWars.Data;
-using MathWars.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MathWars.Pages.TaskPages;
-[Authorize(Roles = "admin")]
+[Authorize(Policy = "RequireAdminRole")]
 [BindProperties]
 public class DeleteRoleModel : PageModel
 {
     private readonly RoleManager<IdentityRole> _roleManager;
-    public IdentityRole? role { get; set; }
+    public IdentityRole role { get; set; }
 
     public DeleteRoleModel(RoleManager<IdentityRole> roleManager)
     {

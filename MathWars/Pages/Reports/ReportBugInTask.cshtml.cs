@@ -1,12 +1,11 @@
-using MathWars.Data;
+using MathWars.Extensions;
+using MathWars.Interfaces;
 using MathWars.Models;
+using MathWars.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel.DataAnnotations;
-using System.Drawing;
+using System.Threading.Tasks;
 
 namespace MathWars.Pages.Reports;
 
@@ -14,24 +13,19 @@ namespace MathWars.Pages.Reports;
 [Authorize]
 public class ReportBugInTaskModel : PageModel
 {
-    private readonly ApplicationDbContext _context;
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly IConfiguration _configuration;
+    private readonly IUnitOfWork _uow;
+    private readonly IPhotoService _photoService;
 
-    public ReportBugInTaskModel(ApplicationDbContext context,UserManager<ApplicationUser> userManager,
-        IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
+    public ReportBugInTaskModel(IUnitOfWork uow, IPhotoService photoService)
     {
-        _context = context;
-        _userManager = userManager;
-        _webHostEnvironment = webHostEnvironment;
-        _configuration = configuration;
-    }
+        _uow = uow;
+        _photoService = photoService;
+	}
 
-    public UsersReports UserReport { get; set; } = new UsersReports();
-    public IFormFile? ImageFile { get; set; }
+    public UsersReportsModel UserReport { get; set; } = new UsersReportsModel();
+    public IFormFile ImageFile { get; set; }
 
-    public async Task<IActionResult> OnGetAsync(int? id)
+    public IActionResult OnGet(int? id)
     {
         if (id == null)
         {
@@ -40,15 +34,6 @@ public class ReportBugInTaskModel : PageModel
 
         UserReport.TaskId = id.Value;
 
-        var tempUser = await _userManager.GetUserAsync(User);
-
-        if (tempUser == null)
-        {
-            return NotFound();
-        }
-
-        UserReport.UserId = tempUser.Id;
-
         return Page();
     }
 
@@ -56,41 +41,23 @@ public class ReportBugInTaskModel : PageModel
     {
         if (ModelState.IsValid)
         {
-            // Handle image upload
-            if (ImageFile != null && ImageFile.Length > 0)
+            UserReport.UserId = User.GetUserId();
+
+			// Handle image upload
+			if (ImageFile != null)
             {
-                // generating new uniqe file name 
-                var uniqueFileName = Guid.NewGuid().ToString() + "_" + ImageFile.FileName;
-
-                var appDirectory = _webHostEnvironment.WebRootPath;
-
-                var imageDirectory = _configuration.GetSection("ImagesDirectorys")
-                    .GetValue<string>("reportPictures");
-
-                if (imageDirectory == null || uniqueFileName == null)
+                var result = await _photoService.AddPhotoAsync(ImageFile, ImageDirectoriesCloudinary.Reports);
+                if (result.Error == null)
                 {
-                    // TODO logger should handle that error
-                    ModelState.AddModelError("ImageFile", "B³¹d œcie¿ki");
-                    return Page();
-                }
-                else
-                {
-                    // Save image on server
-                    var filePath = Path.Combine(imageDirectory, uniqueFileName);
+					UserReport.ImageUrl = result.SecureUrl.AbsoluteUri;
+					UserReport.PublicImageId = result.PublicId;
+				}
+			}
 
-                    var physicalFilePath = appDirectory + filePath;
+            await _uow.UserReportsRepository.AddReportAsync(UserReport);
 
-                    using (var fileStream = new FileStream(physicalFilePath, FileMode.Create))
-                    {
-                        ImageFile.CopyTo(fileStream);
-                    }
-                    UserReport.ImagePath = filePath;
-                }
-            }
-
-            await _context.UsersReports.AddAsync(UserReport);
-            await _context.SaveChangesAsync();
-            return RedirectToPage("/TaskPages/SolvingTask", new { id = UserReport.TaskId });
+            if (await _uow.Complete()) return RedirectToPage("/TaskPages/SolvingTask", new { id = UserReport.TaskId });
+            return Page();
         }
         return Page();
     }

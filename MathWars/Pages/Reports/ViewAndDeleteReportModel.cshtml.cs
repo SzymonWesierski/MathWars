@@ -1,28 +1,24 @@
-using MathWars.Data;
-using MathWars.Models;
+using MathWars.Entities;
+using MathWars.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace MathWars.Pages.Reports;
-[Authorize]
+[Authorize(Policy = "RequireAdminOrManagerRole")]
 [BindProperties]
 public class ViewAndDeleteReportModel : PageModel
 {
-    private readonly ApplicationDbContext _db;
+    private readonly IUnitOfWork _uow;
     private readonly UserManager<ApplicationUser> _userManager;
-	private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IPhotoService _photoService;
 
-	public ViewAndDeleteReportModel(ApplicationDbContext db,
-        UserManager<ApplicationUser> userManager, IWebHostEnvironment webHostEnvironment)
+    public ViewAndDeleteReportModel(IUnitOfWork uow, UserManager<ApplicationUser> userManager, IPhotoService photoService)
     {
-        _db = db;
+        _uow = uow;
         _userManager = userManager;
-        _webHostEnvironment = webHostEnvironment;
+        _photoService = photoService;
     }
 
     public UsersReports Report { get; set; }
@@ -30,52 +26,37 @@ public class ViewAndDeleteReportModel : PageModel
 
     public async Task<IActionResult> OnGet(int id)
     {
-        Report = await _db.UsersReports
-            .FirstOrDefaultAsync(c => c.Id == id) ?? new UsersReports();
+        Report = await _uow.UserReportsRepository.GetReportByIdAsync(id);
 
-        if (Report == null)
-        {
-            return NotFound();
-        }
+        if (Report == null) return NotFound();
 
         var tempUser = await _userManager.FindByIdAsync(Report.UserId);
 
-        if (tempUser == null)
-        {
-            UserName = "unknown";
-        }
-        else
-        {
-            UserName = tempUser.UserName;
-        }
+        if (tempUser == null) UserName = "unknown";
+            
+        UserName = tempUser.UserName;
 
         return Page();
     }
 
     public async Task<IActionResult> OnPost()
     {
-        if (Report == null)
-        {
-            return NotFound();
-        }
+        if (Report == null) return NotFound();
 
-        var reportFromDb = _db.UsersReports.Find(Report.Id);
+        var reportFromDb = await _uow.UserReportsRepository.GetReportByIdAsync(Report.Id);
 
-		if (reportFromDb != null)
+        if (reportFromDb != null)
         {
             //Delete image
-			if (reportFromDb.ImagePath != null)
+			if (reportFromDb.ImageUrl != null)
 			{
-				var pathToDeleteImage = _webHostEnvironment.WebRootPath + reportFromDb.ImagePath;
-				if (System.IO.File.Exists(pathToDeleteImage))
-				{
-					System.IO.File.Delete(pathToDeleteImage);
-				}
+                await _photoService.DeletePhotoAsync(reportFromDb.PublicImageId);
 			}
 
-			_db.UsersReports.Remove(reportFromDb);
-            await _db.SaveChangesAsync();
-            return RedirectToPage("ViewReports");
+            _uow.UserReportsRepository.DeleteReport(reportFromDb);
+
+            if(await _uow.Complete()) return RedirectToPage("ViewReports");
+            return Page();
         }
         return Page();
 

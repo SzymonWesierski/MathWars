@@ -1,49 +1,51 @@
-using MathWars.Data;
-using MathWars.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System;
-using System.IO;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
+using MathWars.Entities;
+using MathWars.Interfaces;
+using MathWars.Models;
+using MathWars.Extensions;
+using MathWars.Helpers;
 
 namespace MathWars.Pages.TaskPages;
 [Authorize]
 [BindProperties]
 public class SolvingTaskModel : PageModel
 {
-    private readonly ApplicationDbContext _db;
-    public Tasks Task { get; set; } = new Tasks();
-    public Answers Answer { get; set; } = new Answers();
+    private readonly IUnitOfWork _uow;
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IConfiguration _configuration;
-    public bool AnswerResult = false;
-    public List<string> AnswersList { get; set; }
+    private readonly ILogger<SolvingTaskModel> _logger;
+    private readonly IConfigurationService _configurationService;
 
-
-    public SolvingTaskModel(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IConfiguration configuration)
+    public SolvingTaskModel(IUnitOfWork uow, UserManager<ApplicationUser> userManager, IConfigurationService configurationService)
     {
-        _db = db;
+        _uow = uow;
         _userManager = userManager;
-		_configuration = configuration;
+		_configurationService = configurationService;
 	}
+
+    public bool ShowModal { get; set; } = false;
+    public bool IsSolved { get; set; } = false;
+    public bool Error { get; set; } = false;
+    public int NumberOfAttempts { get; set; } = 0;
+    public TaskSolvingModel TaskSolvingModel { get; set; }
+    public List<int> SelectedAnswersIds { get; set; }
+    public UserStatsModel UserStatsModel { get; set; }
+
     public async Task<IActionResult> OnGetAsync(int? id)
     {
-        if (id == null)
+        if (id == null || id == 0)
         {
             return NotFound();
         }
 
-        Task = await _db.Tasks
-            .Include(t => t.AnswerType)
-            .FirstOrDefaultAsync(m => m.Id == id) ?? new Tasks();
+        TaskSolvingModel = await _uow.TaskRepository.GetTaskWithAnswersByIdAsync(id);
 
-        if (Task == null)
+        var userId = User.GetUserId();
+        NumberOfAttempts = DidUserSolvedTaskYet(userId);
+
+        if (TaskSolvingModel == null)
         {
             return NotFound();
         }
@@ -55,68 +57,83 @@ public class SolvingTaskModel : PageModel
     {
         try
         {
-            if (Task == null)
+            TaskSolvingModel = await _uow.TaskRepository
+                .GetTaskWithAnswersByIdAsync(TaskSolvingModel.Id);
+
+            if (SelectedAnswersIds.Count != TaskSolvingModel.NumberOfCorrectAnswers)
             {
-                return NotFound();
+                Error = true;
+                if(TaskSolvingModel.NumberOfCorrectAnswers == 1)
+                {
+                    ModelState.AddModelError("TaskSolvingModel.AnswersToTask",
+                        "Wybierz jedn¹ odpowiedŸ");
+                }
+                else
+                {
+                    ModelState.AddModelError("TaskSolvingModel.AnswersToTask",
+                       $"Wybierz {TaskSolvingModel.NumberOfCorrectAnswers} odpowiedzi");
+                }
+                
+
+                ShowModal = true;
+
+                return Page();
             }
 
-            int Id = Task.Id;
+            var userId = User.GetUserId();
+            var user = await _uow.UserRepository.GetUserByIdAsync(userId);
 
-            if (Id == 0)
-            {
-                return NotFound();
-            }
-
-            Task = await _db.Tasks
-                .Include(t => t.AnswerType)
-                .FirstOrDefaultAsync(m => m.Id == Id) ?? new Tasks();
-
-            if (Task == null)
-            {
-                return NotFound();
-            }
+            if (user == null) return NotFound();
 
             if (IsAnswerCorrect())
             {
-                // Get the currently logged-in user
-                var user = await _userManager.GetUserAsync(User) ?? new ApplicationUser();
+                NumberOfAttempts = DidUserSolvedTaskYet(userId);
 
-                if (user == null)
+                if (NumberOfAttempts == 0)
                 {
-                    return NotFound();
+                    var result = await SetUserExpAndLvlAsync(user);
+                    if (!result)
+                    {
+                        Error = true;
+						ModelState.AddModelError("TaskSolvingModel.AnswersToTask",
+						"Coœ posz³o nie tak z zapisywaniem twojej odpowiedzi. " +
+                        "Przepraszamy za niedogodnoœci. Je¿eli problem wyst¹pi ponownie " +
+                        "mo¿esz go zg³oœci przez zak³adkê \"Zg³oœ b³¹d\"." +
+                        "Postaramy siê naprawiæ ten b³¹d jak najszybciej siê da :)");
+						return Page();
+                    }
                 }
 
-                var answ = new Answers()
-                {
-                    UserId = user.Id,
-                    User = user,
-                    Task = Task,
-                    TaskId = Task.Id,
-                    Answer = Task.Answer,
-                };
+                UserStatsModel.Exp = user.Experience;
+                UserStatsModel.ExpToReachNewLvl = user.ExpToReachNewLvl;
+                UserStatsModel.Level = user.Level;
 
-                Task.Answers.Add(answ);
+                await CreateUserAnswer("", "", true, userId, TaskSolvingModel.Id);
 
-
-                if (!DidUserRespondToTask(user))
-                {
-                    // User LVL and EXP
-                    user = GetHowManyExperienceReached(user);
-                    user = GetHowManyLevelsReached(user);
-                }
-
-                await _db.Answers.AddAsync(answ);
-                await _db.SaveChangesAsync();
-
-
-                AnswerResult = true;
+                IsSolved = true;
+                ShowModal = true;
                 
+                if (await _uow.Complete())
+                {
+                    return Page();
+                }
+
+                _logger.LogError("Problem with saving user answer");
                 return Page();
             }
             else
             {
+                await CreateUserAnswer("", "", false, userId, TaskSolvingModel.Id);
+
+                ShowModal = true;
+                if (await _uow.Complete())
+                {
+                    NumberOfAttempts = DidUserSolvedTaskYet(userId);
+                    return Page();
+                }
+                _logger.LogError("Problem with saving user answer");
                 return Page();
-            }
+            }         
         }
         catch (Exception ex)
         {
@@ -125,100 +142,68 @@ public class SolvingTaskModel : PageModel
             return Page();
         }
     }
-
-    private bool DidUserRespondToTask(ApplicationUser user)
+    
+    private async Task CreateUserAnswer(string whiteBoardPhotoUrl, 
+        string publicWhiteBoardPhotoId, bool isSolvedCorrect, 
+        string userId, int taskId)
     {
-        var result = _db.Answers.Where(t => t.TaskId == Task.Id && t.UserId == user.Id);
+        var answer = new UserAnswer
+        {
+            WhiteBoardPhotoUrl = whiteBoardPhotoUrl,
+            PublicWhiteBoardPhotoId = publicWhiteBoardPhotoId,
+            IsSolvedCorrect = isSolvedCorrect,
+            UserId = userId,
+            TaskId = taskId
+        };
 
-        if(result.Any())  return true; 
-
-        return false;
+        await _uow.UserAnswersRepository.CreateUserAnswer(answer);
     }
-
 
     private bool IsAnswerCorrect()
     {
-        bool isWholeAnswerCorrect = true;
-
-        //Prepering answers from form
-        string answersFromForm = "";
-        foreach (var answer in AnswersList)
+        foreach(var asnswer in TaskSolvingModel.AnswersToTask)
         {
-            answersFromForm += answer.Replace(" ", "").ToUpper() + ",";
-        }
-        answersFromForm = answersFromForm.Substring(0, answersFromForm.Length - 1);
-
-        var answersFromFormList = answersFromForm.Split(",");
-        var taskAnswersList = Task.Answer.Split(",");
-
-        for (int i = 0; i < answersFromFormList.Length; i++)
-        {
-            bool invalid = true;
-            for (int j = 0; j < taskAnswersList.Length; j++)
+            if (!asnswer.IsCorrect && SelectedAnswersIds.Contains(asnswer.id))
             {
-                if (taskAnswersList[j] == answersFromFormList[i])
-                {
-                    taskAnswersList[j] = "";
-                    invalid = false;
-                    break;
-                }
-            }
-            if (invalid)
-            {
-                ModelState.AddModelError($"AnswersList[{i}]", "Nie poprawna odpowiedŸ");
-                isWholeAnswerCorrect = false;
+                return false;
             }
         }
-
-        return isWholeAnswerCorrect;
+        return true;
     }
 
+    private int DidUserSolvedTaskYet(string userId)
+    {
+        var result = _uow.UserAnswersRepository
+            .DidUserSolvedTask(TaskSolvingModel.Id, userId);
+        return result.Count();
+    }
 
-    private ApplicationUser GetHowManyLevelsReached(ApplicationUser user)
-    {        
-		while (user.Experience >= user.ExpToReachNewLvl)
+    private async Task<bool> SetUserExpAndLvlAsync(ApplicationUser user)
+    {
+		var expMultiplier = _configurationService.GetExperienceMultiplier();
+		if (expMultiplier == 0)
 		{
-			user.Experience -= user.ExpToReachNewLvl;
-			user.Level += 1;
-			user.ExpToReachNewLvl = user.Level * GetLevelMultiplier();//Exp to reach new level pattern
-		}
-        return user;
-	}
-
-	private ApplicationUser GetHowManyExperienceReached(ApplicationUser user)
-	{
-		user.Experience += Task.difficultyLevel * GetExperienceMultiplier();// exp points pattern
-
-		return user;
-	}
-
-	private int GetExperienceMultiplier()
-	{
-		if (_configuration != null)
-		{
-			var expMultiplierSection = _configuration.GetSection("Experience&Level");
-			if (expMultiplierSection.Exists())
-			{
-                return expMultiplierSection.GetValue<int>("experienceMultiplier");
-			}
+			ModelState.AddModelError(string.Empty,
+				"Couldn't find the configuration for 'experienceMultiplier' !!!");
+			_logger.LogError("Couldn't find the configuration for 'experienceMultiplier'");
+            return false;
 		}
 
-		ModelState.AddModelError(string.Empty, "Couldn't find the configuration for 'experienceMultiplier' !!!");
-		return 0;
-	}
+		user = Progression.GetHowManyExperienceReached(user, 
+            TaskSolvingModel.DifficultyLevel, expMultiplier);
 
-	private int GetLevelMultiplier()
-	{
-		if (_configuration != null)
+		var lvlMultplier = _configurationService.GetLevelMultiplier();
+		if (lvlMultplier == 0)
 		{
-			var lvlMultiplierSection = _configuration.GetSection("Experience&Level");
-			if (lvlMultiplierSection.Exists())
-			{
-				return lvlMultiplierSection.GetValue<int>("lvlMultiplier");
-			}
+			ModelState.AddModelError(string.Empty,
+				"Couldn't find the configuration for 'lvlMultiplier' !!!");
+			_logger.LogError("Couldn't find the configuration for 'lvlMultiplier' !!!");
+            return false;
 		}
+		user = Progression.GetHowManyLevelsReached(user, lvlMultplier);
 
-		ModelState.AddModelError(string.Empty, "Couldn't find the configuration for 'lvlMultiplier' !!!");
-		return 0;
+		var result = await _userManager.UpdateAsync(user);
+        if (result.Succeeded) return true;
+        return false;
 	}
 }

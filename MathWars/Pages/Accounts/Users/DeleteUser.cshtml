@@ -14,15 +14,15 @@
             
             <div class="mb-3">
                 Nazwa użytkownika:
-                <input asp-for="@Model.user.UserName" class="form-control" readonly />
-                <span asp-validation-for="@Model.user.UserName" class="text-danger"></span>
+                <input asp-for="@Model.User.UserName" class="form-control" readonly />
+                <span asp-validation-for="@Model.User.UserName" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 Email:
-                <input type="email" asp-for="@Model.user.Email" class="form-control" readonly />
-                <span asp-validation-for="@Model.user.Email" class="text-danger"></span>
+                <input type="email" asp-for="@Model.User.Email" class="form-control" readonly />
+                <span asp-validation-for="@Model.User.Email" class="text-danger"></span>
             </div>
-        <input hidden asp-for="user.Id" />
+            <input hidden asp-for="User.Id" />
         <button type="submit" class="btn btn-primary" style="width:150px;">Usuń</button>
         <a asp-page="ViewUser" class="btn btn-secondary" style="width:150px;">Powrót</a>
     </div>

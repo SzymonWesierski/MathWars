@@ -1,24 +1,25 @@
-using MathWars.Data;
-using MathWars.Models;
-using MathWars.ViewModels;
+using MathWars.Entities;
+using MathWars.Helpers;
+using MathWars.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Configuration;
 
 namespace MathWars.Pages.Accounts.Profile
 {
+    [Authorize]
     public class LeaderboardModel : PageModel
     {
+        private readonly IUnitOfWork _uow;
 		private readonly ILogger<IndexModel> _logger;
-		private readonly ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _configuration;
 
-        public LeaderboardModel(ILogger<IndexModel> logger, ApplicationDbContext db, UserManager<ApplicationUser> userManager, IConfiguration configuration) 
+        public LeaderboardModel(IUnitOfWork uow, ILogger<IndexModel> logger, 
+            UserManager<ApplicationUser> userManager, IConfiguration configuration)
         {
-            _db = db;
-			_logger = logger;
+            _uow = uow;
+            _logger = logger;
             _userManager = userManager;
             _configuration = configuration;
         }
@@ -31,14 +32,9 @@ namespace MathWars.Pages.Accounts.Profile
                 .GetValue<int>("Leaderboard");
 
             IList<ApplicationUser> usersInRole = await _userManager.GetUsersInRoleAsync("user");
-            var usersQuery = usersInRole
-                .OrderByDescending(u => u.Level)
-                .ThenByDescending(u => u.Experience);
 
-            int count = usersQuery.Count();
-            var items = usersQuery.Skip(((pageIndex ?? 1) - 1) * pageSize).Take(pageSize).ToList();
+            Users = _uow.UserRepository.GetLeaderboardUsers(usersInRole, pageIndex, pageSize);
 
-            Users = new PaginatedList<ApplicationUser>(items, count, pageIndex ?? 1, pageSize);
         }
 
 

@@ -6,37 +6,94 @@
 <link rel="stylesheet" href="~/css/SolvingTask.css" asp-append-version="true" />
 
 @{
-    if (@Model.AnswerResult != null)
-    {
-        <script type="text/javascript">
-            $(function () {
-                $("#aModal").modal('show');
-            })
-        </script>
-    }
+    <script type="text/javascript">
+        $(function () {
+            $("#aModal").modal('show');
+        })
+    </script>
+}
+
+@*modal*@
+@if (Model.ShowModal == true)
+{
+    <div class="modal fade" id="aModal" tabindex="-1" role="dialog" aria-labelledby="aModalLabel"
+    aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                @if (Model.IsSolved)
+                {
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="aModalLabel">Gratulacje</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <h4>Udało Ci się poprawnie rozwiązać zadanie :)</h4>
+                            @if(Model.NumberOfAttempts > 0)
+                            {
+                                <h6>Z racji że podjąłeś już wcześniej próbę rozwiązania tego zadania, nie dostałeś exp</h6>
+                            }
+                        </div>
+                        <div>
+                            <h4>Twoje aktualne statystyki:</h4>
+                            <p>Poziom: @Model.UserStatsModel.Level</p>
+                            <p>Exp: @Model.UserStatsModel.Exp/@Model.UserStatsModel.ExpToReachNewLvl</p>
+                            <br/>
+                            <h4>Jeżeli podobało Ci się to zadanie, możesz dać gwiazdkę</h4>
+                            <button><i class="bi bi-star"></i></button>
+                        </div>
+                    </div>
+                }
+                else if (Model.Error)
+                {
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="aModalLabel">Błąd</h4>
+                    </div>
+                    <div class="modal-body">
+                        <span asp-validation-for="TaskSolvingModel.AnswersToTask" class="text-danger"></span>
+                    </div>
+                }
+                else
+                {
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="aModalLabel">Porażka</h4>
+                    </div>
+                    <div class="modal-body">
+                        Niestety nie udało Ci się poprawnie rozwiązać zadanie : (
+                    </div>
+                }
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 
  <div class="level-display">
-<div class="solving-task-container">
-    <div class="row pb-2">
-        <h2 class="text-primary pl-3">Rozwiąż zadanie</h2>
-    </div>
+    <div class="solving-task-container">
+        <div class="row pb-2">
+            <h2 class="text-primary pl-3">Rozwiąż zadanie</h2>
+        </div>
 
-    <div class="bug-report">
-        <a asp-page="/Reports/ReportBugInTask" asp-route-id="@Model.Task.Id" class="btn btn-secondary" style="width:50px;"><i class="bi bi-bug"></i></a>
-    </div>
+        <div class="bug-report">
+            <a asp-page="/Reports/ReportBugInTask" asp-route-id="@Model.TaskSolvingModel.Id" class="btn btn-secondary" style="width:50px;"><i class="bi bi-bug"></i></a>
+        </div>
 
-    @* <div class="mb-3">
-        <strong>Tytuł:</strong>
-        <p class="mb-0"> @Model.Task.Title</p>
-    </div> *@
- 
-    
-  
-    <div class="mb-3">
-        <strong>Treść:</strong>
-        <p class="mb-0"> @Model.Task.Content</p>
-    </div>
+        <div class="mb-3">
+            @if (Model.NumberOfAttempts >= 1)
+            {
+                <p>Podjąłeś już próbę rozwiązania tego zadania, dlatego za następne próby nie dostaniesz exp</p>
+            }
+            else
+            {
+                <p>Skup się masz jedno podejść żeby dostać exp za to zadania</p>
+            }
+        </div>
+        <div class="mb-3">
+            <strong>Treść:</strong>
+            <p class="mb-0"> @Model.TaskSolvingModel.Content</p>
+        </div>
 
 
     <!-- Drawing area -->
@@ -121,49 +178,45 @@
 
 
         @{
-            if (Model.Task.ImagePath != "")
+            if (!string.IsNullOrEmpty(Model.TaskSolvingModel.ImageUrl))
             {
                 <div class="mb-3">
-                    <img width="50%" src="@Url.Content(Model.Task.ImagePath)" alt="Optional Image for Task " class="task-image" />
+                    <img width="50%" src="@Url.Content(Model.TaskSolvingModel.ImageUrl)" alt="Optional Image for Task " class="task-image" />
                 </div>
             }
-        }
- 
-        @*modal*@
-        @if (Model.AnswerResult == true)
-        {
-            <div class="modal fade" id="aModal" tabindex="-1" role="dialog" aria-labelledby="aModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="aModalLabel">Gratulacje</h4>
-                        </div>
-                        <div class="modal-body">
-                            Udało Ci się poprawnie rozwiązać zadanie : ) 
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         }
     
 
     <div class="mb-3">
         <form method="post">
-            <input type="hidden" asp-for="@Model.Task.Id" />
+            <input type="hidden" asp-for="@Model.TaskSolvingModel.Id" />
+            @* <div asp-validation-summary="All" class="text-danger"></div> *@
+            
+            @{
+                if (Model.TaskSolvingModel.NumberOfCorrectAnswers > 1){
+                    <label asp-for="TaskSolvingModel.NumberOfCorrectAnswers">Zaznacz
+                        @Model.TaskSolvingModel.NumberOfCorrectAnswers poprawne odpowiedzi: </label>
+                }
+                else{
+                    <label asp-for="TaskSolvingModel.NumberOfCorrectAnswers">Zaznacz jedną poprawna odpowiedź: </label>
+                }
+                    <br />
+                int numberOfCharInASCII = 65;
+                for (int i = 0; i < Model.TaskSolvingModel.AnswersToTask.Count; i++)
+                {
+                    char letter = Convert.ToChar(numberOfCharInASCII);
 
-            <!--<div asp-validation-summary="All"></div>-->
-            Odpowiedź (@Model.Task.AnswerType.FormatExplanation):
-            @for (int i = 0; i < Model.Task.AnswerType.HowManyCorrectAnswers; i++)
-            {
-                    <input asp-for="@Model.AnswersList[i]" class="form-control" />
-                    <span asp-validation-for="@Model.AnswersList[i]" class="text-danger"></span>
+                    <input class="form-check-input" type="checkbox" 
+                        value="@Model.TaskSolvingModel.AnswersToTask[i].id" 
+                        name="SelectedAnswersIds" />
+                    <label asp-for="TaskSolvingModel.AnswersToTask[i]">@letter) @Model.TaskSolvingModel.AnswersToTask[i].Content</label>
+                    
+                    <br />
+                    numberOfCharInASCII++;
+                }
             }
 
-            <br/>
+           
 
             <button type="submit" class="btn btn-primary" style="width:150px;">Sprawdź</button>
             <a asp-page="/Index" class="btn btn-secondary" style="width:150px;">Powrót do strony głównej</a>
@@ -176,4 +229,5 @@
         <p>test</p>
 
     </div>
+</div>
 <script src="~/js/Drawing.js"></script>

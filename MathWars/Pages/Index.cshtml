@@ -14,37 +14,42 @@
 
 		<div class="main-content">
 			<div class="task">
-				<table class="task-table">
+				<table class="task-table" style="height: 90%">
 					<tbody>
-						@if (Model.TasksList != null)
+						@if (Model.TasksToSolve.Count > 0)
 						{
-							@foreach (var obj in Model.TasksList)
+							@foreach (var obj in Model.TasksToSolve)
 							{
-								<tr>
-									<td>
-										<span class="difficulty-level">@obj.difficultyLevel</span>
-										<span class="category-name">@Model.Category.CategoryName</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="Title">@obj.Title</td>
-								</tr>
-								<tr>
-									<td class="content" style="overflow-wrap: break-word; word-break: break-all;">@obj.Content</td>
-								</tr>
-								<tr class="last-tr">
+								<tr style="height: 10%">
 									<td>
 										<div class="task-row">
-											<div class="pagination-button left">
-												@if (Model.CurrentPage == 1)
+											<div>
+												<span class="filter-table-heading">LVL @obj.DifficultyLevel | @Model.ExpForSolveTask exp</span>
+												</div>
+											<div>
+												<i class="bi bi-star"></i> 1,243 @* Rating not done yet  *@
+											</div>
+										</div>
+										
+									</td>
+								</tr>
+								<tr style="height: 70%">
+									<td class="content" style="overflow-wrap: break-word; word-break: break-all; color: black;">@obj.Content</td>
+								</tr>
+								<tr class="pagination-row" style="height: 20%">
+									<td>
+										<div class="task-row">
+											<div class="pagination-button left mx-4">
+												@if (Model.TasksToSolve.HasPreviousPage)
 												{
-													<a class="page-link" href="#" onclick="return false;"><i class="bi bi-arrow-left"></i></a>
-													}
-												else if (Model.CurrentPage > 1)
-												{
-													<a class="page-link" href="?currentPage=@(Model.CurrentPage - 1)&difficulty=@Model.difficultyLevel&categoryId=@Model.Category.Id"><i class="bi bi-arrow-left"></i></a>
+													<a class="btn btn-primary mx-3" asp-page="Index"
+														asp-route-pageIndex="@(Model.TasksToSolve.PageIndex - 1)"
+														asp-route-difficulty="@Model.TaskToSolveParams.DifficultyLevel"
+														asp-route-categoryId="@Model.TaskToSolveParams.CategoryId"
+													    asp-route-onlyNotSolved="@Model.TaskToSolveParams.OnlyNotSolved">
+															<i class="bi bi-arrow-left"></i>
+														</a>
 												}
-
 											</div>
 
 											<div class="solve-button" role="group">
@@ -53,14 +58,16 @@
 												</a>
 											</div>
 
-											<div class="pagination-button right">
-												@if (Model.CurrentPage == Model.TotalPages)
+											<div class="pagination-button right mx-4">
+												@if (Model.TasksToSolve.HasNextPage)
 												{
-													<a class="page-link" href="#" onclick="return false;"><i class="bi bi-arrow-right"></i></a>
-												}
-												else if (Model.CurrentPage < Model.TotalPages)
-												{
-													<a class="page-link" href="?currentPage=@(Model.CurrentPage + 1)&difficulty=@Model.difficultyLevel&categoryId=@Model.Category.Id"><i class="bi bi-arrow-right"></i></a>
+													<a class="btn btn-primary mx-3" asp-page="Index"
+														asp-route-pageIndex="@(Model.TasksToSolve.PageIndex + 1)"
+														asp-route-difficulty="@Model.TaskToSolveParams.DifficultyLevel"
+														asp-route-categoryId="@Model.TaskToSolveParams.CategoryId"
+													    asp-route-onlyNotSolved="@Model.TaskToSolveParams.OnlyNotSolved">
+															<i class="bi bi-arrow-right"></i>
+													</a>
 												}
 											</div>
 										</div>
@@ -68,47 +75,79 @@
 								</tr>
 							}
 						}
+						else
+						{
+							<tr>
+								<td>
+									<h4 class="filter-table-heading" style="text-align: center;">Brak zadań :(</h4>
+								</td>
+							</tr>	
+						}
 					</tbody>
 				</table>
-				<p class="motivation">To zadanie nie jest takie trudne na jakie wygląda, dasz RADĘ!</p>
+				<p class="motivation mt-2">
+					@if (Model.TasksToSolve.Count > 0)
+					{
+						@if (Model.IsTaskSolvedByUser)
+						{
+							<span>Już rozwiązałeś to zadanie, ale warto je powtórzyć!</span>
+						}
+						else
+						{
+							<span>Nie rozwiązałeś jeszcze tego zadania, spróbuj, dasz radę!</span>
+						}
+					}
+				</p>
+
 			</div>
 
 			<div class="filter">
-				<table class="filter-table">
-					<tr>
-						<td>
-							<span class="filter-table-heading">Filtruj Zadania</span>
-						</td>
-					</tr>
-					<tr>
-						<td>
-
-						</td>
-
-					</tr>
-
+				<table class="filter-table m-2">
 					<form method="post">
 						<tr>
 							<td>
-								Kategoria:
-								<select asp-for="@Model.Category.Id" asp-items="@(new SelectList(Model.Categories, "Id", "CategoryName"))" class="form-control">
-								</select>
-								<span asp-validation-for="@Model.Category.Id" class="text-danger"></span>
+							<h3 class="filter-table-heading">Kategoria:</h3>
+							<select asp-for="@Model.TaskToSolveParams.CategoryId" 
+								asp-items="@(new SelectList(Model.Categories, "Id", "CategoryName"))" class="form-control">
+							</select>
 							</td>
 						</tr>
 						<tr>
 							<td>
-								Poziom trudności:
-								<br />
-								<input type="number" class="form-control" name="difficultyLevel" value="@Model.difficultyLevel" />
+
+							<h3 class="filter-table-heading mt-3">Poziom trudności:</h3>
+								<div>
+									<div class="range-slider mb-2">
+									<input asp-for="@Model.TaskToSolveParams.DifficultyLevel"
+												type="range"
+												min="0"
+												max="6"
+												value="@Model.TaskToSolveParams.DifficultyLevel"
+												id="range"
+												step="1" />
+										<div class="sliderticks">
+											<span><i class="bi bi-check-square-fill"></i></span>
+											<span><i class="bi bi-1-square"></i></span>
+											<span><i class="bi bi-2-square"></i></span>
+											<span><i class="bi bi-3-square"></i></span>
+											<span><i class="bi bi-4-square"></i></span>
+											<span><i class="bi bi-5-square"></i></span>
+											<span><i class="bi bi-6-square"></i></span>
+										</div>
+									</div>
+								</div>
 								<br />
 							</td>
 						</tr>
+						<tr>
+							<td style="text-align: center;">
+							<input class="form-check-input" type="checkbox" asp-for="TaskToSolveParams.OnlyNotSolved" checked="@(Model.TaskToSolveParams.OnlyNotSolved)" />
+							<label asp-for="TaskToSolveParams.OnlyNotSolved">Tylko nie rozwiązane</label>
+						</td>
+						</tr>
 						<tr class="last-tr-filter-table">
-							<td>
-								<!-- Ukryte pole dla currentPage, aby zachować stan paginacji -->
-								<input type="hidden" name="currentPage" value="@Model.CurrentPage" />
-								<button type="submit" class="btn btn-primary" style="width:150px;">Filtruj</button>
+							<td style="text-align: center;">
+								<button type="submit" class="btn btn-primary mt-3" style="width:150px; text-align: center;">Filtruj</button>
 							</td>
 						</tr>
 					</form>

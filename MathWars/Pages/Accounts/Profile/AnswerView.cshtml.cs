@@ -1,9 +1,8 @@
-using MathWars.Data;
-using MathWars.Models;
+using MathWars.Entities;
+using MathWars.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 
 namespace MathWars.Pages.Accounts.Profile
 {
@@ -11,23 +10,22 @@ namespace MathWars.Pages.Accounts.Profile
     [BindProperties]
     public class AnswerViewModel : PageModel
     {
-        private readonly ApplicationDbContext _db;
+        private readonly IUnitOfWork _uow;
 
-        public AnswerViewModel(ApplicationDbContext db) 
+        public AnswerViewModel(IUnitOfWork uow) 
         {
-            _db = db;
+            _uow = uow;
         }
 
-        public Answers Answer { get; set; }
+        public UserAnswer Answer { get; set; }
         public string Uid { get; set; }
 
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            Answer = await _db.Answers.Include(a => a.Task)
-                .FirstOrDefaultAsync(a => a.Id == id);
+            Answer = await _uow.UserAnswersRepository.GetUserAnswersAndTaskAsync(id);
 
-            if(Answer == null)
+			if (Answer == null)
             {
                 return NotFound();
             }

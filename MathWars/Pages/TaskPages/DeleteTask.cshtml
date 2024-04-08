@@ -6,31 +6,25 @@
 <div class="container">
 <form method="post">
     <input hidden asp-for="Task.Id" />
-    <div class="border p-3 mt-4">
+    <div class="border p-3 mt-4" style="color: black">
         <div class="row pb-2">
             <h2 class="text-primary pl-3">Usuń zadanie</h2>
         </div>
         <div class="mb-3">
-            Tytuł:
-                <input asp-for="@Model.Task.Title" class="form-control" readonly />
- 
-        </div>
-        <div class="mb-3">
             Treśc zadania:
-                <input asp-for="@Model.Task.Content" class="form-control" readonly />
- 
+            <input asp-for="@Model.Task.Content" class="form-control" readonly />
         </div>
-            <div class="mb-3">
-                Aktualne zdjęcie (może być puste):
-                <div class="form-control">
-                    @{
-                        if (Model.Task.ImagePath != null)
-                        {
-                            <img src="@Url.Content(Model.Task.ImagePath)" alt="Optional Image for Task ">
-                        }
-                    }
+        @{
+            if (!string.IsNullOrEmpty(Model.Task.ImageUrl))
+            {
+                <div class="mb-3">
+                    Zdjęcie:
+                    <div>
+                        <img src="@Url.Content(Model.Task.ImageUrl)" alt="Optional Image for Task ">
+                    </div>
                 </div>
-            </div>
+            }
+        }
         <div class="mb-3">
             Kategoria:
                 <div class = "form-control" readonly >
@@ -46,19 +40,9 @@
         </div>
         <div class="mb-3">
             Poziom trudnośći:
-                <input asp-for="@Model.Task.difficultyLevel" class="form-control" readonly />
+                <input asp-for="@Model.Task.DifficultyLevel" class="form-control" readonly />
                
         </div>
-            <div class="mb-3">
-                Typ odpowiedzi:
-                <input asp-for="@Model.Task.AnswerType.Name" class="form-control" readonly />
-
-            </div>
-            <div class="mb-3">
-                Poprawna odpowiedź:
-                <input asp-for="@Model.Task.Answer" class="form-control" readonly />
-
-            </div>
 
         <button type="submit" class="btn btn-primary" style="width:150px;">Usuń</button>
         <a asp-page="ViewTasks" class="btn btn-secondary" style="width:150px;">Powrót</a>

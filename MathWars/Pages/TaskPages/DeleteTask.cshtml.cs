@@ -1,36 +1,30 @@
-using MathWars.Data;
-using MathWars.Models;
+using MathWars.Entities;
+using MathWars.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MathWars.Pages.TaskPages;
 
-[Authorize(Roles = "taskManager, admin")]
+[Authorize(Policy = "RequireAdminOrManagerRole")]
 [BindProperties]
 public class DeleteTaskModel : PageModel
 {
-    private readonly ApplicationDbContext _db;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-    public Tasks Task { get; set; } = new Tasks();
+    private readonly IPhotoService _photoService;
+    private readonly IUnitOfWork _uow;
 
-    public DeleteTaskModel(ApplicationDbContext db, IWebHostEnvironment webHostEnvironment)
+    public DeleteTaskModel(IUnitOfWork uow, IPhotoService photoService)
     {
-        _db = db;
-        _webHostEnvironment = webHostEnvironment;
+        _uow = uow;
+        _photoService = photoService;
     }
+
+    public Tasks Task {  get; set; }
 
     public async Task<IActionResult> OnGet(int id)
     {
-        Task = await _db.Tasks
-            .Include(t => t.TasksAndCategories)
-            .ThenInclude(tc => tc.TaskCategory)
-            .Include(at => at.AnswerType)
-            .FirstOrDefaultAsync(t => t.Id == id) ?? new Tasks();
+        Task = await _uow.TaskRepository
+            .GetTaskWithCategoriesByIdAsync(id);
 
         if (Task == null)
         {
@@ -42,35 +36,28 @@ public class DeleteTaskModel : PageModel
 
     public async Task<IActionResult> OnPost()
     {
-        if (Task == null)
+        if (Task.Id > 0)
         {
-            return NotFound();
-        }
+            var taskFromDb = await _uow.TaskRepository
+                .GetTaskWithCategoriesAndAnswersByIdAsync(Task.Id);
 
-        var taskFromDb = await _db.Tasks
-            .Include(t => t.TasksAndCategories)
-            .FirstOrDefaultAsync(t => t.Id == Task.Id);
-
-        if (taskFromDb != null)
-        {
-            // Remove associated records from the join table
-            _db.TasksAndCategories.RemoveRange(taskFromDb.TasksAndCategories);
-
-            //Remove Image related to Task
-            var pathToTaskImage = _webHostEnvironment.WebRootPath + taskFromDb.ImagePath;
-            if (!string.IsNullOrEmpty(pathToTaskImage) && System.IO.File.Exists(pathToTaskImage))
+            if (taskFromDb != null)
             {
-                System.IO.File.Delete(pathToTaskImage);
+                _uow.TaskRepository.DelateRelationWithAnswers(taskFromDb);
+
+                _uow.TaskRepository.DelateRelationWithCategories(taskFromDb);
+
+                if (!string.IsNullOrEmpty(taskFromDb.PublicImageId))
+                {
+                    await _photoService.DeletePhotoAsync(taskFromDb.PublicImageId);
+                }
+                _uow.TaskRepository.DeleteTask(taskFromDb);
+
+                if(await _uow.Complete()) return RedirectToPage("ViewTasks");
+                return Page();
             }
-
-            // Remove the task
-            _db.Tasks.Remove(taskFromDb);
-
-            await _db.SaveChangesAsync();
-            return RedirectToPage("ViewTasks");
+            return Page();
         }
-
-        return Page();
-
+        return NotFound();
     }
 }

@@ -1,24 +1,28 @@
+using MathWars.Entities;
+using MathWars.Interfaces;
 using MathWars.Models;
-using MathWars.Services;
-using MathWars.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MathWars.Pages.Accounts;
 [BindProperties]
 public class RegisterModel : PageModel
 {
-    private readonly UserManager<ApplicationUser> userManager;
-    private readonly SignInManager<ApplicationUser> signInManager;
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
 	private readonly IConfiguration _configuration;
     private readonly IEmailSenderService _emailSenderService;
-    public Register registerModel { get; set; }
+	private readonly ILogger _logger;
+	public RegisterUserModel registerModel { get; set; }
 
-    public RegisterModel(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration, IEmailSenderService emailSenderService) 
+    public RegisterModel(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, 
+        IConfiguration configuration, IEmailSenderService emailSenderService, ILogger<RegisterModel> logger) 
     {
-        this.userManager = userManager;
-        this.signInManager = signInManager;
+		_logger = logger;
+		_userManager = userManager;
+        _signInManager = signInManager;
 		_configuration = configuration;
         _emailSenderService = emailSenderService;
 
@@ -36,30 +40,36 @@ public class RegisterModel : PageModel
             {
                 UserName = registerModel.UserName,
                 Email = registerModel.Email,   
-                ProfileImagePath = _configuration.GetSection("ProfilePicture").GetValue<string>("defaultProfilePicture")
+                ProfileImageUrl = _configuration.GetSection("ProfilePicture")
+                    .GetValue<string>("defaultProfilePicture")
             };
-            var result = await userManager.CreateAsync(user,registerModel.Password);
+
+            var result = await _userManager.CreateAsync(user,registerModel.Password);
+
             if (result.Succeeded) 
             {
                 string roleName = GetUserRoleName();
-                var isAddToRole = await userManager.AddToRoleAsync(user, roleName);
+
+                if(string.IsNullOrEmpty(roleName)) return BadRequest();
+
+                var isAddToRole = await _userManager.AddToRoleAsync(user, roleName);
+
                 if (roleName != string.Empty && isAddToRole.Succeeded) 
                 {
-					var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+					var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     if (!string.IsNullOrEmpty(token))
                     {
                         await SendEmailConfirmationEmailAsync(user, token);
                         return RedirectToPage("/Accounts/ConfirmEmail", new { uid = user.Id });
                     }
 				}
-				ModelState.AddModelError(string.Empty, "Can't get role name");
+
+				_logger.LogError("Can't add to role! RegisterModel.cshtml.cs -> OnPostAsync()");
+				ModelState.AddModelError(string.Empty, "Can't add to role!");
 			}
 
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
-        }
+			ValidationRegistrationErrors(result);
+		}
         return Page();
     }
 
@@ -67,14 +77,17 @@ public class RegisterModel : PageModel
 	{
 		if (_configuration != null)
 		{
-			var expMultiplierSection = _configuration.GetSection("ApplicationRoles");
-			if (expMultiplierSection.Exists())
+			var userRoleName = _configuration.GetSection("ApplicationRoles");
+			if (userRoleName.Exists())
 			{
-				return expMultiplierSection.GetValue<string>("User");
+				return userRoleName.GetValue<string>("User");
 			}
 		}
 
-		ModelState.AddModelError(string.Empty, "Couldn't find the configuration for 'User' !!!");
+        _logger.LogError("Can't get user role configuration! RegisterModel.cshtml.cs -> GetUserRoleName()");
+
+		ModelState.AddModelError(string.Empty, "Can't get user role configuration!");
+
 		return string.Empty;
 	}
 
@@ -94,4 +107,51 @@ public class RegisterModel : PageModel
 
         await _emailSenderService.SendEmailForEmailConfirmation(options);
     }
+
+	private IdentityResult ValidationRegistrationErrors(IdentityResult result)
+	{
+		foreach (var error in result.Errors)
+		{
+			string customErrorMessage;
+
+			switch (error.Code)
+			{
+				case "DuplicateUserName":
+					customErrorMessage = "Nazwa u¿ytkownika jest ju¿ u¿ywana.";
+					ModelState.AddModelError("registerModel.UserName", customErrorMessage);
+					break;
+
+				case "PasswordRequiresDigit":
+					customErrorMessage = "Has³o musi zawieraæ co najmniej jedn¹ cyfrê.";
+					ModelState.AddModelError("registerModel.Password", customErrorMessage);
+					break;
+
+				case "PasswordRequiresLower":
+					customErrorMessage = "Has³o musi zawieraæ co najmniej jedn¹ ma³¹ literê.";
+					ModelState.AddModelError("registerModel.Password", customErrorMessage);
+					break;
+
+				case "PasswordRequiresUpper":
+					customErrorMessage = "Has³o musi zawieraæ co najmniej jedn¹ du¿¹ literê.";
+					ModelState.AddModelError("registerModel.Password", customErrorMessage);
+					break;
+
+				case "PasswordRequiresNonAlphanumeric":
+					customErrorMessage = "Has³o musi zawieraæ co najmniej jeden znak niealfanumeryczny.";
+					ModelState.AddModelError("registerModel.Password", customErrorMessage);
+					break;
+
+				case "PasswordTooShort":
+					customErrorMessage = "Has³o jest zbyt krótkie.";
+					ModelState.AddModelError("registerModel.Password", customErrorMessage);
+					break;
+
+				default:
+					ModelState.AddModelError("registerModel.ConfirmPassword", error.Description);
+					break;
+			}
+		}
+
+		return result;
+	}
 }

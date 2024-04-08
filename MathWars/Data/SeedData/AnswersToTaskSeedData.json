@@ -1,0 +1,32 @@
+[
+  {
+    "Content": "\\(x > 11\\)",
+    "IsCorrect": false,
+    "TaskId": 1
+  },
+  {
+    "Content": "\\(x > 6\\)",
+    "IsCorrect": true,
+    "TaskId": 1
+  },
+  {
+    "Content": "\\(8\\sqrt{3}\\)",
+    "IsCorrect": false,
+    "TaskId": 2
+  },
+  {
+    "Content": "\\(6\\sqrt{2}\\)",
+    "IsCorrect": true,
+    "TaskId": 2
+  },
+  {
+    "Content": "-2",
+    "IsCorrect": false,
+    "TaskId": 3
+  },
+  {
+    "Content": "-7",
+    "IsCorrect": true,
+    "TaskId": 3
+  }
+]

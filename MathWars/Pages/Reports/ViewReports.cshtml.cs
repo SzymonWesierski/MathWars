@@ -1,29 +1,32 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MathWars.Data;
-using MathWars.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Configuration;
+using MathWars.Helpers;
+using MathWars.Entities;
+using MathWars.Interfaces;
 
-namespace MathWars.Pages.Reports;
-[Authorize(Roles = "admin,taskManager")]
-public class ViewReportsModel : PageModel
+namespace MathWars.Pages.Reports
 {
-	private readonly ApplicationDbContext _db;
-	private readonly IConfiguration _configuration;
-	public ViewReportsModel(ApplicationDbContext db, IConfiguration configuration)
-	{
-		_db = db;
-		_configuration = configuration;
-	}
+    [Authorize(Policy = "RequireAdminOrManagerRole")]
+    public class ViewReportsModel : PageModel
+    {
+        private readonly IUnitOfWork _uow;
+        private readonly IConfiguration _configuration;
 
-	public PaginatedList<UsersReports> Reports { get; set; }
+        public ViewReportsModel(IUnitOfWork uow, IConfiguration configuration)
+        {
+            _uow = uow;
+            _configuration = configuration;
+        }
 
-	public async Task OnGetAsync(int? pageIndex)
-	{
-		int pageSize = _configuration.GetSection("NumberOfElementsInList").GetValue<int>("Reports");
-		IQueryable<UsersReports> reportsQuery = _db.UsersReports.OrderByDescending(r => r.Created);
+        public PaginatedList<UsersReports> Reports { get; set; }
 
-		Reports = await PaginatedList<UsersReports>.CreateAsync(reportsQuery, pageIndex ?? 1, pageSize);
-	}
+        public async Task OnGetAsync(int? pageIndex)
+        {
+            int pageSize = _configuration.GetSection("NumberOfElementsInList")
+                .GetValue<int>("Reports");
+
+            Reports = await _uow.UserReportsRepository
+                .GetReportsAsync(pageIndex, pageSize);
+        }
+    }
 }

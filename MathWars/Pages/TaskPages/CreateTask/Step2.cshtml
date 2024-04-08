@@ -1,0 +1,109 @@
+﻿@model MathWars.Models.TaskContentModel
+
+<div class="container">
+    <form method="post">
+        <div>
+            <div class="row pb-2">
+                <h2 class="text-primary pl-3">Treść zadania</h2>
+           
+            </div>
+            <div class="mb-3">
+                <div style="overflow-wrap: break-word; word-break: break-all; maxlength=" 30"" id="latex-preview"></div>
+                <textarea id="latex-preview-input" asp-for="Content" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+                <button type="button" class="btn btn-secondary" onclick="addEquations()">Dodaj układ równań</button>
+            </div>
+            <div class="mb-3">
+                <h4>Kreator równań:</h4>
+                <div class="mb-3 m-lg-3">
+                    Treść LaTeX (treść gotowa do skopiowania):
+                    <button type="button" class="btn btn-secondary" id="copy-button">Kopiuj</button>
+                    <textarea class="form-control" id="latex-input" disabled></textarea>
+                    <div class="mb-3 m-md-1">
+                        <h6>Edytor (Jeżeli wklejasz to bez znaków zewnętrznych):</h6>
+                        <div id="mathquill-editor"></div>
+                    </div>
+                </div>
+
+                <table class="math-keyboard">
+                    <tr>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('x')">\(x\)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\alpha')">α</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\lambda')">λ</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\pi')">\(\pi\)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\Delta')">\(\Delta\)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\frac{}{}')">\(\frac{x}{y}\)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\_{}')">\(x_{y}\)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\sqrt{}')">\(\sqrt{x}\)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\bigcap')">\( \bigcap \)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\bigcup')">\( \bigcup \)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\bigsqcup')">\( \sqcup \)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\bigsqcap')">\( \sqcap \)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\implies')">\( \implies \)</button></td>
+                    </tr>
+                    <tr>
+                        
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('y')">\(y\)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\beta')">β</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\omega')">ω</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\Omega')">\(\Omega\)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\degree')">\( \degree \)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\overline{}')">\(\overline{x}\)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\_{}^{}')">\(x_y^z\)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\sqrt[{}]{}')">\( \sqrt[x]{y} \)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\downarrow')">\( \downarrow \)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\Downarrow')">\( \Downarrow \)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\uparrow')">\( \uparrow \)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\Uparrow')">\( \Uparrow \)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\iff')">\( \iff \)</button></td>
+                        
+                    </tr>
+                    <tr>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('z')">\(z\)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\delta')">δ</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\prod')">\(\prod\)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\partial')">\( \partial \)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\div')">\( \div \)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\cdot')">\(\cdot\)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\^{}')">\(y^{x}\)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\gets')">\( \gets \)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\forall')">\( \forall \)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\exist')">\( \exist \)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\bigvee')">\( \bigvee \)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\bigwedge')">\( \bigwedge \)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\impliedby')">\( \impliedby \)</button></td>
+                    </tr>
+                    <tr>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\gamma')">γ</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\theta')">θ</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\sum')">\(\sum\)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\int')">\(\int\)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\ne')">\(\ne\)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\simeq')">≃</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\infin')">\( \infin \)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\to')">\( \to \)</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\sqsubset')">⊏</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\sqsupset')">⊐</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\sqsubseteq')">⊑</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="insertSymbol('\\sqsupseteq')">⊒</button></td>
+                        <td>
+                            <button type="button" class="btn btn-secondary" onclick="insertSymbol('\\circ')">\( \circ \)</button>
+                            <button type="button" class="btn btn-secondary" onclick="insertSymbol('\\bull')">\( \bull \)</button>
+                        </td>
+                        
+                        
+                        
+                    </tr>
+                </table>
+            </div>
+
+            <button class="btn btn-primary" type="submit" asp-route-step="1">Poprzedni</button>
+            <button asp-page-handler="Step2" class="btn btn-primary" type="submit">Następny</button>
+            
+        </div>
+    </form>
+</div>
+
+<script src="~/lib/mathquill-0.10.1/mathquill.js"></script>
+<script src="~/js/MathEditor.js"></script>
+<script src="~/js/RenderMathInTaskContent.js"></script>

@@ -1,7 +1,7 @@
 using MathWars.Data;
-using MathWars.Models;
-using MathWars.Services;
-using MathWars.StartupInitializers;
+using MathWars.Entities;
+using MathWars.Extensions;
+using MathWars.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,38 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-builder.Configuration.AddJsonFile("appsettings.json");
+builder.Services.AddApplicationServices(builder.Configuration);
 
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
-    builder.Configuration.GetConnectionString("DefaultConnection"),
-    providerOptions => providerOptions.EnableRetryOnFailure()));
-
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
-
-builder.Services.Configure<IdentityOptions>(options =>
-{
-    var section = builder.Configuration.GetSection("ApplicationPasswordRequirements");
-
-    options.Password.RequiredLength = section.GetValue<int>("RequiredLength");
-    options.Password.RequiredUniqueChars = section.GetValue<int>("RequiredUniqueChars");
-    options.Password.RequireDigit = section.GetValue<bool>("RequireDigit");
-    options.Password.RequireLowercase = section.GetValue<bool>("RequireLowercase");
-    options.Password.RequireNonAlphanumeric = section.GetValue<bool>("RequireNonAlphanumeric");
-    options.Password.RequireUppercase = section.GetValue<bool>("RequireUppercase");
-    options.SignIn.RequireConfirmedEmail = section.GetValue<bool>("RequireConfirmedEmail");
-});
-
-builder.Services.AddScoped<IEmailSenderService, EmailSenderService>();
-
-builder.Services.Configure<SMTPConfigModel>(builder.Configuration.GetSection("SMTPConfig"));
-
-builder.Services.ConfigureApplicationCookie(config =>
-{
-	config.LoginPath = "/IndexGuest";
-});
-
-builder.Services.AddSession();
+builder.Services.AddIdentityServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -64,17 +35,27 @@ app.UseSession();
 
 app.MapRazorPages();
 
-using (var scope = app.Services.CreateScope())
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+try
 {
-    var roleManager = scope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
-    var configuration = builder.Configuration.GetSection("ApplicationRoles").GetChildren();
-    foreach (var role in configuration)
-    {
-        RoleInitializer.InitializeRoleAsync(roleManager, role.Value).Wait();
-    }
+	var context = services.GetRequiredService<ApplicationDbContext>();
 
-    var userManager = scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
-    await AdminInitializer.InitializeUserAsync(userManager, builder.Configuration);
+	var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+	var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+	var _db = services.GetService<ApplicationDbContext>();
+
+	await context.Database.MigrateAsync();
+
+	await Seed.SeedUsers(userManager, roleManager);
+	await Seed.SeedTaskCategory(_db);
+    await Seed.SeedTasks(_db);
+    await Seed.SeedAnswersToTask(_db);
+}
+catch (Exception ex)
+{
+	var logger = services.GetService<ILogger<Program>>();
+	logger.LogError(ex, "An error occured during migration");
 }
 
 app.Run();

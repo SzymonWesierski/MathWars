@@ -1,43 +1,46 @@
 using MathWars.Data;
-using MathWars.Models;
+using MathWars.Entities;
+using MathWars.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Data;
-using System.Threading.Tasks;
 
 namespace MathWars.Pages.TaskPages;
-[Authorize(Roles = "admin")]
+[Authorize(Policy = "RequireAdminRole")]
 [BindProperties]
 public class DeleteUserModel : PageModel
 {
-    private readonly ApplicationDbContext _db;
-    private readonly UserManager<ApplicationUser> userManager;
-    public ApplicationUser user { get; set; }
+    private readonly IUnitOfWork _uow;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public DeleteUserModel(UserManager<ApplicationUser> userManager, ApplicationDbContext db)
+    public DeleteUserModel(IUnitOfWork uow, UserManager<ApplicationUser> userManager)
     {
-        _db = db;
-        this.userManager = userManager;
+        _uow = uow;
+        _userManager = userManager;
     }
-    public void OnGet(string id)
+
+    public ApplicationUser User { get; set; }
+
+    public async Task<IActionResult> OnGetAsync(string id)
     {
-        user = _db.Users.Find(id);
+        User = await _uow.UserRepository.GetUserByIdAsync(id);
+        return Page();
     }
+
 
     public async Task<IActionResult> OnPost()
     {
-        var userFromDb = _db.Users.Find(user.Id);
+        var userFromDb = await _uow.UserRepository.GetUserByIdAsync(User.Id);
         if (userFromDb != null)
         {
-            var roles = await userManager.GetRolesAsync(userFromDb);
+            var roles = await _userManager.GetRolesAsync(userFromDb);
             foreach (var roleName in roles)
             {
-                await userManager.RemoveFromRoleAsync(userFromDb, roleName);
+                await _userManager.RemoveFromRoleAsync(userFromDb, roleName);
             }
-            _db.Users.Remove(userFromDb);
-            await _db.SaveChangesAsync();
+            
+
             return RedirectToPage("ViewUser");
         }
         return Page();

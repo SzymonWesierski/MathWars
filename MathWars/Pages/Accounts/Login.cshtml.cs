@@ -1,5 +1,5 @@
+using MathWars.Entities;
 using MathWars.Models;
-using MathWars.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,16 +8,17 @@ namespace MathWars.Pages.Accounts
 {
     public class LoginModel : PageModel
     {
-        private readonly SignInManager<ApplicationUser> signInManager;
-
-        [BindProperty]
-        public Login loginModel { get; set; } = new Login();
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public LoginModel(SignInManager<ApplicationUser> signInManager) 
         { 
-            this.signInManager = signInManager;
+            _signInManager = signInManager;
         }
-        public void OnGet()
+
+		[BindProperty]
+		public LoginUserModel loginModel { get; set; }
+
+		public void OnGet()
         {
         }
 
@@ -25,7 +26,7 @@ namespace MathWars.Pages.Accounts
         {
             if (ModelState.IsValid)
             {
-                var identityResult = await signInManager
+                var identityResult = await _signInManager
                     .PasswordSignInAsync(loginModel.UserName, loginModel.Password, loginModel.RememberMe, false);
 
                 if (identityResult.Succeeded)
@@ -41,11 +42,11 @@ namespace MathWars.Pages.Accounts
                 }
                 if (identityResult.IsNotAllowed)
                 {
-                    ModelState.AddModelError("", "Nie zatwierdzi³eœ jeszcze maila, którego Ci wys³aliœmy :)");
+                    ModelState.AddModelError("loginModel.Password", "Nie zatwierdzi³eœ jeszcze maila, którego Ci wys³aliœmy :)");
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Nazwa u¿ytkownika lub has³o jest nieprawid³owe");
+                    ModelState.AddModelError("loginModel.Password", "Nazwa u¿ytkownika lub has³o jest nieprawid³owe");
                 }
             }
             return Page();

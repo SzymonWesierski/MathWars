@@ -9,7 +9,7 @@
 			<h2 class="text-primary">Lista zadań</h2>
 		</div>
 		<div class="col-6 text-end">
-			<a asp-page="CreateTask" class="btn btn-primary">
+			<a asp-page="CreateTask/Start" class="btn btn-primary">
 				<i class="bi bi-plus-square"></i> &nbsp;Stwórz nowe zadanie
 			</a>
 		</div>
@@ -21,9 +21,6 @@
 		<thead>
 			<tr>
 				<th>
-					Tytuł
-				</th>
-				<th>
 					Treść
 				</th>
 				<th>
@@ -31,9 +28,6 @@
 				</th>
 				<th>
 					Poziom Trudności
-				</th>
-				<th>
-					Typ odpowiedzi
 				</th>
 				<th>
 					Data utworzenia
@@ -45,7 +39,6 @@
 			@foreach(var obj in Model.Tasks)
 			{
 				<tr>
-					<td width="20%">@obj.Title</td>
 					<td width="20%" style="overflow-wrap: break-word; word-break: break-all; maxlength=" 30"">@obj.Content</td>
 					<td width="20%">
 						@foreach (var category in obj.TasksAndCategories.Select(tc => tc.TaskCategory))
@@ -57,12 +50,11 @@
 							}
 						}
 					</td>
-					<td width="10%">@obj.difficultyLevel</td>
-					<td width="10%">@obj.AnswerType.Name</td>
+					<td width="10%">@obj.DifficultyLevel</td>
 					<td width="20%">@obj.Created</td>
 					<td>
 						<div class="w-75 btn-group" role="group">
-						<a asp-page="EditTask" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
+							<a asp-page="EditTask/Start" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
 							<i class="bi bi-pencil-square"></i>
 						</a>
 						<a asp-page="DeleteTask" asp-route-id="@obj.Id"  class="btn btn-danger mx-2">

@@ -22,63 +22,37 @@ namespace MathWars.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MathWars.Models.AnswerTypes", b =>
+            modelBuilder.Entity("MathWars.Entities.AnswersToTask", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FormatExplanation")
+                    b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("HowManyCorrectAnswers")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsCorrect")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("PhotoUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("AnswerTypes");
-                });
-
-            modelBuilder.Entity("MathWars.Models.Answers", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Answer")
-                        .IsRequired()
+                    b.Property<string>("PublicPhotoId")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("SubmissionDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("TaskId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.HasIndex("TaskId");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Answers");
+                    b.ToTable("AnswersToTasks");
                 });
 
-            modelBuilder.Entity("MathWars.Models.ApplicationUser", b =>
+            modelBuilder.Entity("MathWars.Entities.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -132,7 +106,10 @@ namespace MathWars.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ProfileImagePath")
+                    b.Property<string>("ProfileImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PublicProfileImageId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
@@ -158,7 +135,7 @@ namespace MathWars.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("MathWars.Models.Tasks", b =>
+            modelBuilder.Entity("MathWars.Entities.Tasks", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -166,38 +143,30 @@ namespace MathWars.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Answer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("AnswerTypeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Content")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ImagePath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("difficultyLevel")
+                    b.Property<int>("DifficultyLevel")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("AnswerTypeId");
+                    b.Property<int>("NumberOfCorrectAnswers")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PublicImageId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Tasks");
                 });
 
-            modelBuilder.Entity("MathWars.Models.TasksAndCategories", b =>
+            modelBuilder.Entity("MathWars.Entities.TasksAndCategories", b =>
                 {
                     b.Property<int>("TaskCategoryId")
                         .HasColumnType("int");
@@ -212,7 +181,7 @@ namespace MathWars.Migrations
                     b.ToTable("TasksAndCategories");
                 });
 
-            modelBuilder.Entity("MathWars.Models.TasksCategory", b =>
+            modelBuilder.Entity("MathWars.Entities.TasksCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -221,7 +190,6 @@ namespace MathWars.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CategoryName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Created")
@@ -232,7 +200,42 @@ namespace MathWars.Migrations
                     b.ToTable("TasksCategory");
                 });
 
-            modelBuilder.Entity("MathWars.Models.UsersReports", b =>
+            modelBuilder.Entity("MathWars.Entities.UserAnswer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsSolvedCorrect")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PublicWhiteBoardPhotoId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("SubmissionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TaskId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("WhiteBoardPhotoUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TaskId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Answers");
+                });
+
+            modelBuilder.Entity("MathWars.Entities.UsersReports", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -244,21 +247,21 @@ namespace MathWars.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImagePath")
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TaskId")
+                    b.Property<string>("PublicImageId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TaskId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -399,45 +402,26 @@ namespace MathWars.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("MathWars.Models.Answers", b =>
+            modelBuilder.Entity("MathWars.Entities.AnswersToTask", b =>
                 {
-                    b.HasOne("MathWars.Models.Tasks", "Task")
-                        .WithMany("Answers")
+                    b.HasOne("MathWars.Entities.Tasks", "Task")
+                        .WithMany("AnswersToTask")
                         .HasForeignKey("TaskId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MathWars.Models.ApplicationUser", "User")
-                        .WithMany("Answers")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Task");
-
-                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MathWars.Models.Tasks", b =>
+            modelBuilder.Entity("MathWars.Entities.TasksAndCategories", b =>
                 {
-                    b.HasOne("MathWars.Models.AnswerTypes", "AnswerType")
-                        .WithMany("Tasks")
-                        .HasForeignKey("AnswerTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AnswerType");
-                });
-
-            modelBuilder.Entity("MathWars.Models.TasksAndCategories", b =>
-                {
-                    b.HasOne("MathWars.Models.TasksCategory", "TaskCategory")
+                    b.HasOne("MathWars.Entities.TasksCategory", "TaskCategory")
                         .WithMany("TasksAndCategories")
                         .HasForeignKey("TaskCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MathWars.Models.Tasks", "Task")
+                    b.HasOne("MathWars.Entities.Tasks", "Task")
                         .WithMany("TasksAndCategories")
                         .HasForeignKey("TaskId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -446,6 +430,23 @@ namespace MathWars.Migrations
                     b.Navigation("Task");
 
                     b.Navigation("TaskCategory");
+                });
+
+            modelBuilder.Entity("MathWars.Entities.UserAnswer", b =>
+                {
+                    b.HasOne("MathWars.Entities.Tasks", "Task")
+                        .WithMany("Answers")
+                        .HasForeignKey("TaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MathWars.Entities.ApplicationUser", "User")
+                        .WithMany("Answers")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Task");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -459,7 +460,7 @@ namespace MathWars.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("MathWars.Models.ApplicationUser", null)
+                    b.HasOne("MathWars.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -468,7 +469,7 @@ namespace MathWars.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("MathWars.Models.ApplicationUser", null)
+                    b.HasOne("MathWars.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -483,7 +484,7 @@ namespace MathWars.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MathWars.Models.ApplicationUser", null)
+                    b.HasOne("MathWars.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -492,31 +493,28 @@ namespace MathWars.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("MathWars.Models.ApplicationUser", null)
+                    b.HasOne("MathWars.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MathWars.Models.AnswerTypes", b =>
-                {
-                    b.Navigation("Tasks");
-                });
-
-            modelBuilder.Entity("MathWars.Models.ApplicationUser", b =>
+            modelBuilder.Entity("MathWars.Entities.ApplicationUser", b =>
                 {
                     b.Navigation("Answers");
                 });
 
-            modelBuilder.Entity("MathWars.Models.Tasks", b =>
+            modelBuilder.Entity("MathWars.Entities.Tasks", b =>
                 {
                     b.Navigation("Answers");
+
+                    b.Navigation("AnswersToTask");
 
                     b.Navigation("TasksAndCategories");
                 });
 
-            modelBuilder.Entity("MathWars.Models.TasksCategory", b =>
+            modelBuilder.Entity("MathWars.Entities.TasksCategory", b =>
                 {
                     b.Navigation("TasksAndCategories");
                 });

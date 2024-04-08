@@ -19,21 +19,21 @@
             <h5><label asp-for="@Model.Report.Description"></label></h5>
             <textarea asp-for="@Model.Report.Description" class="form-control" readonly></textarea>
         </div>
-        @if (@Model.Report.ImagePath != null)
+        @if (!string.IsNullOrEmpty(@Model.Report.PublicImageId))
         {
             <div class="mb-3">
-                <label asp-for="@Model.Report.ImagePath">Dodatkowe zdjęcie</label>
+                <label asp-for="@Model.Report.PublicImageId">Dodatkowe zdjęcie</label>
                 <div>
-                    <img width="50%" src="@Url.Content(Model.Report.ImagePath)" alt="Report Image" class="task-image" />
+                    <img width="200" src="@Url.Content(Model.Report.ImageUrl)" alt="Report Image" class="task-image" />
                 </div>
             </div>
         }
         <button data-toggle="modal" data-target="#aModal" class="btn btn-primary" style="width:150px;">Usuń</button>
         <a asp-page="ViewReports" class="btn btn-secondary" style="width:150px;">Powrót do listy</a>
-        @if (@Model.Report.TaskId != null)
+        @if (@Model.Report.TaskId > 0)
         {
             <a asp-page="/TaskPages/SolvingTask" asp-route-id="@Model.Report.TaskId" class="btn btn-secondary" style="width:150px;">Przejdź do zadania</a>
-            <a asp-page="/TaskPages/EditTask" asp-route-id="@Model.Report.TaskId" class="btn btn-secondary" style="width:150px;">Edytuj zadanie</a>
+            <a asp-page="/TaskPages/EditTask/Start" asp-route-id="@Model.Report.TaskId" class="btn btn-secondary" style="width:150px;">Edytuj zadanie</a>
         }
     </div>
 </div>

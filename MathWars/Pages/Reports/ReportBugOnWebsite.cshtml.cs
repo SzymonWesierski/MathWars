@@ -1,12 +1,10 @@
-using MathWars.Data;
+using MathWars.Extensions;
+using MathWars.Interfaces;
 using MathWars.Models;
+using MathWars.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel.DataAnnotations;
-using System.Drawing;
 
 namespace MathWars.Pages.Reports;
 
@@ -14,77 +12,45 @@ namespace MathWars.Pages.Reports;
 [Authorize]
 public class ReportBugOnWebsiteModel : PageModel
 {
-    private readonly ApplicationDbContext _context;
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly IConfiguration _configuration;
+	private readonly IUnitOfWork _uow;
+	private readonly IPhotoService _photoService;
 
-    public ReportBugOnWebsiteModel(ApplicationDbContext context, UserManager<ApplicationUser> userManager,
-        IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
+	public ReportBugOnWebsiteModel(IUnitOfWork uow, IPhotoService photoService)
+	{
+		_uow = uow;
+		_photoService = photoService;
+	}
+
+	public UsersReportsModel UserReport { get; set; }
+	public IFormFile ImageFile { get; set; }
+
+	public IActionResult OnGet()
     {
-        _context = context;
-        _userManager = userManager;
-        _webHostEnvironment = webHostEnvironment;
-        _configuration = configuration;
-    }
-
-    public UsersReports UserReport { get; set; } = new UsersReports();
-    public IFormFile? ImageFile { get; set; }
-
-    public async Task<IActionResult> OnGetAsync()
-    {
-        var tempUser = await _userManager.GetUserAsync(User);
-
-        if (tempUser == null)
-        {
-            return NotFound();
-        }
-
-        UserReport.UserId = tempUser.Id;
-
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync()
-    {
-        if (ModelState.IsValid)
-        {
-            // Handle image upload
-            if (ImageFile != null && ImageFile.Length > 0)
-            {
-                // generating new uniqe file name 
-                var uniqueFileName = Guid.NewGuid().ToString() + "_" + ImageFile.FileName;
+	public async Task<IActionResult> OnPostAsync()
+	{
+		if (ModelState.IsValid)
+		{
+			UserReport.UserId = User.GetUserId();
 
-                var appDirectory = _webHostEnvironment.WebRootPath;
+			// Handle image upload
+			if (ImageFile != null)
+			{
+				var result = await _photoService.AddPhotoAsync(ImageFile, ImageDirectoriesCloudinary.Reports);
+				if (result.Error == null)
+				{
+					UserReport.ImageUrl = result.SecureUrl.AbsoluteUri;
+					UserReport.PublicImageId = result.PublicId;
+				}
+			}
 
-                var imageDirectory = _configuration.GetSection("ImagesDirectorys")
-                    .GetValue<string>("reportPictures");
+			await _uow.UserReportsRepository.AddReportAsync(UserReport);
 
-                if (imageDirectory == null || uniqueFileName == null)
-                {
-                    // TODO logger should handle that error
-                    ModelState.AddModelError("ImageFile", "B³¹d œcie¿ki");
-                    return Page();
-                }
-                else
-                {
-                    // Save image on server
-                    var filePath = Path.Combine(imageDirectory, uniqueFileName);
-
-                    var physicalFilePath = appDirectory + filePath;
-
-                    using (var fileStream = new FileStream(physicalFilePath, FileMode.Create))
-                    {
-                        ImageFile.CopyTo(fileStream);
-                    }
-                    UserReport.ImagePath = filePath;
-                }
-            }
-
-            await _context.UsersReports.AddAsync(UserReport);
-            await _context.SaveChangesAsync();
-            return RedirectToPage("/Index");
-        }
-        return Page();
-    }
+            if (await _uow.Complete()) return RedirectToPage("/Index");
+            return Page();
+		}
+		return Page();
+	}
 }

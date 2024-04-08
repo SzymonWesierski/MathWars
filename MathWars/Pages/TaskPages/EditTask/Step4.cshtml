@@ -1,0 +1,62 @@
+﻿@model MathWars.Models.TaskAnswersAndDifficulty
+
+<form method="post">
+    <div class="mb-3">
+        <h2 class="text-primary pl-3">Poziom trudności</h2>
+        <div class="range">
+            <div class="range-slider">
+                <input asp-for="@Model.DifficultyLevel"
+                       type="range"
+                       min="1"
+                       max="6"
+                       value="@Model.DifficultyLevel"
+                       id="range"
+                       step="1" />
+                <div class="sliderticks">
+                    <span>1</span>
+                    <span>2</span>
+                    <span>3</span>
+                    <span>4</span>
+                    <span>5</span>
+                    <span>6</span>
+                </div>
+            </div>
+        </div>
+        <span asp-validation-for="@Model.DifficultyLevel" class="text-danger"></span>
+    </div>
+
+
+    <div class="mb-3">
+        <h2 class="text-primary pl-3">Wprowadź odpowiedzi do zadania i zaznacz poprawne</h2>
+
+
+        <h4>Wybierz ilość odpowiedzi: <input type="number" min="2" max="8" asp-for="@Model.NumberOfAnswers" />
+            <button asp-page-handler="SetNumberOfAnswers" type="submit">Potwierdź</button>
+        </h4>
+
+        @{
+            int numberOfCharInASCII = 65;
+            for (int i = 0; i < Model.NumberOfAnswers; i++)
+            {
+                char letter = Convert.ToChar(numberOfCharInASCII);
+
+                var isChecked = Model.CorrectAnswers.Any(a => a == i);
+
+                <div class="mb-3 d-flex align-items-center">
+                    <label asp-for="@Model.AnswersToTaskList[i].Content">@letter)</label>
+                    <input class="form-check-input" type="checkbox" value="@i" name="CorrectAnswers" @(isChecked ? "checked" : "") />
+                    <input asp-for="@Model.AnswersToTaskList[i].Content" class="form-control" />
+                    <span asp-validation-for="@Model.AnswersToTaskList[i]" class="text-danger"></span>
+                </div>
+
+                numberOfCharInASCII++;
+            }
+        }
+        
+        <span asp-validation-for="@Model.CorrectAnswers" class="text-danger"></span>
+        
+    </div>
+
+    <button class="btn btn-primary" type="submit" asp-route-step="3">Poprzedni</button>
+    <button asp-page-handler="Step4" class="btn btn-primary" type="submit">Edytuj</button>
+</form>

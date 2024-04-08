@@ -1,0 +1,109 @@
+﻿
+.steps {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
+    position: relative;
+}
+
+.step {
+    width: 100px;
+    height: 50px;
+    background-color: #ddd;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.step.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.line {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #ddd;
+    top: 50%;
+    z-index: -1;
+    animation: drawLine 1s ease-in-out forwards;
+}
+
+
+@keyframes drawLine {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+
+/*=============
+Keyboard
+=========================*/
+.math-keyboard {
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+.math-keyboard td {
+    padding: 5px;
+}
+
+
+
+
+/*=============
+Slider
+=========================*/
+.range-slider {
+    flex: 1;
+}
+
+.sliderticks {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+.sliderticks span {
+    display: flex;
+    justify-content: center;
+    width: 1px;
+    height: 10px;
+    background: #d3d3d3;
+    line-height: 40px;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    cursor: pointer;
+    outline: none;
+    border-radius: 15px;
+    height: 6px;
+    background: #ccc;
+}
+
+.range {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    max-width: 500px;
+    margin: 0 auto;
+    height: 8rem;
+    width: 80%;
+    background: #fff;
+    padding: 0px 10px;
+}

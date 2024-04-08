@@ -1,0 +1,52 @@
+﻿@model MathWars.Models.TaskImageModel
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css" />
+
+<form method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <h2 class="text-primary pl-3">Możesz dodać zdjęcie</h2>
+        <div action="~/images/forTasks" id="my-dropzone" class="dropzone">
+            <input type="file" accept="image/*" asp-for="@Model.Image" />
+            <span asp-validation-for="@Model.Image" class="text-danger"></span>
+        </div>
+        @if (!string.IsNullOrEmpty(@Model.ImagePath))
+        {
+            <h4>Aktualnie dodany</h4>
+            <img id="uploadedImage" src="@Url.Content(Model.ImagePath)" alt="Uploaded Image" style="max-width: 100%; max-height: 200px;" />
+        }
+    </div>
+
+    <button class="btn btn-primary" type="submit" asp-route-step="2">Poprzedni</button>
+    <button asp-page-handler="Step3" class="btn btn-primary" type="submit">Następny</button>
+</form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
+
+<script>
+    document.querySelector('input[type=file]').addEventListener('change', function (event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var img = document.createElement('img');
+            img.src = reader.result;
+            document.body.appendChild(img);
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    });
+    Dropzone.options.myDropzone = {
+        acceptedFiles: 'image/*',
+        maxFiles: 1,
+        maxFilesize: 20,
+        dictDefaultMessage: 'Upuść tutaj zdjęcia, aby je przesłać',
+        dictFallbackMessage: "Your browser does not support drag & drop feature.",
+        dictInvalidFileType: "Your uploaded file type is not supported.",
+        dictFileTooBig: "File is too big ({{filesize}} MB). Max filesize: {{maxFilesize}} MB.",
+        dictResponseError: "Server responded with {{statusCode}} code.",
+        dictCancelUpload: "Cancel Upload",
+        dictRemoveFile: "Remove",
+        init: function () {
+            this.on("complete", function (file) {
+                this.removeFile(file);
+            });
+        }
+    };
+</script>

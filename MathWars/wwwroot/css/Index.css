@@ -1,4 +1,39 @@
-﻿.index-container {
+﻿/*=============
+Slider
+=========================*/
+.range-slider {
+    flex: 1;
+}
+
+.sliderticks {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+    .sliderticks span {
+        display: flex;
+        justify-content: center;
+        width: 1px;
+        height: 10px;
+        background: #d3d3d3;
+        line-height: 40px;
+    }
+
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    cursor: pointer;
+    outline: none;
+    border-radius: 15px;
+    height: 6px;
+    background: #ccc;
+}
+
+
+
+.index-container {
     color: black;
 
 }
@@ -32,19 +67,17 @@ h1 {
     flex: 3;
     background-color: lightcyan;
     background-image: url("../images/bg.png"), linear-gradient(to right, lightcyan, #E0FFFF);
-    border-radius: 10px;
+    border-radius: 20px;
     margin-right: 10px;
     padding: 10px;
     position: relative;
 }
 
 .filter {
-    text-align: center;
-    flex: 1;
     background-color: lightcyan;
     background-image: url("../images/bg.png"), linear-gradient(to right, lightcyan, #E0FFFF);
-    border-radius: 10px;
-    padding: 10px;
+    border-radius: 20px;
+    padding: 30px;
     margin: 0 auto;
 }
 
@@ -55,7 +88,7 @@ h1 {
 
 .task-table td {
     padding: 8px; 
-    border-bottom: 1px solid #ddd; 
+    border-bottom: 1px solid black; 
 }
 
 .task-table .Title {
@@ -66,12 +99,10 @@ h1 {
     color: #666; 
 }
 
-.last-tr {
-    border-bottom: none; 
-    display: flex; 
-    flex-direction: column; 
-    height: 100%; 
-    justify-content: flex-end; 
+.pagination-row {
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid black;  
 }
 
 .solve-button a {
@@ -112,7 +143,8 @@ h1 {
 
 .filter-table-heading {
     font-size: 1.5em;
-    font-weight: bold; 
+    font-weight: bold;
+    text-align: left;
 }
 
 .second-content {

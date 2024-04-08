@@ -1,0 +1,37 @@
+﻿@page
+@model MathWars.Pages.TaskPages.EditTask.StartModel
+@{
+}
+<link rel="stylesheet" href="~/css/TaskStepper.css">
+
+
+<div class="container p-3">
+    <div class="steps">
+        <div class="step @(Model.Step == 1 ? "active" : "")">kategorie</div>
+        <div class="step @(Model.Step == 2 ? "active" : "")">treść</div>
+        <div class="step @(Model.Step == 3 ? "active" : "")">zdjęcie</div>
+        <div class="step @(Model.Step == 4 ? "active" : "")">odpowiedzi</div>
+        <div class="line"></div>
+    </div>
+</div>
+
+<div class="container border p-3 mt-4" style="color: black;">
+    @{
+        switch (Model.Step)
+        {
+            case 1:
+                await Html.RenderPartialAsync("Step1", Model.CategoriesAndCategory);
+                break;
+            case 2:
+                await Html.RenderPartialAsync("Step2", Model.TaskContent);
+                break;
+            case 3:
+                await Html.RenderPartialAsync("Step3", Model.TaskImage);
+                break;
+            case 4:
+                await Html.RenderPartialAsync("Step4", Model.TaskAnswersAndDifficulty);
+                break;
+        }
+    }
+</div>
+

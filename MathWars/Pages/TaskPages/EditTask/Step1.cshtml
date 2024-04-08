@@ -1,0 +1,122 @@
+﻿@model MathWars.Models.CategoriesListAndCategoryModel
+
+<div class="container">
+	<div class="row pt-4">
+		<div class="col-6">
+			<h2 class="text-primary">Wybierz kategorię</h2>
+		</div>
+		<div class="col-6 text-end">
+			<a data-toggle="modal" data-target="#CreateTaskCategory" class="btn btn-primary">
+				<i class="bi bi-plus-square"></i> &nbsp;Stwórz nową kategorie
+			</a>
+			<a asp-page="/TaskPages/Category/ViewTasksCategory" class="btn btn-primary">
+				<i class="bi bi-plus-square"></i> &nbsp;Edytuj kategorie
+			</a>
+		</div>
+	</div>
+
+	<!--Pop up menu to create new category-->
+	@*modal*@
+	<div class="modal fade" id="CreateTaskCategory" tabindex="-1" role="dialog" aria-labelledby="aModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content" style="color: black;">
+				<div class="modal-header">
+					<h4 class="modal-title" id="aModalLabel">Stwórz kategorie zadań</h4>
+				</div>
+				<form method="post" asp-page-handler="CreateCategory">
+					<div class="modal-body">
+						<div class="border p-3 mt-4">
+							<div class="mb-3">
+								Nazwa:
+								<input asp-for="@Model.Category.CategoryName" class="form-control" />
+								<span asp-validation-for="@Model.Category.CategoryName" class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary" style="width:150px;">Stwórz</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+	<br /><br />
+	<form method="post">
+		<table class="table table-bordered table-striped" style="width:100%">
+			<thead>
+				<tr>
+					<th>
+						Nazwa
+					</th>
+					<th>
+						Data utworzenia
+					</th>
+					<th>
+						Zaznacz wybrane
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var obj in Model.Categories)
+				{
+					<tr>
+						<td width="20%">@obj.CategoryName</td>
+						<td width="20%">@obj.Created</td>
+						<td>
+							@{
+								var isChecked = Model.SelectedCategoryIds.Any(tc => tc == obj.Id);
+								<div class="form-check">
+									<input type="checkbox" value="@obj.Id" name="SelectedCategoryIds" class="form-check-input" @(isChecked ? "checked" : "") />
+								</div>
+							}
+						</td>
+					</tr>	
+				}
+			</tbody>
+		</table>
+
+		<input asp-for="CurrentPageIndex" value="@Model.Categories.PageIndex" hidden/>
+
+		<!-- Pagination -->
+		@if (Model.Categories.HasPreviousPage || Model.Categories.HasNextPage)
+		{
+			<nav aria-label="Page navigation">
+				<ul class="pagination justify-content-center">
+					@if (Model.Categories.HasPreviousPage)
+					{
+						<li class="page-item">
+							<button class="page-link" type="submit" asp-page-handler="CategoriesList" asp-route-pageIndex="@(Model.Categories.PageIndex - 1)"><i class="bi bi-arrow-left"></i></button>
+						</li>
+					}
+
+					@for (var i = Model.Categories.PageIndex - 4; i <= Model.Categories.PageIndex + 4; i++)
+					{
+						if (i >= 1 && i <= Model.Categories.TotalPages)
+						{
+							<li class="page-item @(i == Model.Categories.PageIndex ? "active" : "")">
+								<button class="page-link" type="submit" asp-page-handler="CategoriesList" asp-route-pageIndex="@i">@i</button>
+							</li>
+						}
+					}
+
+					@if (Model.Categories.HasNextPage)
+					{
+						<li class="page-item">
+							<button class="page-link" type="submit" asp-page-handler="CategoriesList" asp-route-pageIndex="@(Model.Categories.PageIndex + 1)"><i class="bi bi-arrow-right"></i></button>
+						</li>
+					}
+				</ul>
+			</nav>
+		}
+		<div style="margin: 10px">
+			<span asp-validation-for="SelectedCategoryIds" class="text-danger"></span>
+		</div>
+		
+		<a asp-page="/TaskPages/ViewTasks" class="btn btn-primary">Powrót</a>
+		<button asp-page-handler="Step1" type="submit" class="btn btn-primary">Następny</button>
+
+	</form>
+</div>

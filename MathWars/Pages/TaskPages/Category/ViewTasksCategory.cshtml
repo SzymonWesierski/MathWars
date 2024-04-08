@@ -9,11 +9,39 @@
 			<h2 class="text-primary">Lista kategorii zadań</h2>
 		</div>
 		<div class="col-6 text-end">
-			<a asp-page="CreateTaskCategory" class="btn btn-primary">
+			<a data-toggle="modal" data-target="#CreateTaskCategory" class="btn btn-primary">
 				<i class="bi bi-plus-square"></i> &nbsp;Stwórz nową kategorie
 			</a>
 		</div>
 	</div>
+
+	<!--Pop up menu to create new category-->
+	@*modal*@
+	<div class="modal fade" id="CreateTaskCategory" tabindex="-1" role="dialog" aria-labelledby="aModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content" style="color: black;">
+				<div class="modal-header">
+					<h4 class="modal-title" id="aModalLabel">Stwórz kategorie zadań</h4>
+				</div>
+				<form method="post" asp-page-handler="CreateCategory">
+					<div class="modal-body">
+						<div class="border p-3 mt-4">
+							<div class="mb-3">
+								Nazwa:
+								<input asp-for="@Model.Category.CategoryName" class="form-control" />
+								<span asp-validation-for="@Model.Category.CategoryName" class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary" style="width:150px;">Stwórz</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
 
 	<br /><br />
 
@@ -30,26 +58,69 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach(var obj in Model.Categories)
+			@foreach (var obj in Model.Categories)
 			{
-				<tr>
-					<td width="20%">@obj.CategoryName</td>
-					<td width="20%">@obj.Created</td>
-					<td>
-						<div class="w-75 btn-group" role="group">
-						<a asp-page="EditTaskCategory" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
+			<tr>
+				<td width="20%">@obj.CategoryName</td>
+				<td width="20%">@obj.Created</td>
+				<td>
+					<div class="w-75 btn-group" role="group">
+						<button data-toggle="modal" data-target="#EditCategory_@obj.Id" class="btn btn-primary mx-2">
 							<i class="bi bi-pencil-square"></i>
-						</a>
-							<a asp-page="DeleteTaskCategory" asp-route-id="@obj.Id" class="btn btn-danger mx-2">
+						</button>
+						<button data-toggle="modal" data-target="#DeleteTaskCategory" class="btn btn-danger mx-2">
 							<i class="bi bi-trash-fill"></i>
-						</a>
+						</button>
+					</div>
+
+					<!--Pop up menu to delete category-->
+					<div class="modal fade" id="DeleteTaskCategory" tabindex="-1" role="dialog" aria-labelledby="aModalLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title" id="aModalLabel">Czy jesteś pewien że chcesz usunąć tą kategorię</h4>
+								</div>
+								<div class="modal-body">
+									<form method="post" asp-page-handler="DeleteTaskCategory" asp-route-id="@obj.Id">
+										<button type="submit" class="btn btn-danger">Usuń</button>
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+									</form>
+
+								</div>
+								<div class="modal-footer">
+								</div>
+							</div>
 						</div>
-					</td>
-				</tr>
+					</div>
+
+					<!-- Pop up menu to edit Category -->
+					<div class="modal fade" id="EditCategory_@obj.Id" tabindex="-1" role="dialog" aria-labelledby="aModalLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title" id="aModalLabel">Edycja kategorii</h4>
+								</div>
+								<form method="post" asp-page-handler="EditCategory" asp-route-id="@obj.Id">
+									<div class="modal-body">
+										<label>Nazwa: </label>
+										<input class="form-control" name="newName" value="@obj.CategoryName" />
+									</div>
+									<div class="modal-footer">
+										<button type="submit" class="btn btn-primary">Edytuj</button>
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</td>
+			</tr>
 			}
-			
 		</tbody>
 	</table>
+
+	
+    
 	<!-- Pagination -->
 	@if (Model.Categories.HasPreviousPage || Model.Categories.HasNextPage)
 	{

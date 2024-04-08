@@ -1,13 +1,10 @@
-using MathWars.Data;
-using MathWars.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Threading.Tasks;
 
 namespace MathWars.Pages.TaskPages;
-[Authorize(Roles = "admin")]
+[Authorize(Policy = "RequireAdminRole")]
 [BindProperties]
 public class EditRoleModel : PageModel
 {

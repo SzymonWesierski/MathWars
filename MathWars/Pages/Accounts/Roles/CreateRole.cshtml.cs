@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 
 namespace MathWars.Pages.TaskPages;
-[Authorize(Roles ="admin")]
+[Authorize(Policy = "RequireAdminRole")]
 [BindProperties]
 public class CreateRoleModel : PageModel
 {

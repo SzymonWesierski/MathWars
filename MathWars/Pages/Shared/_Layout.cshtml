@@ -1,4 +1,4 @@
-﻿@using MathWars.Models;
+﻿@using MathWars.Entities;
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
@@ -17,13 +17,12 @@
    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     
     <link rel="stylesheet" href="~/css/_Layout.css" asp-append-version="true" />
-    
-   
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/mathquill-0.10.1/mathquill.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -40,17 +39,15 @@
 
                 <ul class="sidebar-navigation">
                     <li><a asp-area="" asp-page="/Index"><i class="bi bi-house"></i><span>Strona Główna</span></a></li>
-                    @if (User.IsInRole("taskManager") || User.IsInRole("admin"))
+                    @if (User.IsInRole("TaskManager") || User.IsInRole("Admin"))
                     {
                         <li><a asp-area="" asp-page="/TaskPages/ViewTasks"><i class="bi bi-journal-text"></i><span>Zadania</span></a></li>
-                        <li><a asp-area="" asp-page="/TaskPages/Category/ViewTasksCategory"><i class="bi bi-journal-text"></i><span>Kategoria</span></a></li>
-                        <li><a asp-area="" asp-page="/TaskPages/TypeOfAnswer/ViewAnswerType"><i class="bi bi-journal-text"></i><span>Typ odpowiedzi</span></a></li>
-                        <li><a asp-area="" asp-page="/Reports/ViewReports"><i class="bi bi-journal-text"></i><span>Zgłoszenia błędów</span></a></li>
+                        <li><a asp-area="" asp-page="/TaskPages/Category/ViewTasksCategory"><i class="bi bi-journal-text"></i><span>Kategorie</span></a></li>
                     }
-                    @if (User.IsInRole("admin"))
+                    @if (User.IsInRole("Admin"))
                     {
                         <li><a asp-area="" asp-page="/Accounts/Users/ViewUser"><i class="bi bi-people"></i><span>Użytkownicy</span></a></li>
-                        <li><a asp-area="" asp-page="/Accounts/Roles/ViewRole"><i class="bi bi-journal-text"></i><span>Role</span></a></li>
+                        <li><a asp-area="" asp-page="/Reports/ViewReports"><i class="bi bi-journal-text"></i><span>Zgłoszenia błędów</span></a></li>
                     }
 
                     @{
@@ -120,13 +117,13 @@
 
         </div>
 
-
-            
-<script src="~/js/HamburgerMenu.js"></script>
-<script src="~/js/Symbols.js"></script>
-<script src="~/js/RenderMathContent.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="~/lib/mathquill-0.10.1/mathquill.js"></script>
+    <script src="~/js/HamburgerMenu.js"></script>
+    <script src="~/js/Symbols.js"></script>
+    <script src="~/js/RenderMathContent.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
 
 </body>
 </html>

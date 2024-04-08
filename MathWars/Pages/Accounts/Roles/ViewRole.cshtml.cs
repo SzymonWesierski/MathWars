@@ -5,9 +5,10 @@ using MathWars.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using MathWars.Helpers;
 
 namespace MathWars.Pages.TaskPages;
-[Authorize(Roles = "admin")]
+[Authorize(Policy = "RequireAdminOrManagerRole")]
 public class ViewRoleModel : PageModel
 {
     private readonly RoleManager<IdentityRole> _roleManager;

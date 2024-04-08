@@ -1,5 +1,4 @@
 ﻿@page
-
 @using System.Security.Claims
 
 @model IndexProfileModel
@@ -7,11 +6,6 @@
 }
 
 <link rel="stylesheet" href="~/css/UserProfile.css" asp-append-version="true" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-
-
-
-
 
 <div class="container p-3">
 
@@ -21,7 +15,7 @@
         <div class="col-4">
             <div class="bg-light" style="padding: 20px;height: 360px; align-items: center;">
                 <div class="image-container" data-toggle="modal" data-target="#aModal">
-                    <img width="100%" src="@Url.Content(Model.CurrentUser.ProfileImagePath)" alt="Profile Image" class="task-image" />
+                    <img width="100%" src="@Url.Content(Model.CurrentUser.ProfileImageUrl)" alt="Profile Image" class="task-image" />
                     <i class="fas fa-edit edit-icon" data-toggle="modal" data-target="#aModal"></i>
                 </div>
             </div>
@@ -94,7 +88,6 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>Tytuł</th>
                             <th>Treść</th>
                             <th>Poziom trudności</th>
                             <th>Data ukończenia</th>
@@ -105,9 +98,8 @@
                         @foreach (var obj in Model.AnswersList)
                         {
                             <tr>
-                                <td width="25%">@obj.Task.Title</td>
-                                <td width="35%" style="overflow-wrap: break-word; word-break: break-all;">@obj.Task.Content</td>
-                                <td width="10%">@obj.Task.difficultyLevel</td>
+                                <td width="35%" style="overflow-wrap: break-word; word-break: break-all;">@obj.Content</td>
+                                <td width="10%">@obj.DifficultyLevel</td>
                                 <td width="20%">@obj.SubmissionDate</td>
                                 <td width="10%">
                                     <div>
@@ -158,8 +150,6 @@
     </div>
 </div>
 
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"></script>
 <script src="~/js/UserProfile.js"></script>
 

@@ -1,5 +1,4 @@
-using MathWars.Models;
-using Microsoft.AspNetCore.Authorization;
+using MathWars.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,10 +10,8 @@ namespace MathWars.Pages.Accounts;
 public class ForgotPasswordRestartModel : PageModel
 {
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly SignInManager<ApplicationUser> _signInManager;
-    public ForgotPasswordRestartModel(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+    public ForgotPasswordRestartModel(UserManager<ApplicationUser> userManager)
     {
-        _signInManager = signInManager;
         _userManager = userManager;
     }
 

@@ -1,5 +1,6 @@
+using MathWars.Entities;
+using MathWars.Interfaces;
 using MathWars.Models;
-using MathWars.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
