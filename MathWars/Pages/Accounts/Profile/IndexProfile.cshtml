@@ -63,7 +63,7 @@
                 <div class="modal-body">
                     <form method="post" enctype="multipart/form-data" asp-page-handler="UploadImage">
                         <div class="form-group">
-                            <input asp-for="CurrentUser.Id" hidden />
+                            <input asp-for="Uid" hidden />
                             <label asp-for="ImageFile"></label>
                             <input type="file" accept="image/*" asp-for="@Model.ImageFile" class="form-control" />
                             <span asp-validation-for="ImageFile" class="text-danger" hidden></span>

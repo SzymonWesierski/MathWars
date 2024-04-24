@@ -27,7 +27,7 @@
 												<span class="filter-table-heading">LVL @obj.DifficultyLevel | @Model.ExpForSolveTask exp</span>
 												</div>
 											<div>
-												<i class="bi bi-star"></i> 1,243 @* Rating not done yet  *@
+												<i class="bi bi-star"></i> @obj.StarRating
 											</div>
 										</div>
 										
@@ -106,10 +106,25 @@
 					<form method="post">
 						<tr>
 							<td>
-							<h3 class="filter-table-heading">Kategoria:</h3>
-							<select asp-for="@Model.TaskToSolveParams.CategoryId" 
-								asp-items="@(new SelectList(Model.Categories, "Id", "CategoryName"))" class="form-control">
-							</select>
+							<h3 class="filter-table-heading">Sortowanie:</h3>
+								@{
+									var selectList = new SelectList(Model.Categories, "Id", "CategoryName");
+								}
+
+								<select asp-for="@Model.TaskToSolveParams.CategoryId" class="form-control">
+										@foreach (var item in selectList)
+										{
+											if (item.Value == "-2")
+											{
+												<option class="separator-option" disabled>@item.Text</option>
+											}
+											else
+											{
+												<option value="@item.Value">@item.Text</option>
+											}
+										}
+								</select>
+
 							</td>
 						</tr>
 						<tr>

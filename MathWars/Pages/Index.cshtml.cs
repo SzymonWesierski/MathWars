@@ -49,7 +49,12 @@ namespace MathWars.Pages
 		{
 			Categories = _uow.TaskCategoryRepository.GetTaskCategories();
 			if (Categories == null) return NotFound();
+
+
+			
 			Categories.Insert(0, new TasksCategory { Id = 0, CategoryName = "Wszystkie" });
+			Categories.Insert(1, new TasksCategory { Id = -1, CategoryName = "Najwyżej oceniane" });
+			Categories.Insert(2, new TasksCategory { Id = -2, CategoryName = "-------------" });
 
 			TaskToSolveParams = new TaskToSolveParams
 			{

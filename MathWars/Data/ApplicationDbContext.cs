@@ -12,6 +12,7 @@ namespace MathWars.Data
         }
 
         public DbSet<Tasks> Tasks { get; set; }
+        public DbSet<TaskRating> TaskRating { get; set; }
         public DbSet<AnswersToTask> AnswersToTasks {  get; set; }
         public DbSet<UserAnswer> Answers { get; set; }
         public DbSet<TasksCategory> TasksCategory { get; set; }
@@ -42,6 +43,16 @@ namespace MathWars.Data
 				.WithMany(u => u.AnswersToTask)
 				.HasForeignKey(a => a.TaskId);
                 //.OnDelete(Cascade);
+
+            modelBuilder.Entity<TaskRating>()
+				.HasOne(r => r.Task)
+                .WithMany(r => r.TaskRatings)
+                .HasForeignKey(r => r.TaskId);
+
+			modelBuilder.Entity<TaskRating>()
+				.HasOne(r => r.User)
+				.WithMany(r => r.TaskRatings)
+				.HasForeignKey(r => r.UserId);
 		}   
     }
 }

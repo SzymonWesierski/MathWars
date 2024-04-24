@@ -33,6 +33,13 @@ input[type="range"] {
 
 
 
+.separator-option {
+    border-bottom: 1px solid #000;
+    pointer-events: none;
+}
+
+
+
 .index-container {
     color: black;
 

@@ -19,11 +19,13 @@ namespace MathWars.Repository
 
         public ITaskRepository TaskRepository => new TaskRepository(_context, _mapper);
 
-        public IUserRepository UserRepository => new UserRepository(_context);
+        public IUserRepository UserRepository => new UserRepository(_context, _mapper);
 
         public IUserAnswersRepository UserAnswersRepository => new UserAnswersRepository(_context, _mapper);
 
 		public IUserReportsRepository UserReportsRepository => new UserReportsRepository(_context, _mapper);
+
+		public ITaskRatingRepository TaskRatingRepository => new TaskRatingRepository(_context);
 
 		public async Task<bool> Complete()
         {

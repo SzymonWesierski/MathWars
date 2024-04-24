@@ -10,12 +10,14 @@ public class Tasks
     public string ImageUrl { get; set; } = string.Empty;
     public string PublicImageId { get; set; }
     public DateTime Created { get; set; } = DateTime.Now;
-	public int DifficultyLevel { get; set; }
+    public int DifficultyLevel { get; set; }
     public int NumberOfCorrectAnswers { get; set; }
-	public List<TasksAndCategories> TasksAndCategories { get; set; }
+    public int StarRating { get; set; }
+    public List<TasksAndCategories> TasksAndCategories { get; set; }
     public List<TasksCategory> Category { get; set; }
 
     public List<AnswersToTask> AnswersToTask { get; set; }
 
     public List<UserAnswer> Answers { get; set; } = new();
+    public List<TaskRating> TaskRatings { get; set; }
 }

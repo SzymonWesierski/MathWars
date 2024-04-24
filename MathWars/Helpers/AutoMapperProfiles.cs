@@ -10,7 +10,8 @@ namespace MathWars.Helpers
 		{
 			CreateMap<Tasks, TaskToSolveModel>();
 			CreateMap<UsersReportsModel, UsersReports>();
-			CreateMap<UserAnswer, UserProfileAnswerModel>()
+            CreateMap<ApplicationUser, UserStatsModel>();
+            CreateMap<UserAnswer, UserProfileAnswerModel>()
 				.ForMember(dest => dest.DifficultyLevel, opt =>
 					opt.MapFrom(src => src.Task.DifficultyLevel))
 				.ForMember(dest => dest.Content, opt =>

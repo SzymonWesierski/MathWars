@@ -77,11 +77,17 @@ namespace MathWars.Repository
 				taskQuery = taskQuery
                     .Where(t => t.DifficultyLevel == taskToSolveParams.DifficultyLevel);
 
-            if (taskToSolveParams.CategoryId > 0)
-				taskQuery = taskQuery
-                    .Where(t => t.Category.Any(t => t.Id == taskToSolveParams.CategoryId));
+            _ = taskToSolveParams.CategoryId switch
+            {
+                > 0 => taskQuery = taskQuery
+                    .Where(t => t.Category.Any(t => t.Id == taskToSolveParams.CategoryId)),
+                -1 => taskQuery = taskQuery
+                    .OrderByDescending(t => t.StarRating),
+                _ => taskQuery
+            };
 
-			return await PaginatedList<TaskToSolveModel>.CreateAsync(
+
+                return await PaginatedList<TaskToSolveModel>.CreateAsync(
 				taskQuery.AsNoTracking().ProjectTo<TaskToSolveModel>(_mapper.ConfigurationProvider),
 				taskToSolveParams.PageNumber,
 				taskToSolveParams.PageSize);
@@ -96,5 +102,15 @@ namespace MathWars.Repository
         {
             _context.TasksAndCategories.RemoveRange(task.TasksAndCategories);
         }
+
+        public void UpdateRating(int value, int id)
+        {
+            var task = _context.Tasks.Find(id);
+            if (task != null)
+            {
+                task.StarRating += value;
+                if (task.StarRating < 0) task.StarRating = 0;
+            }
+        }    
     }
 }

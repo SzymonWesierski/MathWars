@@ -45,10 +45,7 @@ namespace MathWars.Pages
             Uid = uid;
             CurrentUser = await _userManager.FindByIdAsync(uid) ?? new ApplicationUser();
 
-            if (CurrentUser == null)
-			{
-				return NotFound();
-			}
+            if (CurrentUser == null) return NotFound();
 
 			int pageSize = _configuration.GetSection("NumberOfElementsInList").GetValue<int>("Profil");
 
@@ -60,7 +57,9 @@ namespace MathWars.Pages
         {
             if (ModelState.IsValid)
             {
-                CurrentUser = await _userManager.FindByIdAsync(CurrentUser.Id) ?? new ApplicationUser();
+                CurrentUser = await _userManager.FindByIdAsync(Uid);
+
+                if (CurrentUser == null) return NotFound();
 
                 var photoResult = await _photoService.AddPhotoAsync(ImageFile, ImageDirectoriesCloudinary.Profiles);
 

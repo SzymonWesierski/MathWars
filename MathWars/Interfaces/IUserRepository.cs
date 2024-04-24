@@ -1,5 +1,6 @@
 ﻿using MathWars.Entities;
 using MathWars.Helpers;
+using MathWars.Models;
 
 namespace MathWars.Interfaces
 {
@@ -9,5 +10,6 @@ namespace MathWars.Interfaces
 		void DeleteUser(ApplicationUser applicationUser);
 		PaginatedList<ApplicationUser> GetLeaderboardUsers(
 			IList<ApplicationUser> usersInRole, int? pageIndex, int pageSize);
+		Task<UserStatsModel> GetUserStats(string uid);
     }
 }

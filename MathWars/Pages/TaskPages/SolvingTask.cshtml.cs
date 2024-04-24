@@ -28,6 +28,7 @@ public class SolvingTaskModel : PageModel
     public bool ShowModal { get; set; } = false;
     public bool IsSolved { get; set; } = false;
     public bool Error { get; set; } = false;
+    public bool HasUserGivenStar {  get; set; } = false;
     public int NumberOfAttempts { get; set; } = 0;
     public TaskSolvingModel TaskSolvingModel { get; set; }
     public List<int> SelectedAnswersIds { get; set; }
@@ -53,7 +54,7 @@ public class SolvingTaskModel : PageModel
         return Page();
     }
 
-    public async Task<IActionResult> OnPost()
+    public async Task<IActionResult> OnPostAsync()
     {
         try
         {
@@ -81,9 +82,7 @@ public class SolvingTaskModel : PageModel
             }
 
             var userId = User.GetUserId();
-            var user = await _uow.UserRepository.GetUserByIdAsync(userId);
-
-            if (user == null) return NotFound();
+            
 
             if (IsAnswerCorrect())
             {
@@ -91,6 +90,10 @@ public class SolvingTaskModel : PageModel
 
                 if (NumberOfAttempts == 0)
                 {
+                    var user = await _uow.UserRepository.GetUserByIdAsync(userId);
+
+                    if (user == null) return NotFound();
+
                     var result = await SetUserExpAndLvlAsync(user);
                     if (!result)
                     {
@@ -104,14 +107,13 @@ public class SolvingTaskModel : PageModel
                     }
                 }
 
-                UserStatsModel.Exp = user.Experience;
-                UserStatsModel.ExpToReachNewLvl = user.ExpToReachNewLvl;
-                UserStatsModel.Level = user.Level;
+                UserStatsModel = await _uow.UserRepository.GetUserStats(userId);
 
                 await CreateUserAnswer("", "", true, userId, TaskSolvingModel.Id);
 
                 IsSolved = true;
                 ShowModal = true;
+                HasUserGivenStar = _uow.TaskRatingRepository.HasUserGivenStar(userId, TaskSolvingModel.Id);
                 
                 if (await _uow.Complete())
                 {
@@ -141,6 +143,46 @@ public class SolvingTaskModel : PageModel
             ModelState.AddModelError(string.Empty, $"An error occurred: {ex.Message}");
             return Page();
         }
+    }
+
+    public async Task<IActionResult> OnPostRateTask()
+    {
+        int value = 1;
+        string uid = User.GetUserId();
+        HasUserGivenStar = _uow.TaskRatingRepository.HasUserGivenStar(uid, TaskSolvingModel.Id);
+
+        if (HasUserGivenStar)
+        {
+            var taskRating = _uow.TaskRatingRepository.GetRatingAsync(uid, TaskSolvingModel.Id);
+            _uow.TaskRatingRepository.RemoveRatingByIdAsync(taskRating);
+
+            _uow.TaskRepository.UpdateRating(-1 * value, TaskSolvingModel.Id);
+        }
+        else
+        {
+            var taskRating = new TaskRating()
+            {
+                TaskId = TaskSolvingModel.Id,
+                UserId = uid,
+                Value = value
+            };
+
+            await _uow.TaskRatingRepository.AddRatingAsync(taskRating);
+
+            _uow.TaskRepository.UpdateRating(value, taskRating.TaskId);
+        }
+
+        if (await _uow.Complete())
+        {
+            TaskSolvingModel = await _uow.TaskRepository.GetTaskWithAnswersByIdAsync(TaskSolvingModel.Id);
+            UserStatsModel = await _uow.UserRepository.GetUserStats(uid);
+            HasUserGivenStar = _uow.TaskRatingRepository.HasUserGivenStar(uid, TaskSolvingModel.Id);
+
+            return Page();
+        }
+
+        _logger.LogError("Cant save task rating");
+        return Page();
     }
     
     private async Task CreateUserAnswer(string whiteBoardPhotoUrl, 

@@ -38,8 +38,24 @@
                             <p>Poziom: @Model.UserStatsModel.Level</p>
                             <p>Exp: @Model.UserStatsModel.Exp/@Model.UserStatsModel.ExpToReachNewLvl</p>
                             <br/>
-                            <h4>Jeżeli podobało Ci się to zadanie, możesz dać gwiazdkę</h4>
-                            <button><i class="bi bi-star"></i></button>
+                            <form asp-page-handler="RateTask">
+                                <input asp-for="ShowModal" type="hidden" />
+                                <input asp-for="IsSolved" type="hidden" />
+                                <input asp-for="NumberOfAttempts" type="hidden" />
+                                <input asp-for="TaskSolvingModel.Id" type="hidden" />
+                               
+                                @if (Model.HasUserGivenStar)
+                                {
+                                    <h4>Miło nam, że spodobało Ci się to zadanie</h4>
+                                    <button class="btn-primary" type="submit"><i class="bi bi-star-fill"></i></button>
+                                }
+                                else
+                                {
+                                    <h4>Jeżeli podobało Ci się to zadanie, możesz dać gwiazdkę</h4>
+                                    <button class="btn-primary" type="submit"><i class="bi bi-star"></i></button>
+                                }
+                                
+                            </form>
                         </div>
                     </div>
                 }
@@ -88,6 +104,7 @@
                 <p>Skup się masz jedno podejść żeby dostać exp za to zadania</p>
             }
         </div>
+
         <div class="task-text">
             <p> @Model.TaskSolvingModel.Content</p>
         </div>

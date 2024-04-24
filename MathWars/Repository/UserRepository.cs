@@ -1,21 +1,29 @@
-﻿using MathWars.Data;
+﻿using AutoMapper;
+using MathWars.Data;
 using MathWars.Entities;
 using MathWars.Helpers;
 using MathWars.Interfaces;
+using MathWars.Models;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace MathWars.Repository
 {
 	public class UserRepository : IUserRepository
 	{
 		private readonly ApplicationDbContext _context;
-		public UserRepository(ApplicationDbContext context)
+        private readonly IMapper _mapper;
+
+        public UserRepository(ApplicationDbContext context, IMapper mapper)
         {
-			_context = context;
+            _context = context;
+            _mapper = mapper;
         }
 
-		public async Task<ApplicationUser> GetUserByIdAsync(string id)
+        public async Task<ApplicationUser> GetUserByIdAsync(string uid)
 		{
-			return await _context.Users.FindAsync(id);
+			return await _context.Users.FindAsync(uid);
 		}
 
 		public void DeleteUser(ApplicationUser applicationUser)
@@ -34,6 +42,16 @@ namespace MathWars.Repository
             var items = usersQuery.Skip(((pageIndex ?? 1) - 1) * pageSize).Take(pageSize).ToList();
 
             return new PaginatedList<ApplicationUser>(items, count, pageIndex ?? 1, pageSize);
+        }
+
+        public async Task<UserStatsModel> GetUserStats(string uid)
+        {
+            return await _context.Users
+                .Where(u => u.Id == uid)
+                .ProjectTo<UserStatsModel>(_mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync();
+
+
         }
     }
 }

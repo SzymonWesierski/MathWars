@@ -4,6 +4,7 @@ using MathWars.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MathWars.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240421143012_TaskStarRating")]
+    partial class TaskStarRating
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -133,32 +136,6 @@ namespace MathWars.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("MathWars.Entities.TaskRating", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("TaskId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Value")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TaskId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("TaskRating");
                 });
 
             modelBuilder.Entity("MathWars.Entities.Tasks", b =>
@@ -442,23 +419,6 @@ namespace MathWars.Migrations
                     b.Navigation("Task");
                 });
 
-            modelBuilder.Entity("MathWars.Entities.TaskRating", b =>
-                {
-                    b.HasOne("MathWars.Entities.Tasks", "Task")
-                        .WithMany("TaskRatings")
-                        .HasForeignKey("TaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MathWars.Entities.ApplicationUser", "User")
-                        .WithMany("TaskRatings")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Task");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("MathWars.Entities.TasksAndCategories", b =>
                 {
                     b.HasOne("MathWars.Entities.TasksCategory", "TaskCategory")
@@ -549,8 +509,6 @@ namespace MathWars.Migrations
             modelBuilder.Entity("MathWars.Entities.ApplicationUser", b =>
                 {
                     b.Navigation("Answers");
-
-                    b.Navigation("TaskRatings");
                 });
 
             modelBuilder.Entity("MathWars.Entities.Tasks", b =>
@@ -558,8 +516,6 @@ namespace MathWars.Migrations
                     b.Navigation("Answers");
 
                     b.Navigation("AnswersToTask");
-
-                    b.Navigation("TaskRatings");
 
                     b.Navigation("TasksAndCategories");
                 });

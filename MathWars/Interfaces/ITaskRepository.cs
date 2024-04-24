@@ -15,5 +15,6 @@ namespace MathWars.Interfaces
 		void DeleteTask(Tasks task);
         void DelateRelationWithAnswers(Tasks task);
         void DelateRelationWithCategories(Tasks task);
+        void UpdateRating(int value, int id);
     }
 }
