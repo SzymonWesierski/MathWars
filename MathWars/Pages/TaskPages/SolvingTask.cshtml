@@ -242,7 +242,21 @@
    </div>
     <div class="math-translator-table">
         <div class="first-block">
-            <p>test</p>
+            <form asp-page-handler="Chat" asp-route-taskId="@Model.TaskSolvingModel.Id">
+                <div class="form-group">
+                    <label for="prompt">Wpisz swoje pytanie:</label>
+                    <input type="text" id="prompt" name="Prompt" class="form-control" />
+                </div>
+                <button type="submit" class="btn btn-primary">Wyślij</button>
+            </form>
+
+            @if (Model.Response != null)
+            {
+                <div class="mt-4">
+                    <h4>Odpowiedź:</h4>
+                    <p>@Model.Response</p>
+                </div>
+            }
         </div>
         <div class="second-block">
             <p>test2</p>

@@ -39,7 +39,14 @@ namespace MathWars.Extensions
 				options.IdleTimeout = TimeSpan.FromMinutes(20);
 			});
 
-			return services;
+            services.AddHttpClient<IChatGptService, ChatGptService>();
+            services.AddLogging(config =>
+            {
+                config.AddConsole();
+                config.AddDebug();
+            });
+
+            return services;
 		}
 	}
 }
