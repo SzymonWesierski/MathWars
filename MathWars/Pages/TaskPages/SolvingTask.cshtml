@@ -242,21 +242,7 @@
    </div>
     <div class="math-translator-table">
         <div class="first-block">
-            <form asp-page-handler="Chat" asp-route-taskId="@Model.TaskSolvingModel.Id">
-                <div class="form-group">
-                    <label for="prompt">Wpisz swoje pytanie:</label>
-                    <input type="text" id="prompt" name="Prompt" class="form-control" />
-                </div>
-                <button type="submit" class="btn btn-primary">Wyślij</button>
-            </form>
-
-            @if (Model.Response != null)
-            {
-                <div class="mt-4">
-                    <h4>Odpowiedź:</h4>
-                    <p>@Model.Response</p>
-                </div>
-            }
+            <p>test1</p>
         </div>
         <div class="second-block">
             <p>test2</p>
@@ -264,3 +250,43 @@
     </div>
 </div>
 <script src="~/js/Drawing.js"></script>
+
+
+<!-- Button to open the chat form -->
+<button class="open-button" onclick="openForm()">Podpowiedź do zadania</button>
+
+<!-- The chat popup -->
+<div class="chat-popup" id="myForm">
+    <form asp-page-handler="Chat" asp-route-taskId="@Model.TaskSolvingModel.Id" class="form-container">
+        @if (string.IsNullOrEmpty(Model.Response))
+        {
+            <p align="center">Czy napewno chcesz skorzystać z podpowiedzi?</p>
+            <button type="submit" class="btn">Chcę podpowiedź</button>
+            <button type="button" class="btn cancel" onclick="closeForm()">Spróbuje bez podpowiedzi</button>
+        }
+
+        <input type="hidden" name="Prompt" value="Nie podawaj mi gotowego rozwiązania, tylko daj mi małą podpowiedź, taką, która mnie tylko nakieruje do tego jak rozwiązać zadanie: @Model.TaskSolvingModel.Content. Nie zadawaj żadnych pytań, nie wchodź w interakcje, interesuje mnie tylko podpowiedź." />
+
+        @if (!string.IsNullOrEmpty(Model.Response))
+        {
+            <div class="mt-4">
+                <h4>Podpowiedź:</h4>
+                <p>@Model.Response</p>
+                <button type="button" class="btn cancel" onclick="closeForm()">Zamknij</button>
+            </div>
+        }
+
+        
+    </form>
+</div>
+
+
+<script>
+    function openForm() {
+        document.getElementById("myForm").style.display = "block";
+    }
+
+    function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+    }
+</script>
