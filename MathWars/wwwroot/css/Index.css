@@ -218,3 +218,18 @@ h1 {
     font-family: 'Dancing Script', cursive;
 }
 
+.image-container {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0);
+    margin: 20px auto;
+    max-width: 80%; 
+}
+
+    .image-container img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 15px;
+    }

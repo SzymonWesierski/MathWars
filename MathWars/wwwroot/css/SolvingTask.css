@@ -1,6 +1,6 @@
 ﻿.solving-task-container {
     margin-left: 50px;
-    max-width: 1520px;
+    max-width: 75%;
     padding: 20px 0px 20px 20px;
     color: black;
     flex: 4;
@@ -28,11 +28,11 @@
 
 .first-block {
     margin: 45px 20px 0px 0px;
-    border: 2px solid #a6a6a6;
     border-radius: 7px;
-    height: 45%;
-    padding: 10px;
-    background-color: #a6a6a6;
+    height: 70%;
+    background-color: rgba(0, 0, 0, 0);
+    justify-content: center;
+    align-items: center;
 }
 
 .second-block {
@@ -295,7 +295,6 @@ section {
 }
 
 
-/* Button used to open the chat form - fixed at the bottom of the page */
 .open-button {
     background-color: #007bff;
     color: white;
@@ -308,7 +307,6 @@ section {
     width: 280px;
 }
 
-/* The popup chat - hidden by default */
 .chat-popup {
     display: none;
     position: fixed;
@@ -318,14 +316,12 @@ section {
     z-index: 9;
 }
 
-/* Add styles to the form container */
 .form-container {
     max-width: 300px;
     padding: 10px;
     background-color: white;
 }
 
-    /* Set a style for the submit/send button */
     .form-container .btn {
         background-color: #04AA6D;
         color: white;
@@ -337,13 +333,74 @@ section {
         opacity: 0.8;
     }
 
-    /* Add a red background color to the cancel button */
     .form-container .cancel {
         background-color: red;
     }
 
-    /* Add some hover effects to buttons */
     .form-container .btn:hover, .open-button:hover {
         opacity: 1;
     }
 
+.slider {
+    position: relative;
+    width: 95%;
+    max-width: 600px;
+    margin: auto;
+    overflow: hidden;
+    border-radius: 7px;
+}
+
+.slider-wrapper {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+
+}
+
+.slider-item {
+    min-width: 100%;
+    box-sizing: border-box;
+}
+
+    /* Styl dla obrazu w sliderze */
+    .slider-item img {
+        width: 100%;
+        height: auto;
+        max-height: 95vh; /* Maksymalna wysokość 95% viewport height */
+        max-height: 95%; /* Maksymalna wysokość 95% kontenera firstblock */
+        transition: transform 0.2s ease-in-out, left 0.2s ease-in-out, top 0.2s ease-in-out;
+        position: relative;
+    }
+
+/* Styl dla kontenera powiększenia */
+.zoom-container {
+    position: relative;
+    overflow: hidden;
+}
+
+    .zoom-container:hover img {
+        transform: scale(1.5);
+    }
+
+/* Styl dla powiększenia */
+.slider-item img.zoom {
+    cursor: zoom-in;
+}
+
+.slider-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+    .slider-button.prev {
+        left: 10px;
+    }
+
+    .slider-button.next {
+        right: 10px;
+    }

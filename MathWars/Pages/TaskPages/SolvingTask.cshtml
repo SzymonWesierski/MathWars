@@ -242,10 +242,20 @@
    </div>
     <div class="math-translator-table">
         <div class="first-block">
-            <p>test1</p>
-        </div>
-        <div class="second-block">
-            <p>test2</p>
+            <div class="slider">
+                <div class="slider-wrapper">
+                    @for (int i = 1; i <= 34; i++)
+                    {
+                        <div class="slider-item">
+                            <div class="zoom-container">
+                                <img src="~/images/tablice-matematyczne/@($"{i}.png")" alt="Image @i">
+                            </div>
+                        </div>
+                    }
+                </div>
+                <button class="slider-button prev" onclick="moveSlide(-1)">&#10094;</button>
+                <button class="slider-button next" onclick="moveSlide(1)">&#10095;</button>
+            </div>
         </div>
     </div>
 </div>
@@ -289,4 +299,62 @@
     function closeForm() {
         document.getElementById("myForm").style.display = "none";
     }
+</script>
+
+<script>
+    function openForm() {
+        document.getElementById("myForm").style.display = "block";
+    }
+
+    function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+    }
+
+    let currentSlide = 0;
+
+    function showSlide(index) {
+        const slides = document.querySelectorAll('.slider-item');
+        if (index >= slides.length) {
+            currentSlide = 0;
+        } else if (index < 0) {
+            currentSlide = slides.length - 1;
+        } else {
+            currentSlide = index;
+        }
+        const offset = -currentSlide * 100;
+        document.querySelector('.slider-wrapper').style.transform = `translateX(${offset}%)`;
+    }
+
+    function moveSlide(step) {
+        showSlide(currentSlide + step);
+    }
+
+    // Initialize the slider
+    showSlide(currentSlide);
+
+    // Add zoom effect
+    document.addEventListener("DOMContentLoaded", function () {
+        const images = document.querySelectorAll('.slider-item img');
+
+        images.forEach(img => {
+            const container = img.closest('.zoom-container');
+            container.addEventListener('mousemove', function (event) {
+                const rect = container.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+                const xPercent = x / rect.width * 100;
+                const yPercent = y / rect.height * 100;
+
+                img.style.transformOrigin = `${xPercent}% ${yPercent}%`;
+            });
+
+            img.addEventListener('mouseenter', function () {
+                img.classList.add('zoom');
+            });
+
+            img.addEventListener('mouseleave', function () {
+                img.classList.remove('zoom');
+            });
+        });
+    });
 </script>
