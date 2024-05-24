@@ -87,23 +87,13 @@
 }
 
  <div class="level-display">
-<div class="solving-task-container">
-        <h2>Rozwiąż zadanie</h2>
+    <div class="solving-task-container">
+    <h2>Rozwiąż zadanie</h2>
     <div class="bug-report">
         <a asp-page="/Reports/ReportBugInTask" asp-route-id="@Model.TaskSolvingModel.Id" class="btn btn-secondary" style="width:50px;"><i class="bi bi-bug"></i></a>
     </div>
   
     <div class="task-content">
-        <div class="mb-3">
-            @if (Model.NumberOfAttempts >= 1)
-            {
-                <p>Podjąłeś już próbę rozwiązania tego zadania, dlatego za następne próby nie dostaniesz exp</p>
-            }
-            else
-            {
-                <p>Skup się masz jedno podejść żeby dostać exp za to zadania</p>
-            }
-        </div>
 
         <div class="task-text">
             <p> @Model.TaskSolvingModel.Content</p>
@@ -117,74 +107,57 @@
                 }
             }
     </div>
-
-
-    <!-- Drawing area -->
-
-    
-    @* <canvas id="drawingCanvas" width="900" height="400" style="border:1px solid #000; background-color: white;"></canvas>
-    <div>
-        <button id="brushBtn" class="btn btn-info" style="width:100px;">
-            <i class="bi bi-brush"></i>
-        </button>
-        <button id="eraserBtn" class="btn btn-warning" style="width:100px;">
-            <i class="bi bi-eraser"></i>
-        </button>
-        <button id="clearCanvasBtn" class="btn btn-danger" style="width:150px;">
-            <i class="bi bi-trash"></i>
-        </button>
-    </div> *@
    
         <div class="whiteboard-container">
             <section class="tools-board">
                 <div class="row">
                     <label class="title">Figury</label>
-                        <ul class="options">
-                            <li class="option">
-                              <img src="~/images/icons/rectangle.svg" alt="prostokąt">
-                              <span>Prostokąt</span>
-                            </li>
-                            <li class="option">
+                    <ul class="options">
+                        <li class="option tool" id="rectangle">
+                            <img src="~/images/icons/rectangle.svg" alt="prostokąt">
+                            <span>Prostokąt</span>
+                        </li>
+                        <li class="option tool" id="circle">
                             <img src="~/images/icons/circle.svg" alt="okrąg">
-                                <span>Okrąg</span>
-                            </li>
-                            <li class="option">
+                            <span>Okrąg</span>
+                        </li>
+                        <li class="option tool" id="triangle">
                             <img src="~/images/icons/triangle.svg" alt="trójkąt">
-                                <span>Trójkąt</span>
-                            </li>
-                            <li class="option"> 
-                                <input type="checkbox" id="fill-color"/>
-                                <span>Pokoloruj</span>
-                            </li>
-                        </ul>
+                            <span>Trójkąt</span>
+                        </li>
+                        <li class="option">
+                            <input type="checkbox" id="fill-color" />
+                            <label for="fill-color">Pokoloruj</label>
+                        </li>
+                    </ul>
                 </div>
                 <div class="row">
                     <label class="title">Opcje</label>
-                        <ul class="options">
-                            <li class="option active">
-                                <img src="~/images/icons/brush.svg" alt="pędzel">
+                    <ul class="options">
+                        <li class="option active tool" id="brush">
+                            <img src="~/images/icons/brush.svg" alt="pędzel">
                             <span>Pędzel</span>
-                            </li>
-                            <li class="option">
-                                <img src="~/images/icons/eraser.svg" alt="gumka">
+                        </li>
+                        <li class="option tool" id="eraser">
+                            <img src="~/images/icons/eraser.svg" alt="gumka">
                             <span>Gumka</span>
-                            </li>
-                            <li class="option">
-                                <input type="range" id="size-slider" />
-                            </li>
-                        </ul>
+                        </li>
+                        <li class="option">
+                            <input type="range" id="size-slider" min="1" max="50" value="5" step="1" />
+                        </li>
+                    </ul>
                 </div>
                 <div class="row colors">
                     <label class="title">Kolory</label>
-                        <ul class="options">
-                            <li class="option"></li>
-                            <li class="option selected"></li>
-                            <li class="option"></li>
-                            <li class="option"></li>
-                            <li class="option">
-                                <input type="color" id="color-picker" value="#4A98F7" />
-                            </li>
-                        </ul>
+                    <ul class="options">
+                        <li class="option"></li>
+                        <li class="option selected"></li>
+                        <li class="option"></li>
+                        <li class="option"></li>
+                        <li class="option">
+                            <input type="color" id="color-picker" value="#4A98F7" />
+                        </li>
+                    </ul>
                 </div>
                 <div class="row buttons">
                     <button class="clear-canvas">Clear Canvas</button>
@@ -192,18 +165,12 @@
                 </div>
             </section>
             <section class="drawing-board">
-                <canvas></canvas>
+                <canvas id="gridCanvas"></canvas>
+                <canvas id="mathCanvas"></canvas>
             </section>
-        
         </div>
-    
 
-
-
-       
-    
-
-    <div class="mb-3">
+    <div class="answers">
         <form method="post">
             <input type="hidden" asp-for="@Model.TaskSolvingModel.Id" />
             @* <div asp-validation-summary="All" class="text-danger"></div> *@
@@ -216,30 +183,30 @@
                 else{
                     <label asp-for="TaskSolvingModel.NumberOfCorrectAnswers">Zaznacz jedną poprawna odpowiedź: </label>
                 }
-                    <br />
+                    <br/>
                 int numberOfCharInASCII = 65;
                 for (int i = 0; i < Model.TaskSolvingModel.AnswersToTask.Count; i++)
                 {
                     char letter = Convert.ToChar(numberOfCharInASCII);
 
-                    <input class="form-check-input" type="checkbox" 
+                    <input type="checkbox" 
                         value="@Model.TaskSolvingModel.AnswersToTask[i].id" 
                         name="SelectedAnswersIds" />
                     <label asp-for="TaskSolvingModel.AnswersToTask[i]">@letter) @Model.TaskSolvingModel.AnswersToTask[i].Content</label>
                     
-                    <br />
+                    <br/>
                     numberOfCharInASCII++;
                 }
             }
 
-           
-
-            <button type="submit" class="btn btn-primary" style="width:150px;">Sprawdź</button>
-            <a asp-page="/Index" class="btn btn-secondary" style="width:150px;">Powrót do strony głównej</a>
+                <button type="submit">Sprawdź</button>
+				<button><a asp-page="/Index">Powrót do strony głównej</a></button>
         
         </form>
         </div>
    </div>
+
+    <div class="sidebar-right">
     <div class="math-translator-table">
         <div class="first-block">
             <div class="slider">
@@ -257,13 +224,30 @@
                 <button class="slider-button next" onclick="moveSlide(1)">&#10095;</button>
             </div>
         </div>
+
+        <div class="task-info">
+            <div>
+                @if (Model.NumberOfAttempts >= 1)
+                {
+                    <p> <i class="fas fa-info"></i> Podjąłeś już próbę rozwiązania tego zadania, dlatego za następne próby nie dostaniesz exp</p>
+                }
+                else
+                {
+                    <p> <i class="fas fa-info"></i> Skup się masz jedno podejść żeby dostać exp za to zadania</p>
+                }
+            </div>
+        </div>
+        <div class="pop-up-button">
+                <button onclick="openForm()">Podpowiedź do zadania</button>
+        </div>
+    </div>
     </div>
 </div>
 <script src="~/js/Drawing.js"></script>
 
 
 <!-- Button to open the chat form -->
-<button class="open-button" onclick="openForm()">Podpowiedź do zadania</button>
+
 
 <!-- The chat popup -->
 <div class="chat-popup" id="myForm">
@@ -290,6 +274,9 @@
     </form>
 </div>
 
+
+<script src="~/js/whiteboard.js"></script>
+<script src="~/js/gridboard.js"></script>
 
 <script>
     function openForm() {

@@ -142,13 +142,14 @@
 }
 
 button {
-    margin-left: 0.5rem;
+    
     padding: 0.5rem 1rem;
-    border: 3px solid #5980f8;
+    border:none;
     cursor: pointer;
     border-radius: 7px;
     font-size: 1em;
     background-color: #0c1941;
+    color:white;
 }
 
 button:hover {

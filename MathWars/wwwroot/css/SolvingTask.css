@@ -1,51 +1,77 @@
 ﻿.solving-task-container {
     margin-left: 50px;
-    max-width: 75%;
-    padding: 20px 0px 20px 20px;
+    max-width: 1520px;
+    padding: 20px 0px 10px 20px;
     color: black;
     flex: 4;
-    
 }
 
 .solving-task-container h2 {
     color: #376a9c;
     padding-left: 10px;
-    font-weight:550;
+    font-weight: 550;
 }
 
 .solving-task-container label {
-    font-weight:bold;
-    padding-left:5px;
+    font-weight: bold;
+    padding-left: 5px;
 }
 
 
+.sidebar-right {
+
+    width:100%;
+    flex:1;
+}
+
 .math-translator-table {
-    display: block;
-    padding-top: 20px;
-    flex: 1;
     
+    padding-top:20px;
+    display:flex;
+    flex-direction:column;
+    background-color: none;
+    height:au%;
+    border-radius:7px;
+    text-align:left;
+    font-size:20px;
 }
 
 .first-block {
-    margin: 45px 20px 0px 0px;
-    border-radius: 7px;
-    height: 70%;
-    background-color: rgba(0, 0, 0, 0);
-    justify-content: center;
-    align-items: center;
+    margin: 45px 10px 0px 0px;
+    height:50%;
+
 }
 
-.second-block {
-    margin: 10px 20px 20px 0px;
-    border: 2px solid #a6a6a6;
-    height: 45%;
-    padding: 10px;
+
+.task-info {
+    margin: 10px 10px 0px 0px;
+    background-color: white;
     border-radius: 7px;
-    background-color: #a6a6a6;
+    padding: 10px;
+    height: 50%;
 }
+
+
+.pop-up-button {
+    margin: 10px 10px 0px 0px;
+    
+}
+
+.pop-up-button button {
+    width:100%;
+
+}
+
+
+    .answers {
+        background-color: white;
+        border-radius: 7px;
+        padding: 10px;
+        margin: 0px 10px;
+    }
 
 .level-display {
-    display:flex;
+    display: flex;
 }
 
 
@@ -54,7 +80,7 @@ h2.text-primary {
 }
 
 .mb-3 {
-    padding:10px
+    padding: 10px
 }
 
 .mb-3 strong {
@@ -63,21 +89,21 @@ h2.text-primary {
     color: #007bff;
 }
 
-.task-content  {
+.task-content {
     padding: 10px;
-    background-color: #f1f1f1;
+    background-color: white;
     border-radius: 5px;
     border: 2px solid #f1f1f1;
     margin: 0px 10px 0px 10px;
-    height:auto;
-    display:flex;
+    height: auto;
+    display: flex;
 }
 
 .task-text {
     flex: 3;
 }
 
-.task-img img{
+.task-img img {
     flex: 1;
     max-width: 200px;
     height: auto;
@@ -109,8 +135,9 @@ button.btn-secondary {
 }
 
 .btn i {
-    font-size: 20px; 
+    font-size: 20px;
 }
+
 .bug-report {
     position: absolute;
     top: 0;
@@ -120,7 +147,7 @@ button.btn-secondary {
 }
 
 .row {
-    display: block;   
+    display: block;
 }
 
 .options {
@@ -133,24 +160,26 @@ button.btn-secondary {
     gap: 10px;
     padding: 10px;
 }
+
 section {
-    background-color: #f1f1f1;
+    background-color: white;
     border-radius: 7px;
     border: 2px solid #f1f1f1;
 }
 
 .tools-board {
-    width:210px;
+    width: 210px;
     padding: 15px 22px 0;
     display: block;
     flex: 1;
 }
 
 .tools-board .row {
-    margin-bottom:20px;
+    margin-bottom: 20px;
 }
+
 .row .options {
-    list-style:none;
+    list-style: none;
     margin: 10px 0 0 5px;
 }
 
@@ -162,29 +191,32 @@ section {
 }
 
 .option:is(:hover, .active) img {
-    filter: invert(17%) sepia(90%) saturate(3000%) hue-rotate(900deg) brightness(100%) contrast(100%);
+    filter: sepia(1) saturate(100%) brightness(20%) contrast(90%);
 }
 
 .option :where(span, label) {
-    color: #5A6168;
+    color: black;
     cursor: pointer;
     padding-left: 10px;
 }
+
 .option:is(:hover, .active) :where(span, label) {
-    color: #4A98F7;
+    color: #102156;
 }
+
 .option #fill-color {
     cursor: pointer;
     height: 14px;
     width: 14px;
 }
+
 #fill-color:checked ~ label {
-    color: #4A98F7;
+    color: #102156;
 }
 
 .option #size-slider {
-    width:100%;
-    height:5px;
+    width: 100%;
+    height: 5px;
     margin-top: 10px;
 }
 
@@ -236,6 +268,7 @@ section {
     transform: translate(-50%, -50%);
 }
 
+
 .colors .option:first-child.selected::before {
     border-color: #ccc;
 }
@@ -246,9 +279,7 @@ section {
 }
 
 .buttons {
-
-    padding-right:15px;
-
+    padding-right: 15px;
 }
 
 .buttons button {
@@ -259,41 +290,29 @@ section {
     padding: 11px 0;
     font-size: 0.9rem;
     margin-bottom: 10px;
-    background: none;
     border-radius: 4px;
     cursor: pointer;
 }
 
-.buttons .clear-canvas {
-    color: #6C757D;
-    border: 1px solid #6C757D;
-    transition: all 0.3s ease;
-}
-
 .clear-canvas:hover {
     color: #fff;
-    background: #6C757D;
-}
-
-.buttons .save-img {
-    background: #4A98F7;
-    border: 1px solid #4A98F7;
 }
 
 .drawing-board {
-    flex: 6;
-    overflow: hidden;
+flex: 6;
+overflow: hidden;
+position: relative;
 }
 
 .drawing-board canvas {
     width: 100%;
     height: 100%;
+    position: absolute;
 }
 
 .drawning-board {
-    flex: 1;
+flex: 1;
 }
-
 
 .open-button {
     background-color: #007bff;
@@ -322,30 +341,30 @@ section {
     background-color: white;
 }
 
-    .form-container .btn {
-        background-color: #04AA6D;
-        color: white;
-        padding: 16px 20px;
-        border: none;
-        cursor: pointer;
-        width: 100%;
-        margin-bottom: 10px;
-        opacity: 0.8;
-    }
+.form-container .btn {
+    background-color: #04AA6D;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 10px;
+    opacity: 0.8;
+}
 
-    .form-container .cancel {
-        background-color: red;
-    }
+.form-container .cancel {
+    background-color: red;
+}
 
-    .form-container .btn:hover, .open-button:hover {
-        opacity: 1;
-    }
+.form-container .btn:hover, .open-button:hover {
+    opacity: 1;
+}
 
 .slider {
     position: relative;
-    width: 95%;
+    width: 100%;
     max-width: 600px;
-    margin: auto;
+    padding-right:10px;
     overflow: hidden;
     border-radius: 7px;
 }
@@ -353,7 +372,6 @@ section {
 .slider-wrapper {
     display: flex;
     transition: transform 0.5s ease-in-out;
-
 }
 
 .slider-item {
@@ -361,27 +379,26 @@ section {
     box-sizing: border-box;
 }
 
-    /* Styl dla obrazu w sliderze */
-    .slider-item img {
-        width: 100%;
-        height: auto;
-        max-height: 95vh; /* Maksymalna wysokość 95% viewport height */
-        max-height: 95%; /* Maksymalna wysokość 95% kontenera firstblock */
-        transition: transform 0.2s ease-in-out, left 0.2s ease-in-out, top 0.2s ease-in-out;
-        position: relative;
-    }
+    
+.slider-item img {
+    width: 100%;
+    height: auto;
+    max-height: 95vh;
+    max-height: 95%; 
+    transition: transform 0.2s ease-in-out, left 0.2s ease-in-out, top 0.2s ease-in-out;
+    position: relative;
+}
 
-/* Styl dla kontenera powiększenia */
 .zoom-container {
+    
     position: relative;
     overflow: hidden;
 }
 
-    .zoom-container:hover img {
-        transform: scale(1.5);
-    }
+.zoom-container:hover img {
+    transform: scale(2.0);
+}
 
-/* Styl dla powiększenia */
 .slider-item img.zoom {
     cursor: zoom-in;
 }
@@ -397,10 +414,12 @@ section {
     cursor: pointer;
 }
 
-    .slider-button.prev {
-        left: 10px;
-    }
+.slider-button.prev {
+    left: 0px;
+}
 
-    .slider-button.next {
-        right: 10px;
-    }
+.slider-button.next {
+    right: 20px;
+}
+
+    
